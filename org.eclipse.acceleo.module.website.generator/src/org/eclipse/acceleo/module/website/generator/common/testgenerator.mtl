@@ -1,0 +1,76 @@
+[comment encoding = UTF-8 /]
+[module testgenerator('http://cs.manchester.ac.uk/mdsd/WebApplicationFramework')]
+
+[import org::eclipse::acceleo::module::website::generator::common::index/]
+[import org::eclipse::acceleo::module::website::generator::common::details/]
+[import org::eclipse::acceleo::module::website::generator::common::gallery/]
+[import org::eclipse::acceleo::module::website::generator::common::imageIndex/]
+[import org::eclipse::acceleo::module::website::generator::common::input/]
+[import org::eclipse::acceleo::module::website::generator::common::slider/]
+[import org::eclipse::acceleo::module::website::generator::common::staticunit/]
+[import org::eclipse::acceleo::module::website::generator::requests::extensions/]
+[import org::eclipse::acceleo::module::website::generator::common::controllerclasses/]
+
+[template public generateTestClass(page : Page)]
+
+[file (page.name.className(), false, 'UTF-8')]
+package automated.website.test;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.WebApplicationContext;
+import automated.website.controller.*;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration
+@WebAppConfiguration
+public class [page.name.replaceAll(' ', '').concat('Test')/] {
+
+	@Autowired
+	private WebApplicationContext ctx;
+
+	private MockMvc mockMvc;
+
+	@Before
+	public void setUp() {
+		this.mockMvc = webAppContextSetup(ctx).build();
+	}
+
+	@Test
+	public void [page.name.toLowerFirst().replaceAll(' ', '')/]() throws Exception {
+		mockMvc.perform(get("/[page.generatePageURL('').trim()/]").accept(MediaType.TEXT_PLAIN)).andDo(print()).andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.TEXT_PLAIN));
+	}
+
+	@Configuration
+	public static class TestConfiguration {
+
+		@Bean
+		public WebController webController() {
+			return new WebController();
+		}
+
+	}
+}
+
+[/file]
+
+[/template]
+
+[query public className(name : String) : String
+	= ('src/automated/website/test/').concat(name.replaceAll(' ', '')).concat('Test').concat(name.javaExtension())
+/]

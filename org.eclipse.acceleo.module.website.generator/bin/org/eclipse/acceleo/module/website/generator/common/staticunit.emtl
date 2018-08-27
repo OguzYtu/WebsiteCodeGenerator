@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:mtl="http://www.eclipse.org/acceleo/mtl/3.0" xmlns:ocl.ecore="http://www.eclipse.org/ocl/1.1.0/Ecore">
+  <mtl:Module name="staticunit" nsURI="org::eclipse::acceleo::module::website::generator::common::staticunit" startHeaderPosition="29" endHeaderPosition="382">
+    <input>
+      <takesTypesFrom href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#/"/>
+    </input>
+    <input>
+      <takesTypesFrom href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#/"/>
+    </input>
+    <ownedModuleElement xsi:type="mtl:Template" name="generateUnit" visibility="Public">
+      <body xsi:type="mtl:LetBlock">
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;&lt;div>&#xA;&lt;h3>"/>
+        <body xsi:type="ocl.ecore:PropertyCallExp">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <source xsi:type="ocl.ecore:VariableExp" name="staticUnit" referredVariable="/0/generateUnit/%/staticUnit">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//StaticUnit"/>
+          </source>
+          <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedDisplayElement/displayLabel"/>
+        </body>
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&lt;/h3>&#xA;"/>
+        <body xsi:type="mtl:IfBlock">
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="${contentinfo.content}&#xA;"/>
+          <ifExpr xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="wafModel" referredVariable="/0/generateUnit/wafModel">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+            </source>
+            <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel/staticUnitsEditable"/>
+          </ifExpr>
+          <else>
+            <body xsi:type="ocl.ecore:PropertyCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="ocl.ecore:VariableExp" name="staticUnit" referredVariable="/0/generateUnit/%/staticUnit">
+                <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//StaticUnit"/>
+              </source>
+              <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//StaticUnit/content"/>
+            </body>
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;"/>
+          </else>
+        </body>
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&lt;/div>&#xA;"/>
+        <letVariable name="staticUnit">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//StaticUnit"/>
+          <initExpression xsi:type="ocl.ecore:OperationCallExp">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//StaticUnit"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="unit" referredVariable="/0/generateUnit/unit">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//ContentUnit"/>
+            </source>
+            <argument xsi:type="ocl.ecore:TypeExp" eType="/4/StaticUnit">
+              <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//StaticUnit"/>
+            </argument>
+            <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclAsType"/>
+          </initExpression>
+        </letVariable>
+      </body>
+      <parameter name="unit">
+        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//ContentUnit"/>
+      </parameter>
+      <parameter name="wafModel">
+        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+      </parameter>
+      <guard xsi:type="ocl.ecore:OperationCallExp">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+        <source xsi:type="ocl.ecore:VariableExp" name="unit" referredVariable="/0/generateUnit/unit">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//ContentUnit"/>
+        </source>
+        <argument xsi:type="ocl.ecore:TypeExp" eType="/4/StaticUnit">
+          <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//StaticUnit"/>
+        </argument>
+        <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclIsTypeOf"/>
+      </guard>
+      <post xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/trim">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <source xsi:type="ocl.ecore:VariableExp" name="self" referredVariable="/7">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </source>
+      </post>
+    </ownedModuleElement>
+  </mtl:Module>
+  <ecore:EPackage name="additions">
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_String_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+      </eAnnotations>
+      <eOperations name="trim">
+        <eAnnotations source="MTL non-standard"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Integer_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Integer"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Real_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Real"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ecore_EObject_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </eAnnotations>
+      <eOperations name="generateUnit">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL" references="/0/generateUnit"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="unit">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//ContentUnit"/>
+        </eParameters>
+        <eParameters name="wafModel">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+        </eParameters>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_OclAny_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Collection(T)_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Collection(T)"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Sequence(T)_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Sequence(T)"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_OrderedSet(T)_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OrderedSet(T)"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="waf_ContentUnit_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//ContentUnit"/>
+      </eAnnotations>
+    </eClassifiers>
+  </ecore:EPackage>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//ContentUnit"/>
+  </ocl.ecore:Variable>
+  <ecore:EPackage name="types">
+    <eClassifiers xsi:type="ocl.ecore:TypeType" name="StaticUnit">
+      <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//StaticUnit"/>
+    </eClassifiers>
+  </ecore:EPackage>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//ContentUnit"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//ContentUnit"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//ContentUnit"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//ContentUnit"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//ContentUnit"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//ContentUnit"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ecore:EAnnotation source="positions">
+    <eAnnotations source="positions.0" references="/0/generateUnit">
+      <details key="start" value="169"/>
+      <details key="end" value="509"/>
+      <details key="line" value="6"/>
+    </eAnnotations>
+    <eAnnotations source="positions.1" references="/0/generateUnit/%">
+      <details key="start" value="288"/>
+      <details key="end" value="497"/>
+      <details key="line" value="8"/>
+    </eAnnotations>
+    <eAnnotations source="positions.2" references="/0/generateUnit/%/%">
+      <details key="start" value="347"/>
+      <details key="end" value="358"/>
+      <details key="line" value="9"/>
+    </eAnnotations>
+    <eAnnotations source="positions.3" references="/0/generateUnit/%/%.1">
+      <details key="start" value="359"/>
+      <details key="end" value="382"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.4" references="/0/generateUnit/%/%.1/staticUnit">
+      <details key="start" value="359"/>
+      <details key="end" value="369"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.5" references="/0/generateUnit/%/%.2">
+      <details key="start" value="384"/>
+      <details key="end" value="390"/>
+      <details key="line" value="11"/>
+    </eAnnotations>
+    <eAnnotations source="positions.6" references="/0/generateUnit/%/%.3">
+      <details key="start" value="390"/>
+      <details key="end" value="483"/>
+      <details key="line" value="12"/>
+    </eAnnotations>
+    <eAnnotations source="positions.7" references="/0/generateUnit/%/%.3/%">
+      <details key="start" value="426"/>
+      <details key="end" value="449"/>
+      <details key="line" value="13"/>
+    </eAnnotations>
+    <eAnnotations source="positions.8" references="/0/generateUnit/%/%.3/%.1">
+      <details key="start" value="394"/>
+      <details key="end" value="424"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.9" references="/0/generateUnit/%/%.3/%.1/wafModel">
+      <details key="start" value="395"/>
+      <details key="end" value="403"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.10" references="/0/generateUnit/%/%.3/%.2">
+      <details key="start" value="449"/>
+      <details key="end" value="478"/>
+      <details key="line" value="14"/>
+    </eAnnotations>
+    <eAnnotations source="positions.11" references="/0/generateUnit/%/%.3/%.2/%">
+      <details key="start" value="457"/>
+      <details key="end" value="475"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.12" references="/0/generateUnit/%/%.3/%.2/%/staticUnit">
+      <details key="start" value="457"/>
+      <details key="end" value="467"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.13" references="/0/generateUnit/%/%.3/%.2/%.1">
+      <details key="start" value="477"/>
+      <details key="end" value="478"/>
+      <details key="line" value="16"/>
+    </eAnnotations>
+    <eAnnotations source="positions.14" references="/0/generateUnit/%/%.4">
+      <details key="start" value="484"/>
+      <details key="end" value="491"/>
+      <details key="line" value="17"/>
+    </eAnnotations>
+    <eAnnotations source="positions.15" references="/0/generateUnit/%/staticUnit">
+      <details key="start" value="293"/>
+      <details key="end" value="345"/>
+      <details key="line" value="8"/>
+    </eAnnotations>
+    <eAnnotations source="positions.16" references="/0/generateUnit/%/staticUnit/%">
+      <details key="start" value="320"/>
+      <details key="end" value="346"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.17" references="/0/generateUnit/%/staticUnit/%/unit">
+      <details key="start" value="320"/>
+      <details key="end" value="324"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.18" references="/0/generateUnit/%/staticUnit/%/%">
+      <details key="start" value="335"/>
+      <details key="end" value="345"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.19" references="/0/generateUnit/unit">
+      <details key="start" value="199"/>
+      <details key="end" value="217"/>
+      <details key="line" value="6"/>
+    </eAnnotations>
+    <eAnnotations source="positions.20" references="/0/generateUnit/wafModel">
+      <details key="start" value="219"/>
+      <details key="end" value="238"/>
+      <details key="line" value="6"/>
+    </eAnnotations>
+    <eAnnotations source="positions.21" references="/0/generateUnit/%.1">
+      <details key="start" value="244"/>
+      <details key="end" value="272"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.22" references="/0/generateUnit/%.1/unit">
+      <details key="start" value="244"/>
+      <details key="end" value="248"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.23" references="/0/generateUnit/%.1/%">
+      <details key="start" value="261"/>
+      <details key="end" value="271"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.24" references="/0/generateUnit/%.2">
+      <details key="start" value="279"/>
+      <details key="end" value="285"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.25" references="/0/generateUnit/%.2/self">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+  </ecore:EAnnotation>
+</xmi:XMI>

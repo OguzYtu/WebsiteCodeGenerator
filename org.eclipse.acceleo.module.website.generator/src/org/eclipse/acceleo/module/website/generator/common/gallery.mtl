@@ -1,0 +1,43 @@
+[comment encoding = UTF-8 /]
+[module gallery('http://cs.manchester.ac.uk/mdsd/WebApplicationFramework')]
+
+[import org::eclipse::acceleo::module::website::generator::requests::extensions/]
+
+[template public generateUnit(unit : ContentUnit, wafModel : WafModel)
+	? (unit.oclIsTypeOf(GalleryUnit)) post(trim())]
+[let galleryUnit : GalleryUnit = unit.oclAsType(GalleryUnit)]
+<h3>[unit.displayLabel/]</h3>
+[let tableName : String = galleryUnit.imagePathFeature.oclAsType(FeaturePathAttribute).attribute.partOf.tableName]
+<div class="row" id="gallery[galleryUnit.name.replaceAll(' ', '')/]"> 
+[if (galleryUnit.selection = null)]
+<c:forEach items="${[tableName/]s}" var="image">
+[else]
+<c:forEach items="${[galleryUnit.selection.name.replaceAll(' ', '')/]}" var="image">
+[/if]
+	<div class="gallery">
+  		<a target="_blank" href="/[wafModel.siteName.replaceAll(' ', '')/]/images/<c:out value="${image.path}"/>">
+    			<img src="/[wafModel.siteName.replaceAll(' ', '')/]/images/<c:out value="${image.path}"/>" alt="<c:out value="${image.title}"/>" width="600" height="400">
+  		</a>
+  		<div class="desc"><c:out value="${image.description}"/></div>
+	</div>
+</c:forEach>
+</div>
+<div class="col-md-12 center text-center">
+       <ul class="pagination pager" id="pager[galleryUnit.name.replaceAll(' ', '')/]"></ul>
+</div>
+<script type="text/javascript">
+      $(document).ready(function(){
+        $('#gallery[galleryUnit.name.replaceAll(' ', '')/]').pageMe({
+          pagerSelector:'#pager[galleryUnit.name.replaceAll(' ', '')/]',
+          activeColor: 'green',
+          prevText:'Prev',
+          nextText:'Next',
+          showPrevNext:true,
+          hidePageNumbers:false,
+          perPage:[galleryUnit.maximumPaginationSize/]
+        });
+      });
+</script>
+[/let]
+[/let]
+[/template]

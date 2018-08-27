@@ -1,0 +1,25 @@
+[comment encoding = UTF-8 /]
+[module files('http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping',
+'http://cs.manchester.ac.uk/mdsd/Service')]
+
+[import org::eclipse::acceleo::module::website::generator::requests::extensions/]
+
+[query public modelFileName(entity : EntityOrView) : String
+	= ('src/automated/website/model/').concat(entity.name).concat(entity.javaExtension())
+/]
+
+[query public daoFileName(entity : EntityOrView) : String
+	= ('src/automated/website/dao/').concat(entity.name).concat('Dao').concat(entity.javaExtension())
+/]
+
+[query public hbmXMLName(entity : EntityOrView) : String
+	= ('src/').concat(entity.name.toLower()).concat('.hbm').concat(entity.xmlExtension())
+/]
+
+[query public appCntxXMLName(orm : OrmModel) : String
+	= ('src/').concat('applicationContext').concat(orm.xmlExtension())
+/]
+
+[query public serviceImplName(service : Service) : String
+	= ('src/automated/website/service/').concat(service.name).concat('ServiceImpl').concat(service.javaExtension())
+/]

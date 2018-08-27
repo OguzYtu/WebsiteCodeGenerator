@@ -1,0 +1,133 @@
+[comment encoding = UTF-8 /]
+[module input('http://cs.manchester.ac.uk/mdsd/WebApplicationFramework',
+'http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping')]
+
+[import org::eclipse::acceleo::module::website::generator::common::controllerclasses/]
+
+[template public generateUnit(unit : ContentUnit, wafModel : WafModel)
+	? (unit.oclIsKindOf(CreateUnit)) post(trim())]
+[let createUnit : CreateUnit = unit.oclAsType(CreateUnit)]
+<h3>[createUnit.displayLabel/]</h3>
+<form:form action="[createUnit.displayedOn.oclAsType(Page).generatePageURL('').trim().concat('/'.concat(createUnit.name.replaceAll(' ', '').toLowerFirst()))/]CreateOperation" method="POST" modelAttribute="[createUnit.contentType.name.toLowerCase()/]">
+	<table class="striped">
+
+		[for (field : UnitField | createUnit.displayFields)]
+		[let attributeField : UnitAttribute = field.oclAsType(UnitAttribute)]
+		[let singletonElement : SingletonElement = attributeField.attribute.oclAsType(SingletonElement)]
+		<tr>
+			<td class="lefttd">[singletonElement.displayLabel/]</td>
+			<td class="rightd"><form:input path="[singletonElement.columnName.toLowerCase()/]" /></td>
+		</tr>	
+		[/let]
+		[/let]
+ 		[/for]
+		<tr>
+			<td colspan="2">
+				<input class="waves-light btn" type="submit" name="action" value="Add" />
+				<a class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[createUnit.cancelDestination.generatePageURL('').trim()/]">[createUnit.cancelLabel/]</a>
+			</td>
+		</tr>
+	</table>
+</form:form>
+	[if (createUnit.supportActions->notEmpty())]
+	<div>
+		[for (action : UnitSupportAction | createUnit.supportActions)]
+		<br>
+		<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[createUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[createUnit.name.replaceAll(' ', '')/][action.name.replaceAll(' ', '')/]">[action.displayLabel/]</a>
+ 		[/for]
+	</div>
+	[/if]
+[/let]
+[/template]
+
+
+[template public generateUnit(unit : ContentUnit, wafModel : WafModel)
+	? (unit.oclIsKindOf(CreateUpdateUnit)) post(trim())]
+[let createUpdateUnit : CreateUpdateUnit = unit.oclAsType(CreateUpdateUnit)]
+<h3>[createUpdateUnit.displayLabel/]</h3>
+<form:form action="[createUpdateUnit.name.replaceAll(' ', '').toLowerFirst()/]CreateUpdateOperation" method="POST" modelAttribute="[createUpdateUnit.contentType.name.toLowerCase()/]">
+	<table class="striped">
+
+		[for (field : UnitField | createUpdateUnit.displayFields)]
+		[let attributeField : UnitAttribute = field.oclAsType(UnitAttribute)]
+		[let singletonElement : SingletonElement = attributeField.attribute.oclAsType(SingletonElement)]
+		<tr>
+			<td class="lefttd">[singletonElement.displayLabel/]</td>
+			<td class="rightd"><form:input path="[singletonElement.columnName.toLowerCase()/]" /></td>
+		</tr>	
+		[/let]
+		[/let]
+ 		[/for]
+		<tr>
+			<td colspan="2">
+				<input class="waves-light btn" type="submit" name="action" value="Add" />
+				<input class="waves-light btn" type="submit" name="action" value="Update" />
+				<a class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[createUpdateUnit.cancelDestination.generatePageURL('').trim()/]">[createUpdateUnit.cancelLabel/]</a>
+			</td>
+		</tr>
+	</table>
+</form:form>
+	[if (createUpdateUnit.supportActions->notEmpty())]
+	<div>
+		[for (action : UnitSupportAction | createUpdateUnit.supportActions)]
+		<br>
+		<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[createUpdateUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[createUpdateUnit.name.replaceAll(' ', '')/][action.name.replaceAll(' ', '')/]">[action.displayLabel/]</a>
+ 		[/for]
+	</div>
+	[/if]
+[/let]
+[/template]
+
+
+[template public generateUnit(unit : ContentUnit, wafModel : WafModel)
+	? (unit.oclIsKindOf(UpdateUnit)) post(trim())]
+[let updateUnit : UpdateUnit = unit.oclAsType(UpdateUnit)]
+<h3>[updateUnit.displayLabel/]</h3>
+<form:form action="[updateUnit.name.replaceAll(' ', '').toLowerFirst()/]UpdateOperation" method="POST" modelAttribute="[updateUnit.contentType.name.toLowerCase()/]">
+	<table class="striped">
+
+		[for (field : UnitField | updateUnit.displayFields)]
+		[let attributeField : UnitAttribute = field.oclAsType(UnitAttribute)]
+		[let singletonElement : SingletonElement = attributeField.attribute.oclAsType(SingletonElement)]
+		<tr>
+			<td class="lefttd">[singletonElement.displayLabel/]</td>
+			<td class="rightd"><form:input path="[singletonElement.columnName.toLowerCase()/]" /></td>
+		</tr>	
+		[/let]
+		[/let]
+ 		[/for]
+		<tr>
+			<td colspan="2">
+				<input class="waves-light btn" type="submit" name="action" value="Update" />
+				<a class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[updateUnit.cancelDestination.generatePageURL('').trim()/]">[updateUnit.cancelLabel/]</a>
+			</td>
+		</tr>
+	</table>
+</form:form>
+	[if (updateUnit.supportActions->notEmpty())]
+	<div>
+		[for (action : UnitSupportAction | updateUnit.supportActions)]
+		<br>
+		<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[updateUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[updateUnit.name.replaceAll(' ', '')/][action.name.replaceAll(' ', '')/]">[action.displayLabel/]</a>
+ 		[/for]
+	</div>
+	[/if]
+[/let]
+[/template]
+
+
+[template public generateUnit(unit : ContentUnit, wafModel : WafModel)
+	? (unit.oclIsTypeOf(SearchUnit)) post(trim())]
+[let searchUnit : SearchUnit = unit.oclAsType(SearchUnit)]
+<h3>[unit.displayLabel/]</h3>
+
+	[if (searchUnit.supportActions->notEmpty())]
+	<div>
+		[for (action : UnitSupportAction | searchUnit.supportActions)]
+		<br>
+		<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[searchUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[searchUnit.name.replaceAll(' ', '')/][action.name.replaceAll(' ', '')/]">[action.displayLabel/]</a>
+ 		[/for]
+	</div>
+	[/if]
+[/let]
+[/template]

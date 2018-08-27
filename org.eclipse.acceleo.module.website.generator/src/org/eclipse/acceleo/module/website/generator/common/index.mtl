@@ -1,0 +1,810 @@
+[comment encoding = UTF-8 /]
+[module index('http://cs.manchester.ac.uk/mdsd/WebApplicationFramework', 
+'http://cs.manchester.ac.uk/mdsd/Service',
+'http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping')]
+
+[import org::eclipse::acceleo::module::website::generator::requests::extensions/]
+[import org::eclipse::acceleo::module::website::generator::common::controllerclasses/]
+
+[template public generateUnit(unit : ContentUnit, wafModel : WafModel)
+	? (unit.oclIsKindOf(IndexUnit)) post(trim())]
+[unit.unitContent(wafModel)/]
+[/template]
+
+[template public unitContent(unit : ContentUnit, wafModel : WafModel)
+	? (unit.oclIsTypeOf(IndexGridUnit)) post(trim())]
+
+[let indexUnit : IndexGridUnit = unit.oclAsType(IndexGridUnit)]
+
+<div class="w3-content w3-section margin">
+<h3>[unit.displayLabel/]</h3>
+
+		[for (filter : Filter | indexUnit.supportedFilters)]
+		[if (filter.parameters->notEmpty())]
+		<form action="[indexUnit.displayedOn.oclAsType(Page).name.toLowerFirst().replaceAll(' ', '').concat(filter.selection.name).concat(filter.name).replaceAll(' ', '')/]" method="GET">
+		[for (param : FormalParameter | filter.parameters)]
+		<input style = "width: 300px;" type="text" id="[param.name/]" name="[param.name/]" placeholder="[param.placeholder/]">
+		<br>
+		[/for]
+		<button class="waves-effect waves-light btn" type="submit" id="submit">Search</button>	
+		<br>
+		<br>	
+		</form>
+		[/if]
+		[/for]
+
+	<table class="[indexUnit.contentClass/]"> [comment "striped"/]
+		<thead>
+ 			<tr>
+ 				[for (field : UnitField | indexUnit.displayFields)]
+   				<th>[field.displayLabel/]</th>
+ 				[/for]
+				[if (indexUnit.actions->notEmpty())]
+  				 <th>Actions</th>
+				[/if]
+  			</tr>
+		</thead>
+
+		[comment previous trial to get table name /]
+		[comment indexUnit.displayFields->first().oclAsType(SingletonElement).partOf.tableName /]
+	
+		[let tableName : String = indexUnit.contentType->first().tableName]
+
+		<tbody id="table[indexUnit.name.replaceAll(' ', '')/]">
+
+		<c:choose>
+   			<c:when test = "${filter == 'none'}">
+			[if (indexUnit.selection = null)]
+			<c:forEach items="${[tableName/]s}" var="element">
+			[else]
+			<c:forEach items="${[indexUnit.selection.name.replaceAll(' ', '')/]}" var="element">
+			[/if]
+    			<tr>
+			[for (field : UnitField | indexUnit.displayFields)]
+			[let attributeField : UnitAttribute = field.oclAsType(UnitAttribute)]
+			[let singletonElement : SingletonElement = attributeField.attribute.oclAsType(SingletonElement)]
+				<td><c:out value="${element.[singletonElement.columnName.toLowerCase()/]}"/></td>
+			[/let]
+			[/let]
+ 			[/for]
+				[if (indexUnit.actions->notEmpty())]
+  				<td>
+					[for (action : InlineAction | indexUnit.actions)]
+   					[if (action.oclIsTypeOf(SelectAction))]
+					[let selectAction : SelectAction = action.oclAsType(SelectAction)]
+					[if (selectAction.target.oclIsKindOf(EditUnit))]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(EditUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[selectAction.target.oclAsType(EditUnit).name.replaceAll(' ', '')/]EditPage?id=${element.id}">[selectAction.displayLabel/]</a>
+					[elseif (selectAction.target.oclIsKindOf(DetailsUnit))]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(DetailsUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[selectAction.target.oclAsType(DetailsUnit).name.replaceAll(' ', '').toLowerFirst()/]?id=${element.id}">[selectAction.displayLabel/]</a>			
+					[elseif (selectAction.target.oclIsKindOf(IndexUnit) and (selectAction.target.oclAsType(IndexUnit).selection.oclIsUndefined() = false) and selectAction.target.oclAsType(IndexUnit).selection.parameters->notEmpty())]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(IndexUnit).displayedOn.oclAsType(Page).generatePageURL('').trim().concat(selectAction.target.oclAsType(IndexUnit).selection.name).concat('FormalParam').replaceAll(' ', '').trim()/]?[selectAction.target.oclAsType(IndexUnit).selection.createParams().replaceAll('\n', '').replaceAll(' ', '')/]">[selectAction.displayLabel/]</a>						
+					[elseif (selectAction.target.oclIsKindOf(ImageIndexUnit) and (selectAction.target.oclAsType(ImageIndexUnit).selection.oclIsUndefined() = false) and selectAction.target.oclAsType(ImageIndexUnit).selection.parameters->notEmpty())]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(ImageIndexUnit).displayedOn.oclAsType(Page).generatePageURL('').trim().concat(selectAction.target.oclAsType(ImageIndexUnit).selection.name).concat('FormalParam').replaceAll(' ', '').trim()/]?[selectAction.target.oclAsType(ImageIndexUnit).selection.createParams().replaceAll('\n', '').replaceAll(' ', '')/]">[selectAction.displayLabel/]</a>					
+					[else]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(ContentUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]">[selectAction.displayLabel/]</a>				
+					[/if]
+					[/let]
+					[elseif (action.oclIsTypeOf(DeleteAction))]
+					[let deleteAction : DeleteAction = action.oclAsType(DeleteAction)]
+					<%requiredRoles = "";%>
+					[if (deleteAction.requiresRole <> '')]
+					<%requiredRoles = "[deleteAction.requiresRole.toLowerCase()/]";%>
+					[/if]
+					<%if(role.equals("admin") || (role.equals("user") && !requiredRoles.equals("admin")) || requiredRoles.equals("")){%>
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/deleteAction[indexUnit.name.replaceAll(' ', '').replaceAll('/', '')/]?id=${element.id}">[deleteAction.displayLabel/]</a>
+				    <%}%>
+					[/let]
+					[else]
+					[let featureSupportAction : FeatureSupportAction = action.oclAsType(FeatureSupportAction)]
+					<%requiredRoles = "";%>
+					[if (featureSupportAction.requiresRole <> '')]
+					<%requiredRoles = "[featureSupportAction.requiresRole.toLowerCase()/]";%>
+					[/if]
+					<%if(role.equals("admin") || (role.equals("user") && !requiredRoles.equals("admin")) || requiredRoles.equals("")){%>
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[indexUnit.name.replaceAll(' ', '')/][featureSupportAction.name.replaceAll(' ', '')/]?id=${element.id}">[featureSupportAction.displayLabel/]</a>
+				    <%}%>
+					[/let]
+					[/if]
+ 					[/for]
+				</td>
+				[/if]
+    			</tr>
+			</c:forEach>
+  	 		</c:when>
+   			<c:otherwise>
+
+		[if (indexUnit.supportedFilters->notEmpty())]
+		<c:choose>
+		[for (filter : Filter | indexUnit.supportedFilters)]
+		<c:when test = "${filter == '[tableName.toUpperFirst().concat(filter.name).replaceAll(' ', '')/]'}">
+			<c:forEach items="${[tableName.toUpperFirst().concat(filter.name).replaceAll(' ', '')/]}" var="element">
+    			<tr>
+			[for (field : UnitField | indexUnit.displayFields)]
+			[let attributeField : UnitAttribute = field.oclAsType(UnitAttribute)]
+			[let singletonElement : SingletonElement = attributeField.attribute.oclAsType(SingletonElement)]
+				<td><c:out value="${element.[singletonElement.columnName.toLowerCase()/]}"/></td>
+			[/let]
+			[/let]
+ 			[/for]
+				[if (indexUnit.actions->notEmpty())]
+  				<td>
+					[for (action : InlineAction | indexUnit.actions)]
+   					[if (action.oclIsTypeOf(SelectAction))]
+					[let selectAction : SelectAction = action.oclAsType(SelectAction)]
+					[if (selectAction.target.oclIsKindOf(EditUnit))]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(EditUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[selectAction.target.oclAsType(EditUnit).name.replaceAll(' ', '')/]EditPage?id=${element.id}">[selectAction.displayLabel/]</a>
+					[elseif (selectAction.target.oclIsKindOf(DetailsUnit))]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(DetailsUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[selectAction.target.oclAsType(DetailsUnit).name.replaceAll(' ', '').toLowerFirst()/]?id=${element.id}">[selectAction.displayLabel/]</a>			
+					[elseif (selectAction.target.oclIsKindOf(IndexUnit) and (selectAction.target.oclAsType(IndexUnit).selection.oclIsUndefined() = false) and selectAction.target.oclAsType(IndexUnit).selection.parameters->notEmpty())]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(IndexUnit).displayedOn.oclAsType(Page).generatePageURL('').trim().concat(selectAction.target.oclAsType(IndexUnit).selection.name).concat('FormalParam').replaceAll(' ', '').trim()/]?[selectAction.target.oclAsType(IndexUnit).selection.createParams().replaceAll('\n', '').replaceAll(' ', '')/]">[selectAction.displayLabel/]</a>						
+					[elseif (selectAction.target.oclIsKindOf(ImageIndexUnit) and (selectAction.target.oclAsType(ImageIndexUnit).selection.oclIsUndefined() = false) and selectAction.target.oclAsType(ImageIndexUnit).selection.parameters->notEmpty())]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(ImageIndexUnit).displayedOn.oclAsType(Page).generatePageURL('').trim().concat(selectAction.target.oclAsType(ImageIndexUnit).selection.name).concat('FormalParam').replaceAll(' ', '').trim()/]?[selectAction.target.oclAsType(ImageIndexUnit).selection.createParams().replaceAll('\n', '').replaceAll(' ', '')/]">[selectAction.displayLabel/]</a>					
+					[else]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(ContentUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]">[selectAction.displayLabel/]</a>
+					[/if]
+					[/let]
+					[elseif (action.oclIsTypeOf(DeleteAction))]
+					[let deleteAction : DeleteAction = action.oclAsType(DeleteAction)]
+					<%requiredRoles = "";%>
+					[if (deleteAction.requiresRole <> '')]
+					<%requiredRoles = "[deleteAction.requiresRole.toLowerCase()/]";%>
+					[/if]
+					<%if(role.equals("admin") || (role.equals("user") && !requiredRoles.equals("admin")) || requiredRoles.equals("")){%>
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/deleteAction[indexUnit.name.replaceAll(' ', '').replaceAll('/', '')/]?id=${element.id}">[deleteAction.displayLabel/]</a>
+				    <%}%>
+					[/let]
+					[else]
+					[let featureSupportAction : FeatureSupportAction = action.oclAsType(FeatureSupportAction)]
+					<%requiredRoles = "";%>
+					[if (featureSupportAction.requiresRole <> '')]
+					<%requiredRoles = "[featureSupportAction.requiresRole.toLowerCase()/]";%>
+					[/if]
+					<%if(role.equals("admin") || (role.equals("user") && !requiredRoles.equals("admin")) || requiredRoles.equals("")){%>
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[indexUnit.name.replaceAll(' ', '')/][featureSupportAction.name.replaceAll(' ', '')/]?id=${element.id}">[featureSupportAction.displayLabel/]</a>
+				    <%}%>
+					[/let]
+					[/if]
+ 					[/for]
+				</td>
+				[/if]
+    			</tr>
+			</c:forEach>
+		</c:when>
+		[/for]
+		</c:choose>
+		[/if]
+
+   			</c:otherwise>
+		</c:choose>
+		</tbody>
+
+		
+
+	</table>
+
+	<div class="col-md-12 center text-center">
+            <ul class="pagination pager" id="pager[indexUnit.name.replaceAll(' ', '')/]"></ul>
+    </div>
+
+	[if (indexUnit.supportActions->notEmpty())]
+	<div>
+		[for (action : UnitSupportAction | indexUnit.supportActions)]
+		<br>
+		<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[indexUnit.name.replaceAll(' ', '')/][action.name.replaceAll(' ', '')/]">[action.displayLabel/]</a>
+ 		[/for]
+	</div>
+	[/if]
+		
+</div>
+<script type="text/javascript">
+      $(document).ready(function(){
+        $('#table[indexUnit.name.replaceAll(' ', '')/]').pageMe({
+          pagerSelector:'#pager[indexUnit.name.replaceAll(' ', '')/]',
+          activeColor: 'green',
+          prevText:'Prev',
+          nextText:'Next',
+          showPrevNext:true,
+          hidePageNumbers:false,
+          perPage:[indexUnit.maximumPaginationSize/]
+        });
+      });
+</script>	
+		[/let]
+[/let]
+
+[/template]
+
+[template public unitContent(unit : ContentUnit, wafModel : WafModel)
+	? (unit.oclIsTypeOf(IndexCardsUnit)) post(trim())]
+
+[let indexUnit : IndexCardsUnit = unit.oclAsType(IndexCardsUnit)]
+
+<div class="w3-content w3-section margin">
+<h3>[unit.displayLabel/]</h3>
+
+		[for (filter : Filter | indexUnit.supportedFilters)]
+		[if (filter.parameters->notEmpty())]
+		<form action="[indexUnit.displayedOn.oclAsType(Page).name.toLowerFirst().replaceAll(' ', '').concat(filter.selection.name).concat(filter.name).replaceAll(' ', '')/]" method="GET">
+		[for (param : FormalParameter | filter.parameters)]
+		<input style = "width: 300px;" type="text" id="[param.name/]" name="[param.name/]" placeholder="[param.placeholder/]">
+		<br>
+		[/for]
+		<button class="waves-effect waves-light btn" type="submit" id="submit">Search</button>	
+		<br>
+		<br>
+		</form>
+		[/if]
+		[/for]
+	
+		[let tableName : String = indexUnit.contentType->first().tableName]
+
+		<div class="row" id="table[indexUnit.name.replaceAll(' ', '')/]">
+
+
+		<c:choose>
+   			<c:when test = "${filter == 'none'}">
+			[if (indexUnit.selection = null)]
+			<c:forEach items="${[tableName/]s}" var="element">
+			[else]
+			<c:forEach items="${[indexUnit.selection.name.replaceAll(' ', '')/]}" var="element">
+			[/if]
+    		  <div class="rightcolumn">
+    		    <div class="card">
+			[for (field : UnitField | indexUnit.displayFields)]
+			[let attributeField : UnitAttribute = field.oclAsType(UnitAttribute)]
+			[let singletonElement : SingletonElement = attributeField.attribute.oclAsType(SingletonElement)]
+				<h5>[field.displayLabel/]</h5>
+      			<p>${element.[singletonElement.columnName.toLowerCase()/]}</p>
+			[/let]
+			[/let]
+ 			[/for]
+				[if (indexUnit.actions->notEmpty())]
+  				<div>
+					[for (action : InlineAction | indexUnit.actions)]
+   					[if (action.oclIsTypeOf(SelectAction))]
+					[let selectAction : SelectAction = action.oclAsType(SelectAction)]
+					[if (selectAction.target.oclIsKindOf(EditUnit))]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(EditUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[selectAction.target.oclAsType(EditUnit).name.replaceAll(' ', '')/]EditPage?id=${element.id}">[selectAction.displayLabel/]</a>
+					[elseif (selectAction.target.oclIsKindOf(DetailsUnit))]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(DetailsUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[selectAction.target.oclAsType(DetailsUnit).name.replaceAll(' ', '').toLowerFirst()/]?id=${element.id}">[selectAction.displayLabel/]</a>			
+					[elseif (selectAction.target.oclIsKindOf(IndexUnit) and (selectAction.target.oclAsType(IndexUnit).selection.oclIsUndefined() = false) and selectAction.target.oclAsType(IndexUnit).selection.parameters->notEmpty())]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(IndexUnit).displayedOn.oclAsType(Page).generatePageURL('').trim().concat(selectAction.target.oclAsType(IndexUnit).selection.name).concat('FormalParam').replaceAll(' ', '').trim()/]?[selectAction.target.oclAsType(IndexUnit).selection.createParams().replaceAll('\n', '').replaceAll(' ', '')/]">[selectAction.displayLabel/]</a>						
+					[elseif (selectAction.target.oclIsKindOf(ImageIndexUnit) and (selectAction.target.oclAsType(ImageIndexUnit).selection.oclIsUndefined() = false) and selectAction.target.oclAsType(ImageIndexUnit).selection.parameters->notEmpty())]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(ImageIndexUnit).displayedOn.oclAsType(Page).generatePageURL('').trim().concat(selectAction.target.oclAsType(ImageIndexUnit).selection.name).concat('FormalParam').replaceAll(' ', '').trim()/]?[selectAction.target.oclAsType(ImageIndexUnit).selection.createParams().replaceAll('\n', '').replaceAll(' ', '')/]">[selectAction.displayLabel/]</a>					
+					[else]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(ContentUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]">[selectAction.displayLabel/]</a>
+					[/if]
+					[/let]
+					[elseif (action.oclIsTypeOf(DeleteAction))]
+					[let deleteAction : DeleteAction = action.oclAsType(DeleteAction)]
+					<%requiredRoles = "";%>
+					[if (deleteAction.requiresRole <> '')]
+					<%requiredRoles = "[deleteAction.requiresRole.toLowerCase()/]";%>
+					[/if]
+					<%if(role.equals("admin") || (role.equals("user") && !requiredRoles.equals("admin")) || requiredRoles.equals("")){%>
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/deleteAction[indexUnit.name.replaceAll(' ', '').replaceAll('/', '')/]?id=${element.id}">[deleteAction.displayLabel/]</a>
+				    <%}%>
+					[/let]
+					[else]
+					[let featureSupportAction : FeatureSupportAction = action.oclAsType(FeatureSupportAction)]
+					<%requiredRoles = "";%>
+					[if (featureSupportAction.requiresRole <> '')]
+					<%requiredRoles = "[featureSupportAction.requiresRole.toLowerCase()/]";%>
+					[/if]
+					<%if(role.equals("admin") || (role.equals("user") && !requiredRoles.equals("admin")) || requiredRoles.equals("")){%>
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[indexUnit.name.replaceAll(' ', '')/][featureSupportAction.name.replaceAll(' ', '')/]?id=${element.id}">[featureSupportAction.displayLabel/]</a>
+				    <%}%>
+					[/let]
+					[/if]
+ 					[/for]
+				</div>
+				[/if]
+    		    </div>
+  			  </div>
+			</c:forEach>
+  	 		</c:when>
+   			<c:otherwise>
+
+		[if (indexUnit.supportedFilters->notEmpty())]
+		<c:choose>
+		[for (filter : Filter | indexUnit.supportedFilters)]
+		<c:when test = "${filter == '[tableName.toUpperFirst().concat(filter.name).replaceAll(' ', '')/]'}">
+			<c:forEach items="${[tableName.toUpperFirst().concat(filter.name).replaceAll(' ', '')/]}" var="element">
+    		  <div class="rightcolumn">
+    		    <div class="card">
+			[for (field : UnitField | indexUnit.displayFields)]
+			[let attributeField : UnitAttribute = field.oclAsType(UnitAttribute)]
+			[let singletonElement : SingletonElement = attributeField.attribute.oclAsType(SingletonElement)]
+				<h5>[field.displayLabel/]</h5>
+      			<p>${element.[singletonElement.columnName.toLowerCase()/]}</p>
+			[/let]
+			[/let]
+ 			[/for]
+				[if (indexUnit.actions->notEmpty())]
+  				<div>
+					[for (action : InlineAction | indexUnit.actions)]
+   					[if (action.oclIsTypeOf(SelectAction))]
+					[let selectAction : SelectAction = action.oclAsType(SelectAction)]
+					[if (selectAction.target.oclIsKindOf(EditUnit))]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(EditUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[selectAction.target.oclAsType(EditUnit).name.replaceAll(' ', '')/]EditPage?id=${element.id}">[selectAction.displayLabel/]</a>
+					[elseif (selectAction.target.oclIsKindOf(DetailsUnit))]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(DetailsUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[selectAction.target.oclAsType(DetailsUnit).name.replaceAll(' ', '').toLowerFirst()/]?id=${element.id}">[selectAction.displayLabel/]</a>			
+					[elseif (selectAction.target.oclIsKindOf(IndexUnit) and (selectAction.target.oclAsType(IndexUnit).selection.oclIsUndefined() = false) and selectAction.target.oclAsType(IndexUnit).selection.parameters->notEmpty())]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(IndexUnit).displayedOn.oclAsType(Page).generatePageURL('').trim().concat(selectAction.target.oclAsType(IndexUnit).selection.name).concat('FormalParam').replaceAll(' ', '').trim()/]?[selectAction.target.oclAsType(IndexUnit).selection.createParams().replaceAll('\n', '').replaceAll(' ', '')/]">[selectAction.displayLabel/]</a>						
+					[elseif (selectAction.target.oclIsKindOf(ImageIndexUnit) and (selectAction.target.oclAsType(ImageIndexUnit).selection.oclIsUndefined() = false) and selectAction.target.oclAsType(ImageIndexUnit).selection.parameters->notEmpty())]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(ImageIndexUnit).displayedOn.oclAsType(Page).generatePageURL('').trim().concat(selectAction.target.oclAsType(ImageIndexUnit).selection.name).concat('FormalParam').replaceAll(' ', '').trim()/]?[selectAction.target.oclAsType(ImageIndexUnit).selection.createParams().replaceAll('\n', '').replaceAll(' ', '')/]">[selectAction.displayLabel/]</a>					
+					[else]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(ContentUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]">[selectAction.displayLabel/]</a>
+					[/if]
+					[/let]
+					[elseif (action.oclIsTypeOf(DeleteAction))]
+					[let deleteAction : DeleteAction = action.oclAsType(DeleteAction)]
+					<%requiredRoles = "";%>
+					[if (deleteAction.requiresRole <> '')]
+					<%requiredRoles = "[deleteAction.requiresRole.toLowerCase()/]";%>
+					[/if]
+					<%if(role.equals("admin") || (role.equals("user") && !requiredRoles.equals("admin")) || requiredRoles.equals("")){%>
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/deleteAction[indexUnit.name.replaceAll(' ', '').replaceAll('/', '')/]?id=${element.id}">[deleteAction.displayLabel/]</a>
+				    <%}%>
+					[/let]
+					[else]
+					[let featureSupportAction : FeatureSupportAction = action.oclAsType(FeatureSupportAction)]
+					<%requiredRoles = "";%>
+					[if (featureSupportAction.requiresRole <> '')]
+					<%requiredRoles = "[featureSupportAction.requiresRole.toLowerCase()/]";%>
+					[/if]
+					<%if(role.equals("admin") || (role.equals("user") && !requiredRoles.equals("admin")) || requiredRoles.equals("")){%>
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[indexUnit.name.replaceAll(' ', '')/][featureSupportAction.name.replaceAll(' ', '')/]?id=${element.id}">[featureSupportAction.displayLabel/]</a>
+				    <%}%>
+					[/let]
+					[/if]
+ 					[/for]
+				</div>
+				[/if]
+    		    </div>
+  			  </div>
+			</c:forEach>
+		</c:when>
+		[/for]
+		</c:choose>
+		[/if]
+
+   			</c:otherwise>
+		</c:choose>
+
+		</div>
+
+	[if (indexUnit.supportActions->notEmpty())]
+	<div>
+		[for (action : UnitSupportAction | indexUnit.supportActions)]
+		<br>
+		<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[indexUnit.name.replaceAll(' ', '')/][action.name.replaceAll(' ', '')/]">[action.displayLabel/]</a>
+ 		[/for]
+	</div>
+	[/if]
+		
+	<div class="col-md-12 center text-center">
+            <ul class="pagination pager" id="pager[indexUnit.name.replaceAll(' ', '')/]"></ul>
+    </div>
+		
+</div>
+<script type="text/javascript">
+      $(document).ready(function(){
+        $('#table[indexUnit.name.replaceAll(' ', '')/]').pageMe({
+          pagerSelector:'#pager[indexUnit.name.replaceAll(' ', '')/]',
+          activeColor: 'green',
+          prevText:'Prev',
+          nextText:'Next',
+          showPrevNext:true,
+          hidePageNumbers:false,
+          perPage:[indexUnit.maximumPaginationSize/]
+        });
+      });
+</script>	
+		[/let]
+[/let]
+
+[/template]
+
+[template public unitContent(unit : ContentUnit, wafModel : WafModel)
+	? (unit.oclIsTypeOf(IndexPageDirectionUnit)) post(trim())]
+
+[let indexUnit : IndexPageDirectionUnit = unit.oclAsType(IndexPageDirectionUnit)]
+
+<div class="w3-content w3-section margin">
+<h3>[unit.displayLabel/]</h3>
+
+		[for (filter : Filter | indexUnit.supportedFilters)]
+		[if (filter.parameters->notEmpty())]
+		<form action="[indexUnit.displayedOn.oclAsType(Page).name.toLowerFirst().replaceAll(' ', '').concat(filter.selection.name).concat(filter.name).replaceAll(' ', '')/]" method="GET">
+		[for (param : FormalParameter | filter.parameters)]
+		<input style = "width: 300px;" type="text" id="[param.name/]" name="[param.name/]" placeholder="[param.placeholder/]">
+		<br>
+		[/for]
+		<button class="waves-effect waves-light btn" type="submit" id="submit">Search</button>	
+		<br>
+		<br>	
+		</form>
+		[/if]
+		[/for]
+	
+		[let tableName : String = indexUnit.contentType->first().tableName]
+			
+			<ol>
+			<div id="table[indexUnit.name.replaceAll(' ', '')/]">
+
+		<c:choose>
+   			<c:when test = "${filter == 'none'}">
+			[if (indexUnit.selection = null)]
+			<c:forEach items="${[tableName/]s}" var="element">
+			[else]
+			<c:forEach items="${[indexUnit.selection.name.replaceAll(' ', '')/]}" var="element">
+			[/if]
+    			<li class="a">[tableName.toUpperFirst()/]
+    				<ul class="a">
+						[for (field : UnitField | indexUnit.displayFields)]
+						[let attributeField : UnitAttribute = field.oclAsType(UnitAttribute)]
+						[let singletonElement : SingletonElement = attributeField.attribute.oclAsType(SingletonElement)]
+      					<li><a class="a">${element.[singletonElement.columnName.toLowerCase()/]}</a></li>
+						[/let]
+						[/let]
+ 						[/for]
+    				</ul>
+
+					[if (indexUnit.actions->notEmpty())]
+  					<ul class="b">
+					[for (action : InlineAction | indexUnit.actions)]
+   					[if (action.oclIsTypeOf(SelectAction))]
+					[let selectAction : SelectAction = action.oclAsType(SelectAction)]
+					[if (selectAction.target.oclIsKindOf(EditUnit))]
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(EditUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[selectAction.target.oclAsType(EditUnit).name.replaceAll(' ', '')/]EditPage?id=${element.id}">[selectAction.displayLabel/]</a></li>
+					[elseif (selectAction.target.oclIsKindOf(DetailsUnit))]
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(DetailsUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[selectAction.target.oclAsType(DetailsUnit).name.replaceAll(' ', '').toLowerFirst()/]?id=${element.id}">[selectAction.displayLabel/]</a></li>		
+					[elseif (selectAction.target.oclIsKindOf(IndexUnit) and (selectAction.target.oclAsType(IndexUnit).selection.oclIsUndefined() = false) and selectAction.target.oclAsType(IndexUnit).selection.parameters->notEmpty())]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(IndexUnit).displayedOn.oclAsType(Page).generatePageURL('').trim().concat(selectAction.target.oclAsType(IndexUnit).selection.name).concat('FormalParam').replaceAll(' ', '').trim()/]?[selectAction.target.oclAsType(IndexUnit).selection.createParams().replaceAll('\n', '').replaceAll(' ', '')/]">[selectAction.displayLabel/]</a>						
+					[elseif (selectAction.target.oclIsKindOf(ImageIndexUnit) and (selectAction.target.oclAsType(ImageIndexUnit).selection.oclIsUndefined() = false) and selectAction.target.oclAsType(ImageIndexUnit).selection.parameters->notEmpty())]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(ImageIndexUnit).displayedOn.oclAsType(Page).generatePageURL('').trim().concat(selectAction.target.oclAsType(ImageIndexUnit).selection.name).concat('FormalParam').replaceAll(' ', '').trim()/]?[selectAction.target.oclAsType(ImageIndexUnit).selection.createParams().replaceAll('\n', '').replaceAll(' ', '')/]">[selectAction.displayLabel/]</a>					
+					[else]
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(ContentUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]">[selectAction.displayLabel/]</a></li>
+					[/if]
+					[/let]
+					[elseif (action.oclIsTypeOf(DeleteAction))]
+					[let deleteAction : DeleteAction = action.oclAsType(DeleteAction)]
+					<%requiredRoles = "";%>
+					[if (deleteAction.requiresRole <> '')]
+					<%requiredRoles = "[deleteAction.requiresRole.toLowerCase()/]";%>
+					[/if]
+					<%if(role.equals("admin") || (role.equals("user") && !requiredRoles.equals("admin")) || requiredRoles.equals("")){%>
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/deleteAction[indexUnit.name.replaceAll(' ', '').replaceAll('/', '')/]?id=${element.id}">[deleteAction.displayLabel/]</a></li>
+				    <%}%>
+					[/let]
+					[else]
+					[let featureSupportAction : FeatureSupportAction = action.oclAsType(FeatureSupportAction)]
+					<%requiredRoles = "";%>
+					[if (featureSupportAction.requiresRole <> '')]
+					<%requiredRoles = "[featureSupportAction.requiresRole.toLowerCase()/]";%>
+					[/if]
+					<%if(role.equals("admin") || (role.equals("user") && !requiredRoles.equals("admin")) || requiredRoles.equals("")){%>
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[indexUnit.name.replaceAll(' ', '')/][featureSupportAction.name.replaceAll(' ', '')/]?id=${element.id}">[featureSupportAction.displayLabel/]</a></li>
+				    <%}%>
+					[/let]
+					[/if]
+ 					[/for]
+					</ul>
+					[/if]
+					
+  				</li>
+			</c:forEach>
+  	 		</c:when>
+   			<c:otherwise>
+
+		[if (indexUnit.supportedFilters->notEmpty())]
+		<c:choose>
+		[for (filter : Filter | indexUnit.supportedFilters)]
+		<c:when test = "${filter == '[tableName.toUpperFirst().concat(filter.name).replaceAll(' ', '')/]'}">
+			<c:forEach items="${[tableName.toUpperFirst().concat(filter.name).replaceAll(' ', '')/]}" var="element">
+    			<li class="a">[tableName.toUpperFirst()/]
+    				<ul class="a">
+						[for (field : UnitField | indexUnit.displayFields)]
+						[let attributeField : UnitAttribute = field.oclAsType(UnitAttribute)]
+						[let singletonElement : SingletonElement = attributeField.attribute.oclAsType(SingletonElement)]
+      					<li><a class="a">${element.[singletonElement.columnName.toLowerCase()/]}</a></li>
+						[/let]
+						[/let]
+ 						[/for]
+    				</ul>
+
+					[if (indexUnit.actions->notEmpty())]
+  					<ul class="b">
+					[for (action : InlineAction | indexUnit.actions)]
+   					[if (action.oclIsTypeOf(SelectAction))]
+					[let selectAction : SelectAction = action.oclAsType(SelectAction)]
+					[if (selectAction.target.oclIsKindOf(EditUnit))]
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(EditUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[selectAction.target.oclAsType(EditUnit).name.replaceAll(' ', '')/]EditPage?id=${element.id}">[selectAction.displayLabel/]</a></li>
+					[elseif (selectAction.target.oclIsKindOf(DetailsUnit))]
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(DetailsUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[selectAction.target.oclAsType(DetailsUnit).name.replaceAll(' ', '').toLowerFirst()/]?id=${element.id}">[selectAction.displayLabel/]</a></li>		
+					[elseif (selectAction.target.oclIsKindOf(IndexUnit) and (selectAction.target.oclAsType(IndexUnit).selection.oclIsUndefined() = false) and selectAction.target.oclAsType(IndexUnit).selection.parameters->notEmpty())]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(IndexUnit).displayedOn.oclAsType(Page).generatePageURL('').trim().concat(selectAction.target.oclAsType(IndexUnit).selection.name).concat('FormalParam').replaceAll(' ', '').trim()/]?[selectAction.target.oclAsType(IndexUnit).selection.createParams().replaceAll('\n', '').replaceAll(' ', '')/]">[selectAction.displayLabel/]</a>						
+					[elseif (selectAction.target.oclIsKindOf(ImageIndexUnit) and (selectAction.target.oclAsType(ImageIndexUnit).selection.oclIsUndefined() = false) and selectAction.target.oclAsType(ImageIndexUnit).selection.parameters->notEmpty())]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(ImageIndexUnit).displayedOn.oclAsType(Page).generatePageURL('').trim().concat(selectAction.target.oclAsType(ImageIndexUnit).selection.name).concat('FormalParam').replaceAll(' ', '').trim()/]?[selectAction.target.oclAsType(ImageIndexUnit).selection.createParams().replaceAll('\n', '').replaceAll(' ', '')/]">[selectAction.displayLabel/]</a>					
+					[else]
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(ContentUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]">[selectAction.displayLabel/]</a></li>
+					[/if]
+					[/let]
+					[elseif (action.oclIsTypeOf(DeleteAction))]
+					[let deleteAction : DeleteAction = action.oclAsType(DeleteAction)]
+					<%requiredRoles = "";%>
+					[if (deleteAction.requiresRole <> '')]
+					<%requiredRoles = "[deleteAction.requiresRole.toLowerCase()/]";%>
+					[/if]
+					<%if(role.equals("admin") || (role.equals("user") && !requiredRoles.equals("admin")) || requiredRoles.equals("")){%>
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/deleteAction[indexUnit.name.replaceAll(' ', '').replaceAll('/', '')/]?id=${element.id}">[deleteAction.displayLabel/]</a></li>
+				    <%}%>
+					[/let]
+					[else]
+					[let featureSupportAction : FeatureSupportAction = action.oclAsType(FeatureSupportAction)]
+					<%requiredRoles = "";%>
+					[if (featureSupportAction.requiresRole <> '')]
+					<%requiredRoles = "[featureSupportAction.requiresRole.toLowerCase()/]";%>
+					[/if]
+					<%if(role.equals("admin") || (role.equals("user") && !requiredRoles.equals("admin")) || requiredRoles.equals("")){%>
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[indexUnit.name.replaceAll(' ', '')/][featureSupportAction.name.replaceAll(' ', '')/]?id=${element.id}">[featureSupportAction.displayLabel/]</a></li>
+				    <%}%>
+					[/let]
+					[/if]
+ 					[/for]
+					</ul>
+					[/if]
+					
+  				</li>
+			</c:forEach>
+		</c:when>
+		[/for]
+		</c:choose>
+		[/if]
+
+   			</c:otherwise>
+		</c:choose>
+
+			</div>
+			</ol>
+
+	[if (indexUnit.supportActions->notEmpty())]
+	<div>
+		[for (action : UnitSupportAction | indexUnit.supportActions)]
+		<br>
+		<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[indexUnit.name.replaceAll(' ', '')/][action.name.replaceAll(' ', '')/]">[action.displayLabel/]</a>
+ 		[/for]
+	</div>
+	[/if]
+
+	<div class="col-md-12 center text-center">
+            <ul class="pagination pager" id="pager[indexUnit.name.replaceAll(' ', '')/]"></ul>
+    </div>
+		
+</div>
+<script type="text/javascript">
+      $(document).ready(function(){
+        $('#table[indexUnit.name.replaceAll(' ', '')/]').pageMe({
+          pagerSelector:'#pager[indexUnit.name.replaceAll(' ', '')/]',
+          activeColor: 'green',
+          prevText:'Prev',
+          nextText:'Next',
+          showPrevNext:true,
+          hidePageNumbers:false,
+          perPage:[indexUnit.maximumPaginationSize/]
+        });
+      });
+</script>	
+		[/let]
+[/let]
+
+[/template]
+
+[template public unitContent(unit : ContentUnit, wafModel : WafModel)
+	? (unit.oclIsTypeOf(IndexLineDirectionUnit)) post(trim())]
+
+[let indexUnit : IndexLineDirectionUnit = unit.oclAsType(IndexLineDirectionUnit)]
+
+<div class="w3-content w3-section margin">
+<h3>[unit.displayLabel/]</h3>
+
+		[for (filter : Filter | indexUnit.supportedFilters)]
+		[if (filter.parameters->notEmpty())]
+		<form action="[indexUnit.displayedOn.oclAsType(Page).name.toLowerFirst().replaceAll(' ', '').concat(filter.selection.name).concat(filter.name).replaceAll(' ', '')/]" method="GET">
+		[for (param : FormalParameter | filter.parameters)]
+		<input style = "width: 300px;" type="text" id="[param.name/]" name="[param.name/]" placeholder="[param.placeholder/]">
+		<br>
+		[/for]
+		<button class="waves-effect waves-light btn" type="submit" id="submit">Search</button>	
+		<br>
+		<br>	
+		</form>
+		[/if]
+		[/for]
+	
+		[let tableName : String = indexUnit.contentType->first().tableName]
+			
+			<ol>
+			<div id="table[indexUnit.name.replaceAll(' ', '')/]">
+
+		<c:choose>
+   			<c:when test = "${filter == 'none'}">
+			[if (indexUnit.selection = null)]
+			<c:forEach items="${[tableName/]s}" var="element">
+			[else]
+			<c:forEach items="${[indexUnit.selection.name.replaceAll(' ', '')/]}" var="element">
+			[/if]
+    			<li class="a">[tableName.toUpperFirst()/]
+    				<ul class="b">
+    				[comment SHOULD ADD OTHER UnitAttribute TYPES HERE AND ALL INDEX UNITS AND IMAGE INDEX UNIT ETC/]
+					[for (field : UnitField | indexUnit.displayFields)]
+					[let attributeField : UnitAttribute = field.oclAsType(UnitAttribute)]
+					[let singletonElement : SingletonElement = attributeField.attribute.oclAsType(SingletonElement)]
+      				<li class="b"><a>${element.[singletonElement.columnName.toLowerCase()/]}</a></li>
+					[/let]
+					[/let]
+ 					[/for]
+    				</ul>
+
+					[if (indexUnit.actions->notEmpty())]
+  					<ul class="b">
+					[for (action : InlineAction | indexUnit.actions)]
+   					[if (action.oclIsTypeOf(SelectAction))]
+					[let selectAction : SelectAction = action.oclAsType(SelectAction)]
+					[if (selectAction.target.oclIsKindOf(EditUnit))]
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(EditUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[selectAction.target.oclAsType(EditUnit).name.replaceAll(' ', '')/]EditPage?id=${element.id}">[selectAction.displayLabel/]</a></li>
+					[elseif (selectAction.target.oclIsKindOf(DetailsUnit))]
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(DetailsUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[selectAction.target.oclAsType(DetailsUnit).name.replaceAll(' ', '').toLowerFirst()/]?id=${element.id}">[selectAction.displayLabel/]</a></li>		
+					[elseif (selectAction.target.oclIsKindOf(IndexUnit) and (selectAction.target.oclAsType(IndexUnit).selection.oclIsUndefined() = false) and selectAction.target.oclAsType(IndexUnit).selection.parameters->notEmpty())]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(IndexUnit).displayedOn.oclAsType(Page).generatePageURL('').trim().concat(selectAction.target.oclAsType(IndexUnit).selection.name).concat('FormalParam').replaceAll(' ', '').trim()/]?[selectAction.target.oclAsType(IndexUnit).selection.createParams().replaceAll('\n', '').replaceAll(' ', '')/]">[selectAction.displayLabel/]</a>						
+					[elseif (selectAction.target.oclIsKindOf(ImageIndexUnit) and (selectAction.target.oclAsType(ImageIndexUnit).selection.oclIsUndefined() = false) and selectAction.target.oclAsType(ImageIndexUnit).selection.parameters->notEmpty())]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(ImageIndexUnit).displayedOn.oclAsType(Page).generatePageURL('').trim().concat(selectAction.target.oclAsType(ImageIndexUnit).selection.name).concat('FormalParam').replaceAll(' ', '').trim()/]?[selectAction.target.oclAsType(ImageIndexUnit).selection.createParams().replaceAll('\n', '').replaceAll(' ', '')/]">[selectAction.displayLabel/]</a>					
+					[else]
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(ContentUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]">[selectAction.displayLabel/]</a></li>
+					[/if]
+					[/let]
+					[elseif (action.oclIsTypeOf(DeleteAction))]
+					[let deleteAction : DeleteAction = action.oclAsType(DeleteAction)]
+					<%requiredRoles = "";%>
+					[if (deleteAction.requiresRole <> '')]
+					<%requiredRoles = "[deleteAction.requiresRole.toLowerCase()/]";%>
+					[/if]
+					<%if(role.equals("admin") || (role.equals("user") && !requiredRoles.equals("admin")) || requiredRoles.equals("")){%>
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/deleteAction[indexUnit.name.replaceAll(' ', '').replaceAll('/', '')/]?id=${element.id}">[deleteAction.displayLabel/]</a></li>
+				    <%}%>
+					[/let]
+					[else]
+					[let featureSupportAction : FeatureSupportAction = action.oclAsType(FeatureSupportAction)]
+					<%requiredRoles = "";%>
+					[if (featureSupportAction.requiresRole <> '')]
+					<%requiredRoles = "[featureSupportAction.requiresRole.toLowerCase()/]";%>
+					[/if]
+					<%if(role.equals("admin") || (role.equals("user") && !requiredRoles.equals("admin")) || requiredRoles.equals("")){%>
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[indexUnit.name.replaceAll(' ', '')/][featureSupportAction.name.replaceAll(' ', '')/]?id=${element.id}">[featureSupportAction.displayLabel/]</a></li>
+				    <%}%>
+					[/let]
+					[/if]
+ 					[/for]
+					</ul>
+					[/if]
+
+  				</li>
+			</c:forEach>
+  	 		</c:when>
+   			<c:otherwise>
+
+		[if (indexUnit.supportedFilters->notEmpty())]
+		<c:choose>
+		[for (filter : Filter | indexUnit.supportedFilters)]
+		<c:when test = "${filter == '[tableName.toUpperFirst().concat(filter.name).replaceAll(' ', '')/]'}">
+			<c:forEach items="${[tableName.toUpperFirst().concat(filter.name).replaceAll(' ', '')/]}" var="element">
+    			<li class="a">[tableName.toUpperFirst()/]
+    				<ul class="b">
+    				[comment SHOULD ADD OTHER UnitAttribute TYPES HERE AND ALL INDEX UNITS AND IMAGE INDEX UNIT ETC/]
+					[for (field : UnitField | indexUnit.displayFields)]
+					[let attributeField : UnitAttribute = field.oclAsType(UnitAttribute)]
+					[let singletonElement : SingletonElement = attributeField.attribute.oclAsType(SingletonElement)]
+      				<li class="b"><a>${element.[singletonElement.columnName.toLowerCase()/]}</a></li>
+					[/let]
+					[/let]
+ 					[/for]
+    				</ul>
+
+					[if (indexUnit.actions->notEmpty())]
+  					<ul class="b">
+					[for (action : InlineAction | indexUnit.actions)]
+   					[if (action.oclIsTypeOf(SelectAction))]
+					[let selectAction : SelectAction = action.oclAsType(SelectAction)]
+					[if (selectAction.target.oclIsKindOf(EditUnit))]
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(EditUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[selectAction.target.oclAsType(EditUnit).name.replaceAll(' ', '')/]EditPage?id=${element.id}">[selectAction.displayLabel/]</a></li>
+					[elseif (selectAction.target.oclIsKindOf(DetailsUnit))]
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(DetailsUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[selectAction.target.oclAsType(DetailsUnit).name.replaceAll(' ', '').toLowerFirst()/]?id=${element.id}">[selectAction.displayLabel/]</a></li>		
+					[elseif (selectAction.target.oclIsKindOf(IndexUnit) and (selectAction.target.oclAsType(IndexUnit).selection.oclIsUndefined() = false) and selectAction.target.oclAsType(IndexUnit).selection.parameters->notEmpty())]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(IndexUnit).displayedOn.oclAsType(Page).generatePageURL('').trim().concat(selectAction.target.oclAsType(IndexUnit).selection.name).concat('FormalParam').replaceAll(' ', '').trim()/]?[selectAction.target.oclAsType(IndexUnit).selection.createParams().replaceAll('\n', '').replaceAll(' ', '')/]">[selectAction.displayLabel/]</a>						
+					[elseif (selectAction.target.oclIsKindOf(ImageIndexUnit) and (selectAction.target.oclAsType(ImageIndexUnit).selection.oclIsUndefined() = false) and selectAction.target.oclAsType(ImageIndexUnit).selection.parameters->notEmpty())]
+					<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(ImageIndexUnit).displayedOn.oclAsType(Page).generatePageURL('').trim().concat(selectAction.target.oclAsType(ImageIndexUnit).selection.name).concat('FormalParam').replaceAll(' ', '').trim()/]?[selectAction.target.oclAsType(ImageIndexUnit).selection.createParams().replaceAll('\n', '').replaceAll(' ', '')/]">[selectAction.displayLabel/]</a>					
+					[else]
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[selectAction.target.oclAsType(ContentUnit).displayedOn.oclAsType(Page).generatePageURL('').trim()/]">[selectAction.displayLabel/]</a></li>
+					[/if]
+					[/let]
+					[elseif (action.oclIsTypeOf(DeleteAction))]
+					[let deleteAction : DeleteAction = action.oclAsType(DeleteAction)]
+					<%requiredRoles = "";%>
+					[if (deleteAction.requiresRole <> '')]
+					<%requiredRoles = "[deleteAction.requiresRole.toLowerCase()/]";%>
+					[/if]
+					<%if(role.equals("admin") || (role.equals("user") && !requiredRoles.equals("admin")) || requiredRoles.equals("")){%>
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/deleteAction[indexUnit.name.replaceAll(' ', '').replaceAll('/', '')/]?id=${element.id}">[deleteAction.displayLabel/]</a></li>
+				    <%}%>
+					[/let]
+					[else]
+					[let featureSupportAction : FeatureSupportAction = action.oclAsType(FeatureSupportAction)]
+					<%requiredRoles = "";%>
+					[if (featureSupportAction.requiresRole <> '')]
+					<%requiredRoles = "[featureSupportAction.requiresRole.toLowerCase()/]";%>
+					[/if]
+					<%if(role.equals("admin") || (role.equals("user") && !requiredRoles.equals("admin")) || requiredRoles.equals("")){%>
+					<li class="b"><a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[indexUnit.name.replaceAll(' ', '')/][featureSupportAction.name.replaceAll(' ', '')/]?id=${element.id}">[featureSupportAction.displayLabel/]</a></li>
+				    <%}%>
+					[/let]
+					[/if]
+ 					[/for]
+					</ul>
+					[/if]
+
+  				</li>
+			</c:forEach>
+		</c:when>
+		[/for]
+		</c:choose>
+		[/if]
+
+   			</c:otherwise>
+		</c:choose>
+
+			</div>
+			</ol>
+
+	[if (indexUnit.supportActions->notEmpty())]
+	<div>
+		[for (action : UnitSupportAction | indexUnit.supportActions)]
+		<br>
+		<a  class="waves-light btn" href="/[wafModel.siteName.replaceAll(' ', '')/]/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[indexUnit.name.replaceAll(' ', '')/][action.name.replaceAll(' ', '')/]">[action.displayLabel/]</a>
+ 		[/for]
+	</div>
+	[/if]
+
+	<div class="col-md-12 center text-center">
+            <ul class="pagination pager" id="pager[indexUnit.name.replaceAll(' ', '')/]"></ul>
+    </div>
+		
+</div>
+<script type="text/javascript">
+      $(document).ready(function(){
+        $('#table[indexUnit.name.replaceAll(' ', '')/]').pageMe({
+          pagerSelector:'#pager[indexUnit.name.replaceAll(' ', '')/]',
+          activeColor: 'green',
+          prevText:'Prev',
+          nextText:'Next',
+          showPrevNext:true,
+          hidePageNumbers:false,
+          perPage:[indexUnit.maximumPaginationSize/]
+        });
+      });
+</script>	
+		[/let]
+[/let]
+
+[/template]
+
+[template public createParams(selection : Selection) post (replaceAll('\n', '').trim())]
+[for (param : FormalParameter | selection.parameters)]
+[param.createParam()/]&
+[/for]
+[/template]
+
+[template public createParam(param : FormalParameter)]
+[param.name/]=${element.[param.name.toLowerCase()/]}
+[/template]
+

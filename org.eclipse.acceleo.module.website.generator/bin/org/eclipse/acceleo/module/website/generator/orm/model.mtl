@@ -1,0 +1,330 @@
+[comment encoding = UTF-8 /]
+[module model('http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping', 
+'http://cs.manchester.ac.uk/mdsd/WebApplicationFramework')]
+
+[import org::eclipse::acceleo::module::website::generator::orm::files/]
+
+[template public generateModelClass(entity : EntityOrView)]
+
+[file (entity.modelFileName(), false, 'UTF-8')]
+
+package automated.website.model;
+
+import java.util.*;	
+
+public class [entity.name.replaceAll(' ', '')/] {
+	
+	[comment can use "autoKeyPersistentType" for the type of id/]
+	private int [entity.autoKeyName/];
+
+	public int get[entity.autoKeyName.toUpperFirst()/]() {
+		return [entity.autoKeyName/];	
+	}
+
+	public void set[entity.autoKeyName.toUpperFirst()/](int [entity.autoKeyName/]) {
+		this.[entity.autoKeyName/] = [entity.autoKeyName/];
+	}
+
+	[for (f : Feature | entity.features)]
+	[f.featureContent()/]
+
+	[/for]
+}
+
+[/file]
+
+[/template]
+
+[template public featureContent(feature : Feature)
+	? (feature.oclIsTypeOf(SingletonElement)) post(trim())]
+[let f : SingletonElement = feature.oclAsType(SingletonElement)]
+	private [f.persistentType/] [f.name.replaceAll(' ', '')/];
+
+public [f.persistentType/] get[f.name.replaceAll(' ', '').toUpperFirst()/]() {
+	return [f.name.replaceAll(' ', '')/];
+}
+
+public void set[f.name.replaceAll(' ', '').toUpperFirst()/]([f.persistentType/] [f.name.replaceAll(' ', '')/]) {
+	this.[f.name.replaceAll(' ', '')/] = [f.name.replaceAll(' ', '')/];
+}
+[/let]
+[/template]
+
+[comment]OneToOne or ManyToOne[/comment]
+[template public featureContent(feature : Feature)
+	? (feature.oclIsTypeOf(SingletonAssociation)) post(trim())]
+[let f : SingletonAssociation = feature.oclAsType(SingletonAssociation)]
+	private [f.opposite.partOf.name.replaceAll(' ', '')/] [f.name.replaceAll(' ', '')/];
+
+public [f.opposite.partOf.name.replaceAll(' ', '')/] get[f.name.replaceAll(' ', '').toUpperFirst()/]() {
+	return [f.name.replaceAll(' ', '')/];
+}
+
+public void set[f.name.replaceAll(' ', '').toUpperFirst()/]([f.opposite.partOf.name.replaceAll(' ', '')/] [f.name.replaceAll(' ', '')/]) {
+	this.[f.name.replaceAll(' ', '')/] = [f.name.replaceAll(' ', '')/];
+}
+[/let]
+[/template]
+
+[comment]OneToMany or ManyToMany[/comment]
+[template public featureContent(feature : Feature)
+	? (feature.oclIsTypeOf(CollectionAssociation)) post(trim())]
+[let f : CollectionAssociation = feature.oclAsType(CollectionAssociation)]
+	private Set<[f.opposite.partOf.name.replaceAll(' ', '')/]> [f.name.replaceAll(' ', '')/] = new HashSet<[f.opposite.partOf.name.replaceAll(' ', '')/]>();
+
+public Set<[f.opposite.partOf.name.replaceAll(' ', '')/]> get[f.name.replaceAll(' ', '').toUpperFirst()/]() {
+	return [f.name.replaceAll(' ', '')/];
+}
+
+public void set[f.name.replaceAll(' ', '').toUpperFirst()/](Set<[f.opposite.partOf.name.replaceAll(' ', '')/]> [f.name.replaceAll(' ', '')/]) {
+	this.[f.name.replaceAll(' ', '')/] = [f.name.replaceAll(' ', '')/];
+}
+[/let]
+[/template]
+
+[template public generateDaoClass(entity : EntityOrView, wafModel : WafModel)]
+
+[file (entity.daoFileName(), false, 'UTF-8')]
+
+package automated.website.dao;
+
+import java.util.List;
+
+import org.hibernate.FlushMode;
+import org.hibernate.Query;
+import org.springframework.orm.hibernate5.*;
+import org.springframework.transaction.annotation.Transactional;
+
+import automated.website.model.*;
+
+public class [entity.name.replaceAll(' ', '')/]Dao {
+	HibernateTemplate template;
+
+	@Transactional(readOnly = false)
+	public void setTemplate(HibernateTemplate template) {
+		this.template = template;
+	}
+
+[comment]	UPDATING ONLY SINGLETON ELEMENT COLUMNS FOR NOW!!![/comment]
+	@Transactional(readOnly = false)
+	public void update[entity.name.replaceAll(' ', '')/]([entity.name.replaceAll(' ', '')/] newObject) {
+		try {
+			template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+			[entity.name.replaceAll(' ', '')/] myObject = ([entity.name.replaceAll(' ', '')/]) template.load([entity.name.replaceAll(' ', '')/].class, newObject.getId());
+			[for (f : Feature | entity.features)]
+			[if (f.oclIsTypeOf(SingletonElement))]
+			[let el : SingletonElement = f.oclAsType(SingletonElement)]
+			[if (el.persistentType.toLowerCase().contains('int') or el.persistentType.toLowerCase() = 'float' or el.persistentType.toLowerCase() = 'double' or el.persistentType.toLowerCase() = 'decimal')]
+			if (newObject.get[el.name.replaceAll(' ', '').toUpperFirst()/]() != 0) {
+				myObject.set[el.name.replaceAll(' ', '').toUpperFirst()/](newObject.get[el.name.replaceAll(' ', '').toUpperFirst()/]());
+			}
+			[elseif(el.persistentType.toLowerCase().contains('date') or el.persistentType.toLowerCase().contains('time') or el.persistentType.toLowerCase() = 'year')]
+			if (newObject.get[el.name.replaceAll(' ', '').toUpperFirst()/]() != null) {
+				myObject.set[el.name.replaceAll(' ', '').toUpperFirst()/](newObject.get[el.name.replaceAll(' ', '').toUpperFirst()/]());
+			}
+			[else]
+			if (newObject.get[el.name.replaceAll(' ', '').toUpperFirst()/]() != null && newObject.get[el.name.replaceAll(' ', '').toUpperFirst()/]() != "") {
+				myObject.set[el.name.replaceAll(' ', '').toUpperFirst()/](newObject.get[el.name.replaceAll(' ', '').toUpperFirst()/]());
+			}
+			[/if]
+			[/let]
+			[/if]
+			[/for]
+			template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+			template.update(myObject);
+		} catch (Exception e) {
+			//Could not update
+		}
+	}
+
+	@Transactional(readOnly = false)
+	public void delete[entity.name.replaceAll(' ', '')/]([entity.name.replaceAll(' ', '')/] m) {
+		template.delete(m);
+	}
+
+	@Transactional(readOnly = false)
+	public [entity.name.replaceAll(' ', '')/] getBy[entity.autoKeyName.toUpper()/](int [entity.autoKeyName/]) {
+		try {
+			template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+			[entity.name.replaceAll(' ', '')/] [entity.name.replaceAll(' ', '').toLowerFirst()/] = ([entity.name.replaceAll(' ', '')/]) template.load([entity.name.replaceAll(' ', '')/].class, (int) [entity.autoKeyName/]);
+			return [entity.name.replaceAll(' ', '').toLowerFirst()/];
+		} catch (Exception e) {
+			return new [entity.name.replaceAll(' ', '')/]();
+		}
+	}
+
+	@Transactional(readOnly = false)
+	public void deleteBy[entity.autoKeyName.toUpper()/](long [entity.autoKeyName/]) {
+		[entity.name.replaceAll(' ', '')/] myObject;
+		myObject = ([entity.name.replaceAll(' ', '')/]) template.load([entity.name.replaceAll(' ', '')/].class, (int) [entity.autoKeyName/]);
+		template.delete(myObject);
+		template.flush();
+	}
+
+	[if (wafModel.authentication.user.name.replaceAll(' ', '') = entity.name.replaceAll(' ', ''))]
+
+	@Transactional(readOnly = false)
+	public void register([entity.name.replaceAll(' ', '').toUpperFirst()/] [entity.name.replaceAll(' ', '')/]) {
+		template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+		[entity.name.replaceAll(' ', '')/].setRole("user");
+		[entity.name.replaceAll(' ', '')/].setActive("false");
+		template.saveOrUpdate([entity.name.replaceAll(' ', '')/]);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = false)
+	public User validate[entity.name.replaceAll(' ', '').toUpperFirst()/]([entity.name.replaceAll(' ', '').toUpperFirst()/] login) {
+		
+		List<[entity.name.replaceAll(' ', '').toUpperFirst()/]> my[entity.name.replaceAll(' ', '').toUpperFirst()/]s;
+		
+		template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+		
+		my[entity.name.replaceAll(' ', '').toUpperFirst()/]s = (List<[entity.name.replaceAll(' ', '').toUpperFirst()/]>) template.find("from [entity.name.replaceAll(' ', '').toUpperFirst()/] where username = ? and [wafModel.authentication.oclAsType(LocalAuthenticationSystem).userKey.name.replaceAll(' ', '')/] = ?", login.getUsername(), login.getPassword());
+		
+		return my[entity.name.replaceAll(' ', '').toUpperFirst()/]s.size() > 0 ? my[entity.name.replaceAll(' ', '').toUpperFirst()/]s.get(0) : null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = false)
+	public String getPasswordByUsername(String username) {
+		List<[entity.name.replaceAll(' ', '').toUpperFirst()/]> myUsers;
+		
+		template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+
+		[if (wafModel.authentication->notEmpty())]
+		[let auth : LocalAuthenticationSystem = wafModel.authentication.oclAsType(LocalAuthenticationSystem)]
+		[if (auth.useEmailActivation)]
+		myUsers = (List<[entity.name.replaceAll(' ', '').toUpperFirst()/]>) template.find("from [entity.name.replaceAll(' ', '').toUpperFirst()/] where username = ? and active = ?", username, "true");
+		[else]
+		myUsers = (List<[entity.name.replaceAll(' ', '').toUpperFirst()/]>) template.find("from [entity.name.replaceAll(' ', '').toUpperFirst()/] where username = ?", username);
+		[/if]
+		[/let]
+		[else]
+		myUsers = (List<[entity.name.replaceAll(' ', '').toUpperFirst()/]>) template.find("from [entity.name.replaceAll(' ', '').toUpperFirst()/] where username = ?", username);
+		[/if]
+
+		return myUsers.size() > 0 ? myUsers.get(0).get[wafModel.authentication.oclAsType(LocalAuthenticationSystem).userKey.name.replaceAll(' ', '').toUpperFirst()/]() : null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = false)
+	public String getRoleByUsername(String username) {
+		List<[entity.name.replaceAll(' ', '').toUpperFirst()/]> myUsers;
+		
+		template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+
+		[if (wafModel.authentication->notEmpty())]
+		[let auth : LocalAuthenticationSystem = wafModel.authentication.oclAsType(LocalAuthenticationSystem)]
+		[if (auth.useEmailActivation)]
+		myUsers = (List<[entity.name.replaceAll(' ', '').toUpperFirst()/]>) template.find("from [entity.name.replaceAll(' ', '').toUpperFirst()/] where username = ? and active = ?", username, "true");
+		[else]
+		myUsers = (List<[entity.name.replaceAll(' ', '').toUpperFirst()/]>) template.find("from [entity.name.replaceAll(' ', '').toUpperFirst()/] where username = ?", username);
+		[/if]
+		[/let]
+		[else]
+		myUsers = (List<[entity.name.replaceAll(' ', '').toUpperFirst()/]>) template.find("from [entity.name.replaceAll(' ', '').toUpperFirst()/] where username = ?", username);
+		[/if]
+
+		return myUsers.size() > 0 ? myUsers.get(0).getRole() : null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = false)
+	public void activate[entity.name.replaceAll(' ', '').toUpperFirst()/](String username) {
+		try {
+			template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+			List<[entity.name.replaceAll(' ', '').toUpperFirst()/]> myUsers;
+			myUsers = (List<[entity.name.replaceAll(' ', '').toUpperFirst()/]>) template.find("from [entity.name.replaceAll(' ', '').toUpperFirst()/] where username = ?", username);
+			int id = myUsers.size() > 0 ? myUsers.get(0).getId() : null;
+			[entity.name.replaceAll(' ', '').toUpperFirst()/] user = ([entity.name.replaceAll(' ', '').toUpperFirst()/]) template.load([entity.name.replaceAll(' ', '').toUpperFirst()/].class, id);
+			user.setActive("true");
+			template.update(user);
+			System.out.println("Should have been updated now");
+		} catch (Exception e) {
+			//Could not update
+			System.out.println("Couldn't update " + e);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = false)
+	public [entity.name.replaceAll(' ', '').toUpperFirst()/] get[entity.name.replaceAll(' ', '').toUpperFirst()/]ByEmail(String email) {
+		List<[entity.name.replaceAll(' ', '').toUpperFirst()/]> myUsers;
+		
+		template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+		
+		myUsers = (List<[entity.name.replaceAll(' ', '').toUpperFirst()/]>) template.find("from [entity.name.replaceAll(' ', '').toUpperFirst()/] where email = ?", email);
+		
+		return myUsers.size() > 0 ? myUsers.get(0) : null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = false)
+	public void updatePassword(String username, String password) {
+		try {
+			template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+			List<[entity.name.replaceAll(' ', '').toUpperFirst()/]> myUsers;
+			myUsers = (List<[entity.name.replaceAll(' ', '').toUpperFirst()/]>) template.find("from [entity.name.replaceAll(' ', '').toUpperFirst()/] where username = ?", username);
+			int id = myUsers.size() > 0 ? myUsers.get(0).getId() : null;
+			[entity.name.replaceAll(' ', '').toUpperFirst()/] user = ([entity.name.replaceAll(' ', '').toUpperFirst()/]) template.load(User.class, id);
+			user.set[wafModel.authentication.oclAsType(LocalAuthenticationSystem).userKey.name.replaceAll(' ', '').toUpperFirst()/](password);
+			template.update(user);
+			System.out.println("Should have been updated now");
+		} catch (Exception e) {
+			//Could not update
+			System.out.println("Couldn't update " + e);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = false)
+	public [entity.name.replaceAll(' ', '').toUpperFirst()/] get[entity.name.replaceAll(' ', '').toUpperFirst()/]ByUsername(String username) {
+		List<[entity.name.replaceAll(' ', '').toUpperFirst()/]> myUsers;
+		
+		template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+		
+		myUsers = (List<[entity.name.replaceAll(' ', '').toUpperFirst()/]>) template.find("from [entity.name.replaceAll(' ', '').toUpperFirst()/] where username = ?", username);
+		
+		return myUsers.size() > 0 ? myUsers.get(0) : null;
+	}
+
+	[/if]
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = false)
+	public List<[entity.name.replaceAll(' ', '')/]> getAll[entity.name.replaceAll(' ', '')/]s() {
+		
+		List<[entity.name.replaceAll(' ', '')/]> my[entity.name.replaceAll(' ', '')/]s;
+		
+		template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+		
+		my[entity.name.replaceAll(' ', '')/]s = (List<[entity.name.replaceAll(' ', '')/]>) template.find("from [entity.name.replaceAll(' ', '').toUpperFirst()/]");
+		
+		return my[entity.name.replaceAll(' ', '')/]s;
+   }
+	
+	@Transactional(readOnly = false)
+	public void add[entity.name.replaceAll(' ', '')/]([entity.name.replaceAll(' ', '')/] myObject) {
+		template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+		template.save(myObject);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = false)
+	public List<[entity.name.replaceAll(' ', '')/]> runCustomQuery(String query, int limit) {
+		
+		template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+
+		Query q = template.getSessionFactory().openSession().createQuery(query);
+		if (limit > 0) {
+			q.setMaxResults(limit);		
+		}
+	    return (List<[entity.name.replaceAll(' ', '')/]>) q.list();
+		
+   }
+
+}
+
+[/file]
+
+[/template]

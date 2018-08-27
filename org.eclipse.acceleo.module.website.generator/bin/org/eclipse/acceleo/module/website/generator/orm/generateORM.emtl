@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:mtl="http://www.eclipse.org/acceleo/mtl/3.0" xmlns:ocl.ecore="http://www.eclipse.org/ocl/1.1.0/Ecore">
+  <mtl:Module name="generateORM" nsURI="org::eclipse::acceleo::module::website::generator::orm::generateORM" startHeaderPosition="29" endHeaderPosition="286">
+    <input>
+      <takesTypesFrom href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#/"/>
+    </input>
+    <input>
+      <takesTypesFrom href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#/"/>
+    </input>
+    <input>
+      <takesTypesFrom href="http://cs.manchester.ac.uk/mdsd/Expression#/"/>
+    </input>
+    <imports href="model.emtl#/0"/>
+    <imports href="configFiles.emtl#/0"/>
+    <imports href="../requests/extensions.emtl#/0"/>
+    <ownedModuleElement xsi:type="mtl:Template" name="generateMappings" visibility="Public">
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;"/>
+      <body xsi:type="mtl:TemplateInvocation">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <definition href="configFiles.emtl#/0/generateAppCntxXML"/>
+        <argument xsi:type="ocl.ecore:PropertyCallExp">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+          <source xsi:type="ocl.ecore:VariableExp" name="wafModel" referredVariable="/0/generateMappings/wafModel">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+          </source>
+          <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel/persistence"/>
+        </argument>
+        <argument xsi:type="ocl.ecore:VariableExp" name="wafModel" referredVariable="/0/generateMappings/wafModel">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+        </argument>
+      </body>
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;&#xA;"/>
+      <body xsi:type="ocl.ecore:IteratorExp" name="collect" eType="/7/Sequence(String)">
+        <source xsi:type="ocl.ecore:PropertyCallExp" eType="/7/OrderedSet(EntityOrView)">
+          <source xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="wafModel" referredVariable="/0/generateMappings/wafModel">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+            </source>
+            <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel/persistence"/>
+          </source>
+          <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel/entitiesAndViews"/>
+        </source>
+        <body xsi:type="mtl:TemplateInvocation">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <definition href="model.emtl#/0/generateModelClass"/>
+          <argument xsi:type="ocl.ecore:VariableExp" name="temp1" referredVariable="/0/generateMappings/collect/temp1">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+          </argument>
+        </body>
+        <iterator xsi:type="ocl.ecore:Variable" name="temp1">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+        </iterator>
+      </body>
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;"/>
+      <body xsi:type="ocl.ecore:IteratorExp" name="collect" eType="/7/Sequence(String)">
+        <source xsi:type="ocl.ecore:PropertyCallExp" eType="/7/OrderedSet(EntityOrView)">
+          <source xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="wafModel" referredVariable="/0/generateMappings/wafModel">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+            </source>
+            <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel/persistence"/>
+          </source>
+          <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel/entitiesAndViews"/>
+        </source>
+        <body xsi:type="mtl:TemplateInvocation">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <definition href="model.emtl#/0/generateDaoClass"/>
+          <argument xsi:type="ocl.ecore:VariableExp" name="temp1" referredVariable="/0/generateMappings/collect.1/temp2">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+          </argument>
+          <argument xsi:type="ocl.ecore:VariableExp" name="wafModel" referredVariable="/0/generateMappings/wafModel">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+          </argument>
+        </body>
+        <iterator xsi:type="ocl.ecore:Variable" name="temp2">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+        </iterator>
+      </body>
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;"/>
+      <body xsi:type="ocl.ecore:IteratorExp" name="collect" eType="/7/Sequence(String)">
+        <source xsi:type="ocl.ecore:PropertyCallExp" eType="/7/OrderedSet(EntityOrView)">
+          <source xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="wafModel" referredVariable="/0/generateMappings/wafModel">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+            </source>
+            <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel/persistence"/>
+          </source>
+          <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel/entitiesAndViews"/>
+        </source>
+        <body xsi:type="mtl:TemplateInvocation">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <definition href="configFiles.emtl#/0/generateHibernateXML"/>
+          <argument xsi:type="ocl.ecore:VariableExp" name="temp1" referredVariable="/0/generateMappings/collect.2/temp3">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+          </argument>
+        </body>
+        <iterator xsi:type="ocl.ecore:Variable" name="temp3">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+        </iterator>
+      </body>
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;&#xA;"/>
+      <body xsi:type="mtl:IfBlock">
+        <body xsi:type="mtl:TemplateInvocation" definition="/0/generateMappingForStaticViewContent">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <argument xsi:type="ocl.ecore:VariableExp" name="wafModel" referredVariable="/0/generateMappings/wafModel">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+          </argument>
+        </body>
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;"/>
+        <ifExpr xsi:type="ocl.ecore:PropertyCallExp">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+          <source xsi:type="ocl.ecore:VariableExp" name="wafModel" referredVariable="/0/generateMappings/wafModel">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+          </source>
+          <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel/staticUnitsEditable"/>
+        </ifExpr>
+      </body>
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;"/>
+      <parameter name="wafModel">
+        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+      </parameter>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Template" name="generateMappingForStaticViewContent" visibility="Public">
+      <body xsi:type="mtl:FileBlock" openMode="OverWrite">
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&lt;?xml version='1.0' encoding='UTF-8'?>&#xA;&lt;!DOCTYPE hibernate-mapping PUBLIC&#xA;          &quot;-//Hibernate/Hibernate Mapping DTD 3.0//EN&quot;&#xA;          &quot;http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd&quot;>&#xA;&#xA;&lt;hibernate-mapping>&#xA;&#x9;&lt;class name=&quot;automated.website.model.StaticPageContent&quot; table=&quot;staticpagecontent&quot; lazy=&quot;false&quot;>&#xA;&#x9;&#x9;&lt;id name=&quot;id&quot;>&#xA;&#x9;&#x9;&#x9;&lt;generator class=&quot;increment&quot;>&lt;/generator>&#xA;&#x9;&#x9;&lt;/id>&#xA;&#xA;&#x9;&#x9;&lt;property name=&quot;pagename&quot;>&lt;/property>&#xA;&#x9;&#x9;&lt;property name=&quot;content&quot;>&lt;/property>&#xA;&#x9;&lt;/class>&#xA;&#xA;&lt;/hibernate-mapping>&#xA;"/>
+        <fileUrl xsi:type="ocl.ecore:OperationCallExp">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <source xsi:type="ocl.ecore:OperationCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <source xsi:type="ocl.ecore:OperationCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="src/">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              </source>
+              <argument xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="staticpagecontent">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              </argument>
+              <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String_Class/concat"/>
+            </source>
+            <argument xsi:type="ocl.ecore:StringLiteralExp" stringSymbol=".hbm">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            </argument>
+            <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String_Class/concat"/>
+          </source>
+          <argument xsi:type="mtl:QueryInvocation">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <definition href="../requests/extensions.emtl#/0/xmlExtension"/>
+            <argument xsi:type="ocl.ecore:VariableExp" name="wafModel" referredVariable="/0/generateMappingForStaticViewContent/wafModel">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+            </argument>
+          </argument>
+          <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String_Class/concat"/>
+        </fileUrl>
+        <charset xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="UTF-8">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </charset>
+      </body>
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;"/>
+      <body xsi:type="mtl:FileBlock" openMode="OverWrite">
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="package automated.website.model;&#xA;&#xA;public class StaticPageContent {&#xA;&#x9;private String pagename;&#xA;&#x9;private String content;&#xA;&#xA;&#x9;private int id;&#xA;&#xA;&#x9;public String getPagename() {&#xA;&#x9;&#x9;return pagename;&#xA;&#x9;}&#xA;&#xA;&#x9;public void setPagename(String pagename) {&#xA;&#x9;&#x9;this.pagename = pagename;&#xA;&#x9;}&#xA;&#xA;&#x9;public String getContent() {&#xA;&#x9;&#x9;return content;&#xA;&#x9;}&#xA;&#xA;&#x9;public void setContent(String content) {&#xA;&#x9;&#x9;this.content = content;&#xA;&#x9;}&#xA;&#xA;&#x9;public void setId(int id) {&#xA;&#x9;&#x9;this.id = id;&#xA;&#x9;}&#xA;&#xA;&#x9;public int getId() {&#xA;&#x9;&#x9;return id;&#xA;&#x9;}&#xA;&#xA;}&#xA;"/>
+        <fileUrl xsi:type="ocl.ecore:OperationCallExp">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <source xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="src/automated/website/model/StaticPageContent">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          </source>
+          <argument xsi:type="mtl:QueryInvocation">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <definition href="../requests/extensions.emtl#/0/javaExtension"/>
+            <argument xsi:type="ocl.ecore:VariableExp" name="wafModel" referredVariable="/0/generateMappingForStaticViewContent/wafModel">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+            </argument>
+          </argument>
+          <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String_Class/concat"/>
+        </fileUrl>
+        <charset xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="UTF-8">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </charset>
+      </body>
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;"/>
+      <body xsi:type="mtl:FileBlock" openMode="OverWrite">
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="package automated.website.dao;&#xA;&#xA;import java.util.List;&#xA;&#xA;import org.hibernate.FlushMode;&#xA;import org.springframework.orm.hibernate5.*;&#xA;import org.springframework.transaction.annotation.Transactional;&#xA;&#xA;import automated.website.model.*;&#xA;&#xA;public class StaticPageContentDao {&#xA;&#x9;HibernateTemplate template;&#xA;&#xA;&#x9;@Transactional(readOnly = false)&#xA;&#x9;public void setTemplate(HibernateTemplate template) {&#xA;&#x9;&#x9;this.template = template;&#xA;&#x9;}&#xA;&#x9;&#xA;&#x9;@Transactional(readOnly = false)&#xA;&#x9;public void updateStaticPageContent(StaticPageContent m) {&#xA;&#x9;&#x9;try {&#xA;&#x9;&#x9;&#x9;template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);&#xA;&#x9;&#x9;&#x9;StaticPageContent staticPageContent = (StaticPageContent) template.load(StaticPageContent.class, m.getId());&#xA;&#x9;&#x9;&#x9;if (m.getPagename() != null &amp;&amp; m.getPagename() != &quot;&quot;) {&#xA;&#x9;&#x9;&#x9;&#x9;staticPageContent.setPagename(m.getPagename());&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;if (m.getContent() != null &amp;&amp; m.getContent() != &quot;&quot;) {&#xA;&#x9;&#x9;&#x9;&#x9;staticPageContent.setContent(m.getContent());&#xA;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);&#xA;&#x9;&#x9;&#x9;template.update(staticPageContent);&#xA;&#x9;&#x9;} catch (Exception e) {&#xA;&#x9;&#x9;&#x9;//Could not update&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;&#xA;&#x9;@Transactional(readOnly = false)&#xA;&#x9;public void deleteStaticPageContent(StaticPageContent m) {&#xA;&#x9;&#x9;template.delete(m);&#xA;&#x9;}&#xA;&#xA;&#x9;@Transactional(readOnly = false)&#xA;&#x9;public StaticPageContent getByID(int id) {&#xA;&#x9;&#x9;try {&#xA;&#x9;&#x9;&#x9;template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);&#xA;&#x9;&#x9;&#x9;StaticPageContent image = (StaticPageContent) template.load(StaticPageContent.class, (int) id);&#xA;&#x9;&#x9;&#x9;return image;&#xA;&#x9;&#x9;} catch (Exception e) {&#xA;&#x9;&#x9;&#x9;return new StaticPageContent();&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;&#xA;&#x9;@Transactional(readOnly = false)&#xA;&#x9;public void deleteByID(int id) {&#xA;&#x9;&#x9;StaticPageContent myObject;&#xA;&#x9;&#x9;myObject = (StaticPageContent) template.load(StaticPageContent.class, id);&#xA;&#x9;&#x9;template.delete(myObject);&#xA;&#x9;&#x9;template.flush();&#xA;&#xA;&#x9;}&#xA;&#x9;&#xA;&#x9;@SuppressWarnings(&quot;unchecked&quot;)&#xA;&#x9;@Transactional(readOnly = false)&#xA;&#x9;public List&lt;StaticPageContent> getAllStaticPageContent() {&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;List&lt;StaticPageContent> staticPageContent;&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;staticPageContent = (List&lt;StaticPageContent>) template.find(&quot;from StaticPageContent&quot;);&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return staticPageContent;&#xA;   }&#xA;&#x9;&#xA;&#x9;@Transactional(readOnly = false)&#xA;&#x9;public void addNatureImage(StaticPageContent image) {&#xA;&#x9;&#x9;template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);&#xA;&#x9;&#x9;template.save(image);&#xA;&#x9;}&#xA;&#x9;&#xA;&#x9;@SuppressWarnings(&quot;unchecked&quot;)&#xA;&#x9;@Transactional(readOnly = false)&#xA;&#x9;public List&lt;StaticPageContent> runCustomQuery(String query, int limit) {&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;List&lt;StaticPageContent> contents;&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;contents = (List&lt;StaticPageContent>) template.find(query);&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;return contents;&#xA;   }&#xA;&#xA;}&#xA;&#xA;"/>
+        <fileUrl xsi:type="ocl.ecore:OperationCallExp">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <source xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="src/automated/website/dao/StaticPageContentDao">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          </source>
+          <argument xsi:type="mtl:QueryInvocation">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <definition href="../requests/extensions.emtl#/0/javaExtension"/>
+            <argument xsi:type="ocl.ecore:VariableExp" name="wafModel" referredVariable="/0/generateMappingForStaticViewContent/wafModel">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+            </argument>
+          </argument>
+          <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String_Class/concat"/>
+        </fileUrl>
+        <charset xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="UTF-8">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </charset>
+      </body>
+      <parameter name="wafModel">
+        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+      </parameter>
+    </ownedModuleElement>
+  </mtl:Module>
+  <ecore:EPackage name="additions">
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_String_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Integer_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Integer"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Real_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Real"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ecore_EObject_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </eAnnotations>
+      <eOperations name="generateMappings">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL" references="/0/generateMappings"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="wafModel">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="generateMappingForStaticViewContent">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL" references="/0/generateMappingForStaticViewContent"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="wafModel">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="generateModelClass">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL">
+          <references href="model.emtl#/0/generateModelClass"/>
+        </eAnnotations>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="entity">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="generateDaoClass">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL">
+          <references href="model.emtl#/0/generateDaoClass"/>
+        </eAnnotations>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="entity">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+        </eParameters>
+        <eParameters name="wafModel">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="generateHibernateXML">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL">
+          <references href="configFiles.emtl#/0/generateHibernateXML"/>
+        </eAnnotations>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="entity">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="generateAppCntxXML">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL">
+          <references href="configFiles.emtl#/0/generateAppCntxXML"/>
+        </eAnnotations>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="orm">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+        </eParameters>
+        <eParameters name="wafModel">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="javaExtension">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL">
+          <references href="../requests/extensions.emtl#/0/javaExtension"/>
+        </eAnnotations>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="anOclAny">
+          <eType xsi:type="ocl.ecore:AnyType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="xmlExtension">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL">
+          <references href="../requests/extensions.emtl#/0/xmlExtension"/>
+        </eAnnotations>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="anOclAny">
+          <eType xsi:type="ocl.ecore:AnyType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny"/>
+        </eParameters>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_OclAny_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Collection(T)_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Collection(T)"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Sequence(T)_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Sequence(T)"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_OrderedSet(T)_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OrderedSet(T)"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="waf_WafModel_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="orm_EntityOrView_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="orm_Feature_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="orm_OrmModel_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+      </eAnnotations>
+    </eClassifiers>
+  </ecore:EPackage>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ecore:EPackage name="collections">
+    <eClassifiers xsi:type="ocl.ecore:OrderedSetType" name="OrderedSet(EntityOrView)" instanceClassName="java.util.LinkedHashSet">
+      <elementType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ocl.ecore:SequenceType" name="Sequence(String)" instanceClassName="java.util.List">
+      <elementType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+    </eClassifiers>
+  </ecore:EPackage>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ecore:EAnnotation source="positions">
+    <eAnnotations source="positions.0" references="/0/generateMappings">
+      <details key="start" value="450"/>
+      <details key="end" value="860"/>
+      <details key="line" value="10"/>
+    </eAnnotations>
+    <eAnnotations source="positions.1" references="/0/generateMappings/%">
+      <details key="start" value="506"/>
+      <details key="end" value="507"/>
+      <details key="line" value="11"/>
+    </eAnnotations>
+    <eAnnotations source="positions.2" references="/0/generateMappings/%.1">
+      <details key="start" value="508"/>
+      <details key="end" value="557"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.3" references="/0/generateMappings/%.1/%">
+      <details key="start" value="508"/>
+      <details key="end" value="528"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.4" references="/0/generateMappings/%.1/%/wafModel">
+      <details key="start" value="508"/>
+      <details key="end" value="516"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.5" references="/0/generateMappings/%.1/wafModel">
+      <details key="start" value="548"/>
+      <details key="end" value="556"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.6" references="/0/generateMappings/%.2">
+      <details key="start" value="559"/>
+      <details key="end" value="561"/>
+      <details key="line" value="13"/>
+    </eAnnotations>
+    <eAnnotations source="positions.7" references="/0/generateMappings/collect">
+      <details key="start" value="562"/>
+      <details key="end" value="620"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.8" references="/0/generateMappings/collect/%">
+      <details key="start" value="562"/>
+      <details key="end" value="599"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.9" references="/0/generateMappings/collect/%/%">
+      <details key="start" value="562"/>
+      <details key="end" value="582"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.10" references="/0/generateMappings/collect/%/%/wafModel">
+      <details key="start" value="562"/>
+      <details key="end" value="570"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.11" references="/0/generateMappings/collect/%.1">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.12" references="/0/generateMappings/collect/%.1/temp1">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.13" references="/0/generateMappings/collect/temp1">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.14" references="/0/generateMappings/%.3">
+      <details key="start" value="622"/>
+      <details key="end" value="623"/>
+      <details key="line" value="15"/>
+    </eAnnotations>
+    <eAnnotations source="positions.15" references="/0/generateMappings/collect.1">
+      <details key="start" value="624"/>
+      <details key="end" value="688"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.16" references="/0/generateMappings/collect.1/%">
+      <details key="start" value="624"/>
+      <details key="end" value="661"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.17" references="/0/generateMappings/collect.1/%/%">
+      <details key="start" value="624"/>
+      <details key="end" value="644"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.18" references="/0/generateMappings/collect.1/%/%/wafModel">
+      <details key="start" value="624"/>
+      <details key="end" value="632"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.19" references="/0/generateMappings/collect.1/%.1">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.20" references="/0/generateMappings/collect.1/%.1/temp1">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.21" references="/0/generateMappings/collect.1/%.1/wafModel">
+      <details key="start" value="679"/>
+      <details key="end" value="687"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.22" references="/0/generateMappings/collect.1/temp2">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.23" references="/0/generateMappings/%.4">
+      <details key="start" value="690"/>
+      <details key="end" value="691"/>
+      <details key="line" value="16"/>
+    </eAnnotations>
+    <eAnnotations source="positions.24" references="/0/generateMappings/collect.2">
+      <details key="start" value="692"/>
+      <details key="end" value="752"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.25" references="/0/generateMappings/collect.2/%">
+      <details key="start" value="692"/>
+      <details key="end" value="729"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.26" references="/0/generateMappings/collect.2/%/%">
+      <details key="start" value="692"/>
+      <details key="end" value="712"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.27" references="/0/generateMappings/collect.2/%/%/wafModel">
+      <details key="start" value="692"/>
+      <details key="end" value="700"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.28" references="/0/generateMappings/collect.2/%.1">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.29" references="/0/generateMappings/collect.2/%.1/temp1">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.30" references="/0/generateMappings/collect.2/temp3">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.31" references="/0/generateMappings/%.5">
+      <details key="start" value="754"/>
+      <details key="end" value="756"/>
+      <details key="line" value="17"/>
+    </eAnnotations>
+    <eAnnotations source="positions.32" references="/0/generateMappings/%.6">
+      <details key="start" value="756"/>
+      <details key="end" value="847"/>
+      <details key="line" value="18"/>
+    </eAnnotations>
+    <eAnnotations source="positions.33" references="/0/generateMappings/%.6/%">
+      <details key="start" value="793"/>
+      <details key="end" value="839"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.34" references="/0/generateMappings/%.6/%/wafModel">
+      <details key="start" value="793"/>
+      <details key="end" value="801"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.35" references="/0/generateMappings/%.6/%.1">
+      <details key="start" value="841"/>
+      <details key="end" value="842"/>
+      <details key="line" value="20"/>
+    </eAnnotations>
+    <eAnnotations source="positions.36" references="/0/generateMappings/%.6/%.2">
+      <details key="start" value="760"/>
+      <details key="end" value="790"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.37" references="/0/generateMappings/%.6/%.2/wafModel">
+      <details key="start" value="761"/>
+      <details key="end" value="769"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.38" references="/0/generateMappings/%.7">
+      <details key="start" value="848"/>
+      <details key="end" value="849"/>
+      <details key="line" value="21"/>
+    </eAnnotations>
+    <eAnnotations source="positions.39" references="/0/generateMappings/wafModel">
+      <details key="start" value="484"/>
+      <details key="end" value="503"/>
+      <details key="line" value="10"/>
+    </eAnnotations>
+    <eAnnotations source="positions.40" references="/0/generateMappingForStaticViewContent">
+      <details key="start" value="862"/>
+      <details key="end" value="5029"/>
+      <details key="line" value="24"/>
+    </eAnnotations>
+    <eAnnotations source="positions.41" references="/0/generateMappingForStaticViewContent/%">
+      <details key="start" value="937"/>
+      <details key="end" value="1554"/>
+      <details key="line" value="25"/>
+    </eAnnotations>
+    <eAnnotations source="positions.42" references="/0/generateMappingForStaticViewContent/%/%">
+      <details key="start" value="1046"/>
+      <details key="end" value="1547"/>
+      <details key="line" value="26"/>
+    </eAnnotations>
+    <eAnnotations source="positions.43" references="/0/generateMappingForStaticViewContent/%/%.1">
+      <details key="start" value="944"/>
+      <details key="end" value="1027"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.44" references="/0/generateMappingForStaticViewContent/%/%.1/%">
+      <details key="start" value="944"/>
+      <details key="end" value="995"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.45" references="/0/generateMappingForStaticViewContent/%/%.1/%/%">
+      <details key="start" value="944"/>
+      <details key="end" value="980"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.46" references="/0/generateMappingForStaticViewContent/%/%.1/%/%/%">
+      <details key="start" value="944"/>
+      <details key="end" value="952"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.47" references="/0/generateMappingForStaticViewContent/%/%.1/%/%/%.1">
+      <details key="start" value="960"/>
+      <details key="end" value="979"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.48" references="/0/generateMappingForStaticViewContent/%/%.1/%/%.1">
+      <details key="start" value="988"/>
+      <details key="end" value="994"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.49" references="/0/generateMappingForStaticViewContent/%/%.1/%.1">
+      <details key="start" value="1003"/>
+      <details key="end" value="1026"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.50" references="/0/generateMappingForStaticViewContent/%/%.1/%.1/wafModel">
+      <details key="start" value="1003"/>
+      <details key="end" value="1011"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.51" references="/0/generateMappingForStaticViewContent/%/%.2">
+      <details key="start" value="1036"/>
+      <details key="end" value="1043"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.52" references="/0/generateMappingForStaticViewContent/%.1">
+      <details key="start" value="1555"/>
+      <details key="end" value="1556"/>
+      <details key="line" value="43"/>
+    </eAnnotations>
+    <eAnnotations source="positions.53" references="/0/generateMappingForStaticViewContent/%.2">
+      <details key="start" value="1556"/>
+      <details key="end" value="2152"/>
+      <details key="line" value="44"/>
+    </eAnnotations>
+    <eAnnotations source="positions.54" references="/0/generateMappingForStaticViewContent/%.2/%">
+      <details key="start" value="1664"/>
+      <details key="end" value="2145"/>
+      <details key="line" value="45"/>
+    </eAnnotations>
+    <eAnnotations source="positions.55" references="/0/generateMappingForStaticViewContent/%.2/%.1">
+      <details key="start" value="1563"/>
+      <details key="end" value="1645"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.56" references="/0/generateMappingForStaticViewContent/%.2/%.1/%">
+      <details key="start" value="1563"/>
+      <details key="end" value="1612"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.57" references="/0/generateMappingForStaticViewContent/%.2/%.1/%.1">
+      <details key="start" value="1620"/>
+      <details key="end" value="1644"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.58" references="/0/generateMappingForStaticViewContent/%.2/%.1/%.1/wafModel">
+      <details key="start" value="1620"/>
+      <details key="end" value="1628"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.59" references="/0/generateMappingForStaticViewContent/%.2/%.2">
+      <details key="start" value="1654"/>
+      <details key="end" value="1661"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.60" references="/0/generateMappingForStaticViewContent/%.3">
+      <details key="start" value="2153"/>
+      <details key="end" value="2154"/>
+      <details key="line" value="79"/>
+    </eAnnotations>
+    <eAnnotations source="positions.61" references="/0/generateMappingForStaticViewContent/%.4">
+      <details key="start" value="2154"/>
+      <details key="end" value="5017"/>
+      <details key="line" value="80"/>
+    </eAnnotations>
+    <eAnnotations source="positions.62" references="/0/generateMappingForStaticViewContent/%.4/%">
+      <details key="start" value="2263"/>
+      <details key="end" value="5010"/>
+      <details key="line" value="81"/>
+    </eAnnotations>
+    <eAnnotations source="positions.63" references="/0/generateMappingForStaticViewContent/%.4/%.1">
+      <details key="start" value="2161"/>
+      <details key="end" value="2244"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.64" references="/0/generateMappingForStaticViewContent/%.4/%.1/%">
+      <details key="start" value="2161"/>
+      <details key="end" value="2211"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.65" references="/0/generateMappingForStaticViewContent/%.4/%.1/%.1">
+      <details key="start" value="2219"/>
+      <details key="end" value="2243"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.66" references="/0/generateMappingForStaticViewContent/%.4/%.1/%.1/wafModel">
+      <details key="start" value="2219"/>
+      <details key="end" value="2227"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.67" references="/0/generateMappingForStaticViewContent/%.4/%.2">
+      <details key="start" value="2253"/>
+      <details key="end" value="2260"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.68" references="/0/generateMappingForStaticViewContent/wafModel">
+      <details key="start" value="915"/>
+      <details key="end" value="934"/>
+      <details key="line" value="24"/>
+    </eAnnotations>
+  </ecore:EAnnotation>
+</xmi:XMI>

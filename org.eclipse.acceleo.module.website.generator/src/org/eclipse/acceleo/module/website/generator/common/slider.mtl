@@ -1,0 +1,59 @@
+[comment encoding = UTF-8 /]
+[module slider('http://cs.manchester.ac.uk/mdsd/WebApplicationFramework')]
+
+[import org::eclipse::acceleo::module::website::generator::requests::extensions/]
+
+[template public generateUnit(unit : ContentUnit, wafModel : WafModel)
+	? (unit.oclIsTypeOf(SliderUnit)) post(trim())]
+[let sliderUnit : SliderUnit = unit.oclAsType(SliderUnit)]
+[let tableName : String = sliderUnit.imagePathFeature.oclAsType(FeaturePathAttribute).attribute.partOf.tableName]
+
+<div class="w3-content w3-section margin">
+<h3>[unit.displayLabel/]</h3>
+  <div class="slider [sliderUnit.name.replaceAll(' ', '')/]">
+    <ul class="slides"> 
+	[if (sliderUnit.selection = null)]
+	<c:forEach items="${[tableName/]s}" var="image">
+	[else]
+	<c:forEach items="${[sliderUnit.selection.name.replaceAll(' ', '')/]}" var="image">
+	[/if]
+      <li>
+  		<img class = "slideimg" src="/[wafModel.siteName.replaceAll(' ', '')/]/images/<c:out value="${image.path}"/>"  
+  		style="width:1080px; height: 720px;">
+        <div class="caption center-align">
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <h5 class="light grey-text text-lighten-3">${image.description}</h5>
+        </div>
+      </li>
+    </c:forEach>  
+    </ul>
+  </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	  var options = {indicators: true, height: 650, duration: [sliderUnit.transitionTime/], interval: [sliderUnit.showTime/]};
+	  $('.[sliderUnit.name.replaceAll(' ', '')/]').slider(options);
+});
+</script>
+
+[/let]
+[/let]
+[/template]

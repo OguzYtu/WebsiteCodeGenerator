@@ -1,0 +1,740 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:mtl="http://www.eclipse.org/acceleo/mtl/3.0" xmlns:ocl.ecore="http://www.eclipse.org/ocl/1.1.0/Ecore">
+  <mtl:Module name="config" nsURI="org::eclipse::acceleo::module::website::generator::common::config" startHeaderPosition="30" endHeaderPosition="185">
+    <input>
+      <takesTypesFrom href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#/"/>
+    </input>
+    <imports href="platform:/resource/org.eclipse.acceleo.module.website.generator/bin/org/eclipse/acceleo/module/website/generator/requests/extensions.emtl#/0"/>
+    <imports href="platform:/resource/org.eclipse.acceleo.module.website.generator/bin/org/eclipse/acceleo/module/website/generator/common/controllerclasses.emtl#/0"/>
+    <ownedModuleElement xsi:type="mtl:Template" name="generateConfigXML" visibility="Public">
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;"/>
+      <body xsi:type="mtl:FileBlock" openMode="OverWrite">
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;web-app xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot; &#xA;xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd&quot; id=&quot;WebApp_ID&quot; version=&quot;2.5&quot;>&#xA;  &lt;display-name>Spring Static Page&lt;/display-name>&#xA;  &lt;servlet>&#xA;    &lt;servlet-name>SpringProject&lt;/servlet-name>&#xA;    &lt;servlet-class>&#xA;         org.springframework.web.servlet.DispatcherServlet&#xA;      &lt;/servlet-class>&#xA;    &lt;load-on-startup>1&lt;/load-on-startup>&#xA;  &lt;/servlet>&#xA;  &lt;servlet-mapping>&#xA;    &lt;servlet-name>SpringProject&lt;/servlet-name>&#xA;    &lt;url-pattern>/&lt;/url-pattern>&#xA;"/>
+        <body xsi:type="mtl:ForBlock">
+          <body xsi:type="mtl:IfBlock">
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#x9;&lt;url-pattern>/"/>
+            <body xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/trim">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="mtl:TemplateInvocation">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                <definition href="platform:/resource/org.eclipse.acceleo.module.website.generator/bin/org/eclipse/acceleo/module/website/generator/common/controllerclasses.emtl#/0/generatePageURL"/>
+                <argument xsi:type="ocl.ecore:VariableExp" name="p" referredVariable="/0/generateConfigXML/%.1/%.1/p">
+                  <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//Page"/>
+                </argument>
+                <argument xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="">
+                  <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                </argument>
+              </source>
+            </body>
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&lt;/url-pattern>&#xA;"/>
+            <ifExpr xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/contains">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+              <source xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/replaceAll">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                <source xsi:type="ocl.ecore:OperationCallExp">
+                  <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                  <source xsi:type="ocl.ecore:PropertyCallExp">
+                    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                    <source xsi:type="ocl.ecore:VariableExp" name="p" referredVariable="/0/generateConfigXML/%.1/%.1/p">
+                      <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//Page"/>
+                    </source>
+                    <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedElement/name"/>
+                  </source>
+                  <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String_Class/toLowerCase"/>
+                </source>
+                <argument xsi:type="ocl.ecore:StringLiteralExp" stringSymbol=" ">
+                  <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                </argument>
+                <argument xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="">
+                  <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                </argument>
+              </source>
+              <argument xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="homepage">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              </argument>
+            </ifExpr>
+          </body>
+          <loopVariable name="p">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//Page"/>
+          </loopVariable>
+          <iterSet xsi:type="ocl.ecore:PropertyCallExp" eType="/8/OrderedSet(Page)">
+            <source xsi:type="ocl.ecore:VariableExp" name="model" referredVariable="/0/generateConfigXML/model">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+            </source>
+            <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel/pages"/>
+          </iterSet>
+        </body>
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="  &lt;/servlet-mapping>&#xA;  &lt;context-param>&#xA;    &lt;param-name>contextConfigLocation&lt;/param-name>&#xA;    &lt;param-value>/WEB-INF/SpringProject-servlet.xml&lt;/param-value>&#xA;  &lt;/context-param>&#xA;  &lt;listener>&#xA;    &lt;listener-class>org.springframework.web.context.ContextLoaderListener&lt;/listener-class>&#xA;  &lt;/listener>&#xA;  &lt;welcome-file-list>&#xA;"/>
+        <body xsi:type="mtl:ForBlock">
+          <body xsi:type="mtl:IfBlock">
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#x9;&lt;welcome-file>"/>
+            <body xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/trim">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="mtl:TemplateInvocation">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                <definition href="platform:/resource/org.eclipse.acceleo.module.website.generator/bin/org/eclipse/acceleo/module/website/generator/common/controllerclasses.emtl#/0/generatePageURL"/>
+                <argument xsi:type="ocl.ecore:VariableExp" name="p" referredVariable="/0/generateConfigXML/%.1/%.3/p">
+                  <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//Page"/>
+                </argument>
+                <argument xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="">
+                  <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                </argument>
+              </source>
+            </body>
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&lt;/welcome-file>&#xA;"/>
+            <ifExpr xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/contains">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+              <source xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/replaceAll">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                <source xsi:type="ocl.ecore:OperationCallExp">
+                  <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                  <source xsi:type="ocl.ecore:PropertyCallExp">
+                    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                    <source xsi:type="ocl.ecore:VariableExp" name="p" referredVariable="/0/generateConfigXML/%.1/%.3/p">
+                      <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//Page"/>
+                    </source>
+                    <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedElement/name"/>
+                  </source>
+                  <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String_Class/toLowerCase"/>
+                </source>
+                <argument xsi:type="ocl.ecore:StringLiteralExp" stringSymbol=" ">
+                  <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                </argument>
+                <argument xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="">
+                  <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                </argument>
+              </source>
+              <argument xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="homepage">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              </argument>
+            </ifExpr>
+          </body>
+          <loopVariable name="p">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//Page"/>
+          </loopVariable>
+          <iterSet xsi:type="ocl.ecore:PropertyCallExp" eType="/8/OrderedSet(Page)">
+            <source xsi:type="ocl.ecore:VariableExp" name="model" referredVariable="/0/generateConfigXML/model">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+            </source>
+            <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel/pages"/>
+          </iterSet>
+        </body>
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="    &lt;welcome-file>login.jsp&lt;/welcome-file>&#xA;  &lt;/welcome-file-list>&#xA;     &lt;filter>&#xA;    &#x9;&#x9;&lt;filter-name>springSecurityFilterChain&lt;/filter-name>&#xA;    &#x9;&#x9;&lt;filter-class>org.springframework.web.filter.DelegatingFilterProxy&lt;/filter-class>&#xA;   &lt;/filter>&#xA;   &lt;filter-mapping>&#xA;   &#x9;&#x9;&lt;filter-name>springSecurityFilterChain&lt;/filter-name>&#xA;    &#x9;&#x9;&lt;url-pattern>/*&lt;/url-pattern>&#xA;   &lt;/filter-mapping> &#xA;&lt;/web-app>&#xA;"/>
+        <fileUrl xsi:type="ocl.ecore:OperationCallExp">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <source xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="WebContent/WEB-INF/web">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          </source>
+          <argument xsi:type="mtl:QueryInvocation">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <definition href="platform:/resource/org.eclipse.acceleo.module.website.generator/bin/org/eclipse/acceleo/module/website/generator/requests/extensions.emtl#/0/xmlExtension"/>
+            <argument xsi:type="ocl.ecore:VariableExp" name="model" referredVariable="/0/generateConfigXML/model">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+            </argument>
+          </argument>
+          <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String_Class/concat"/>
+        </fileUrl>
+        <charset xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="UTF-8">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </charset>
+      </body>
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;"/>
+      <body xsi:type="mtl:FileBlock" openMode="OverWrite">
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&lt;?xml version = &quot;1.0&quot; encoding = &quot;UTF-8&quot;?>&#xA;&lt;beans xmlns = &quot;http://www.springframework.org/schema/beans&quot;&#xA;   xmlns:xsi = &quot;http://www.w3.org/2001/XMLSchema-instance&quot; &#xA;   xmlns:p=&quot;http://www.springframework.org/schema/p&quot; &#xA;   xmlns:context = &quot;http://www.springframework.org/schema/context&quot;&#xA;   xmlns:mvc = &quot;http://www.springframework.org/schema/mvc&quot;&#xA;   xsi:schemaLocation = &quot;http://www.springframework.org/schema/beans&#xA;   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd&#xA;   http://www.springframework.org/schema/mvc&#xA;   http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd&#xA;   http://www.springframework.org/schema/context&#xA;   http://www.springframework.org/schema/context/spring-context-3.0.xsd&quot;>&#xA;   &lt;import resource=&quot;classpath:applicationContext.xml&quot; />&#xA;   &lt;context:component-scan base-package=&quot;automated.website&quot; />&#xA;   &#xA;   &lt;!-- Spring Email Sender Bean Configuration -->&#xA;    &lt;bean id=&quot;mailSender&quot; class=&quot;org.springframework.mail.javamail.JavaMailSenderImpl&quot;>&#xA;        &lt;property name=&quot;host&quot; value=&quot;smtp.mail.yahoo.com&quot; />&#xA;        &lt;property name=&quot;port&quot; value=&quot;587&quot; />&#xA;        &lt;property name=&quot;username&quot; value=&quot;oguz.ongun@yahoo.com&quot; />&#xA;        &lt;property name=&quot;password&quot; value=&quot;*****&quot; />&#xA;        &lt;property name=&quot;javaMailProperties&quot;>&#xA;            &lt;props>&#xA;                &lt;prop key=&quot;mail.smtp.auth&quot;>true&lt;/prop>&#xA;                &lt;prop key=&quot;mail.debug&quot;>true&lt;/prop>&#xA;                &lt;prop key=&quot;mail.transport.protocol&quot;>smtp&lt;/prop>&#xA;                &lt;prop key=&quot;mail.smtp.socketFactory.class&quot;>javax.net.ssl.SSLSocketFactory&lt;/prop>&#xA;                &lt;prop key=&quot;mail.smtp.socketFactory.port&quot;>465&lt;/prop>&#xA;                &lt;prop key=&quot;mail.smtp.starttls.enable&quot;>true&lt;/prop>&#xA;            &lt;/props>&#xA;        &lt;/property>&#xA;    &lt;/bean>&#xA;    &#xA;    &lt;!-- Spring Email Attachment Configuration -->&#xA;    &lt;bean id=&quot;multipartResolver&quot; class=&quot;org.springframework.web.multipart.commons.CommonsMultipartResolver&quot;>&#xA;        &lt;!-- Maximum Upload Size In Bytes -->&#xA;        &lt;property name=&quot;maxUploadSize&quot; value=&quot;20971520&quot; />&#xA;        &lt;!-- Maximum Size Of File In Memory (In Bytes) -->&#xA;        &lt;property name=&quot;maxInMemorySize&quot; value=&quot;1048576&quot; />&#xA;    &lt;/bean>&#xA;     &#xA;   &lt;bean id = &quot;viewResolver&quot; &#xA;      class = &quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;>&#xA;      &#xA;      &lt;property name = &quot;prefix&quot; value = &quot;/WEB-INF/jsp/&quot; />&#xA;      &lt;property name = &quot;suffix&quot; value = &quot;.jsp&quot; />&#xA;   &lt;/bean>&#xA;   &#xA;    &lt;bean id=&quot;viewResolver2&quot; class=&quot;org.springframework.web.servlet.view.XmlViewResolver&quot;>&#xA;        &lt;property name=&quot;order&quot; value=&quot;1&quot;/>&#xA;        &lt;property name=&quot;location&quot; value=&quot;/WEB-INF/views.xml&quot;/>&#xA;    &lt;/bean>&#xA;   &#xA;    &lt;bean class=&quot;org.springframework.web.servlet.handler.SimpleMappingExceptionResolver&quot;>&#xA;&#x9;&#x9;&lt;property name=&quot;exceptionMappings&quot;>&#xA;&#x9;&#x9;&#x9;&lt;props>&#xA;&#x9;&#x9;&#x9;&#x9;&lt;prop key=&quot;java.lang.Exception&quot;>error&lt;/prop>&#xA;&#x9;&#x9;&#x9;&lt;/props>&#xA;&#x9;&#x9;&lt;/property>&#xA;&#x9;&lt;/bean>&#x9;&#xA;    &#xA;   &lt;mvc:resources mapping = &quot;/pages/**&quot; location = &quot;/WEB-INF/pages/&quot; />&#xA;   &lt;mvc:annotation-driven/>&#xA;   &#xA;   &lt;mvc:resources mapping = &quot;/images/**&quot; location = &quot;/WEB-INF/images/&quot; />&#xA;   &lt;mvc:annotation-driven/>&#xA;   &#xA;   &lt;mvc:resources mapping=&quot;/resources/**&quot; location=&quot;/resources/&quot;&#xA;&#x9;&#x9;cache-period=&quot;31556926&quot; />&#xA;    &#xA;&lt;/beans>&#xA;"/>
+        <fileUrl xsi:type="ocl.ecore:OperationCallExp">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <source xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="WebContent/WEB-INF/SpringProject-servlet">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          </source>
+          <argument xsi:type="mtl:QueryInvocation">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <definition href="platform:/resource/org.eclipse.acceleo.module.website.generator/bin/org/eclipse/acceleo/module/website/generator/requests/extensions.emtl#/0/xmlExtension"/>
+            <argument xsi:type="ocl.ecore:VariableExp" name="model" referredVariable="/0/generateConfigXML/model">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+            </argument>
+          </argument>
+          <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String_Class/concat"/>
+        </fileUrl>
+        <charset xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="UTF-8">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </charset>
+      </body>
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;"/>
+      <body xsi:type="mtl:FileBlock" openMode="OverWrite">
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;&#xA;    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&#xA;    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans&#xA;    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd&quot;>&#xA;     &#xA;    &lt;bean id=&quot;excelView&quot; class=&quot;automated.website.controller.ExcelBuilder&quot; />&#xA;     &#xA;&lt;/beans>&#xA;"/>
+        <fileUrl xsi:type="ocl.ecore:OperationCallExp">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <source xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="WebContent/WEB-INF/views">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          </source>
+          <argument xsi:type="mtl:QueryInvocation">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <definition href="platform:/resource/org.eclipse.acceleo.module.website.generator/bin/org/eclipse/acceleo/module/website/generator/requests/extensions.emtl#/0/xmlExtension"/>
+            <argument xsi:type="ocl.ecore:VariableExp" name="model" referredVariable="/0/generateConfigXML/model">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+            </argument>
+          </argument>
+          <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String_Class/concat"/>
+        </fileUrl>
+        <charset xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="UTF-8">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </charset>
+      </body>
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;"/>
+      <parameter name="model">
+        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+      </parameter>
+    </ownedModuleElement>
+  </mtl:Module>
+  <ecore:EPackage name="additions">
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_String_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+      </eAnnotations>
+      <eOperations name="replaceAll">
+        <eAnnotations source="MTL non-standard"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="substring">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </eParameters>
+        <eParameters name="replacement">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="trim">
+        <eAnnotations source="MTL non-standard"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+      </eOperations>
+      <eOperations name="contains">
+        <eAnnotations source="MTL non-standard"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+        <eParameters name="substring">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </eParameters>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Integer_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Integer"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Real_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Real"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ecore_EObject_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </eAnnotations>
+      <eOperations name="generateConfigXML">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL" references="/0/generateConfigXML"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="model">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="xmlExtension">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL">
+          <references href="platform:/resource/org.eclipse.acceleo.module.website.generator/bin/org/eclipse/acceleo/module/website/generator/requests/extensions.emtl#/0/xmlExtension"/>
+        </eAnnotations>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="anOclAny">
+          <eType xsi:type="ocl.ecore:AnyType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="generatePageURL">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL">
+          <references href="platform:/resource/org.eclipse.acceleo.module.website.generator/bin/org/eclipse/acceleo/module/website/generator/common/controllerclasses.emtl#/0/generatePageURL"/>
+        </eAnnotations>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="page">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//Page"/>
+        </eParameters>
+        <eParameters name="currentURL">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </eParameters>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_OclAny_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Collection(T)_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Collection(T)"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Sequence(T)_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Sequence(T)"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_OrderedSet(T)_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OrderedSet(T)"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="waf_WafModel_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="waf_Page_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//Page"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="waf_ContentUnit_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//ContentUnit"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="expression_Predicate_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://cs.manchester.ac.uk/mdsd/Expression#//Predicate"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="expression_Expression_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://cs.manchester.ac.uk/mdsd/Expression#//Expression"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="service_Filter_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://cs.manchester.ac.uk/mdsd/Service#//Filter"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="service_Selection_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://cs.manchester.ac.uk/mdsd/Service#//Selection"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="waf_UnitSupportAction_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//UnitSupportAction"/>
+      </eAnnotations>
+    </eClassifiers>
+  </ecore:EPackage>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ecore:EPackage name="collections">
+    <eClassifiers xsi:type="ocl.ecore:OrderedSetType" name="OrderedSet(Page)" instanceClassName="java.util.LinkedHashSet">
+      <elementType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//Page"/>
+    </eClassifiers>
+  </ecore:EPackage>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//Page"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//Page"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//Page"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="i">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Integer"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//Page"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//Page"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//Page"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="i">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Integer"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ecore:EAnnotation source="positions">
+    <eAnnotations source="positions.0" references="/0/generateConfigXML">
+      <details key="start" value="276"/>
+      <details key="end" value="5853"/>
+      <details key="line" value="7"/>
+    </eAnnotations>
+    <eAnnotations source="positions.1" references="/0/generateConfigXML/%">
+      <details key="start" value="330"/>
+      <details key="end" value="331"/>
+      <details key="line" value="8"/>
+    </eAnnotations>
+    <eAnnotations source="positions.2" references="/0/generateConfigXML/%.1">
+      <details key="start" value="331"/>
+      <details key="end" value="2121"/>
+      <details key="line" value="9"/>
+    </eAnnotations>
+    <eAnnotations source="positions.3" references="/0/generateConfigXML/%.1/%">
+      <details key="start" value="410"/>
+      <details key="end" value="1055"/>
+      <details key="line" value="10"/>
+    </eAnnotations>
+    <eAnnotations source="positions.4" references="/0/generateConfigXML/%.1/%.1">
+      <details key="start" value="1056"/>
+      <details key="end" value="1232"/>
+      <details key="line" value="24"/>
+    </eAnnotations>
+    <eAnnotations source="positions.5" references="/0/generateConfigXML/%.1/%.1/%">
+      <details key="start" value="1088"/>
+      <details key="end" value="1224"/>
+      <details key="line" value="25"/>
+    </eAnnotations>
+    <eAnnotations source="positions.6" references="/0/generateConfigXML/%.1/%.1/%/%">
+      <details key="start" value="1157"/>
+      <details key="end" value="1172"/>
+      <details key="line" value="26"/>
+    </eAnnotations>
+    <eAnnotations source="positions.7" references="/0/generateConfigXML/%.1/%.1/%/%.1">
+      <details key="start" value="1173"/>
+      <details key="end" value="1201"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.8" references="/0/generateConfigXML/%.1/%.1/%/%.1/%">
+      <details key="start" value="1173"/>
+      <details key="end" value="1194"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.9" references="/0/generateConfigXML/%.1/%.1/%/%.1/%/p">
+      <details key="start" value="1173"/>
+      <details key="end" value="1174"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.10" references="/0/generateConfigXML/%.1/%.1/%/%.1/%/%">
+      <details key="start" value="1191"/>
+      <details key="end" value="1193"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.11" references="/0/generateConfigXML/%.1/%.1/%/%.2">
+      <details key="start" value="1203"/>
+      <details key="end" value="1218"/>
+      <details key="line" value="26"/>
+    </eAnnotations>
+    <eAnnotations source="positions.12" references="/0/generateConfigXML/%.1/%.1/%/%.3">
+      <details key="start" value="1092"/>
+      <details key="end" value="1155"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.13" references="/0/generateConfigXML/%.1/%.1/%/%.3/%">
+      <details key="start" value="1093"/>
+      <details key="end" value="1133"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.14" references="/0/generateConfigXML/%.1/%.1/%/%.3/%/%">
+      <details key="start" value="1093"/>
+      <details key="end" value="1113"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.15" references="/0/generateConfigXML/%.1/%.1/%/%.3/%/%/%">
+      <details key="start" value="1093"/>
+      <details key="end" value="1099"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.16" references="/0/generateConfigXML/%.1/%.1/%/%.3/%/%/%/p">
+      <details key="start" value="1093"/>
+      <details key="end" value="1094"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.17" references="/0/generateConfigXML/%.1/%.1/%/%.3/%/%.1">
+      <details key="start" value="1125"/>
+      <details key="end" value="1128"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.18" references="/0/generateConfigXML/%.1/%.1/%/%.3/%/%.2">
+      <details key="start" value="1130"/>
+      <details key="end" value="1132"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.19" references="/0/generateConfigXML/%.1/%.1/%/%.3/%.1">
+      <details key="start" value="1143"/>
+      <details key="end" value="1153"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.20" references="/0/generateConfigXML/%.1/%.1/p">
+      <details key="start" value="1062"/>
+      <details key="end" value="1070"/>
+      <details key="line" value="24"/>
+    </eAnnotations>
+    <eAnnotations source="positions.21" references="/0/generateConfigXML/%.1/%.1/%.1">
+      <details key="start" value="1073"/>
+      <details key="end" value="1084"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.22" references="/0/generateConfigXML/%.1/%.1/%.1/model">
+      <details key="start" value="1073"/>
+      <details key="end" value="1078"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.23" references="/0/generateConfigXML/%.1/%.2">
+      <details key="start" value="1233"/>
+      <details key="end" value="1548"/>
+      <details key="line" value="29"/>
+    </eAnnotations>
+    <eAnnotations source="positions.24" references="/0/generateConfigXML/%.1/%.3">
+      <details key="start" value="1549"/>
+      <details key="end" value="1726"/>
+      <details key="line" value="38"/>
+    </eAnnotations>
+    <eAnnotations source="positions.25" references="/0/generateConfigXML/%.1/%.3/%">
+      <details key="start" value="1581"/>
+      <details key="end" value="1718"/>
+      <details key="line" value="39"/>
+    </eAnnotations>
+    <eAnnotations source="positions.26" references="/0/generateConfigXML/%.1/%.3/%/%">
+      <details key="start" value="1650"/>
+      <details key="end" value="1665"/>
+      <details key="line" value="40"/>
+    </eAnnotations>
+    <eAnnotations source="positions.27" references="/0/generateConfigXML/%.1/%.3/%/%.1">
+      <details key="start" value="1666"/>
+      <details key="end" value="1694"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.28" references="/0/generateConfigXML/%.1/%.3/%/%.1/%">
+      <details key="start" value="1666"/>
+      <details key="end" value="1687"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.29" references="/0/generateConfigXML/%.1/%.3/%/%.1/%/p">
+      <details key="start" value="1666"/>
+      <details key="end" value="1667"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.30" references="/0/generateConfigXML/%.1/%.3/%/%.1/%/%">
+      <details key="start" value="1684"/>
+      <details key="end" value="1686"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.31" references="/0/generateConfigXML/%.1/%.3/%/%.2">
+      <details key="start" value="1696"/>
+      <details key="end" value="1712"/>
+      <details key="line" value="40"/>
+    </eAnnotations>
+    <eAnnotations source="positions.32" references="/0/generateConfigXML/%.1/%.3/%/%.3">
+      <details key="start" value="1585"/>
+      <details key="end" value="1648"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.33" references="/0/generateConfigXML/%.1/%.3/%/%.3/%">
+      <details key="start" value="1586"/>
+      <details key="end" value="1626"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.34" references="/0/generateConfigXML/%.1/%.3/%/%.3/%/%">
+      <details key="start" value="1586"/>
+      <details key="end" value="1606"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.35" references="/0/generateConfigXML/%.1/%.3/%/%.3/%/%/%">
+      <details key="start" value="1586"/>
+      <details key="end" value="1592"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.36" references="/0/generateConfigXML/%.1/%.3/%/%.3/%/%/%/p">
+      <details key="start" value="1586"/>
+      <details key="end" value="1587"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.37" references="/0/generateConfigXML/%.1/%.3/%/%.3/%/%.1">
+      <details key="start" value="1618"/>
+      <details key="end" value="1621"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.38" references="/0/generateConfigXML/%.1/%.3/%/%.3/%/%.2">
+      <details key="start" value="1623"/>
+      <details key="end" value="1625"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.39" references="/0/generateConfigXML/%.1/%.3/%/%.3/%.1">
+      <details key="start" value="1636"/>
+      <details key="end" value="1646"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.40" references="/0/generateConfigXML/%.1/%.3/p">
+      <details key="start" value="1555"/>
+      <details key="end" value="1563"/>
+      <details key="line" value="38"/>
+    </eAnnotations>
+    <eAnnotations source="positions.41" references="/0/generateConfigXML/%.1/%.3/%.1">
+      <details key="start" value="1566"/>
+      <details key="end" value="1577"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.42" references="/0/generateConfigXML/%.1/%.3/%.1/model">
+      <details key="start" value="1566"/>
+      <details key="end" value="1571"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.43" references="/0/generateConfigXML/%.1/%.4">
+      <details key="start" value="1727"/>
+      <details key="end" value="2114"/>
+      <details key="line" value="43"/>
+    </eAnnotations>
+    <eAnnotations source="positions.44" references="/0/generateConfigXML/%.1/%.5">
+      <details key="start" value="338"/>
+      <details key="end" value="391"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.45" references="/0/generateConfigXML/%.1/%.5/%">
+      <details key="start" value="338"/>
+      <details key="end" value="362"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.46" references="/0/generateConfigXML/%.1/%.5/%.1">
+      <details key="start" value="370"/>
+      <details key="end" value="390"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.47" references="/0/generateConfigXML/%.1/%.5/%.1/model">
+      <details key="start" value="370"/>
+      <details key="end" value="375"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.48" references="/0/generateConfigXML/%.1/%.6">
+      <details key="start" value="400"/>
+      <details key="end" value="407"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.49" references="/0/generateConfigXML/%.2">
+      <details key="start" value="2122"/>
+      <details key="end" value="2123"/>
+      <details key="line" value="55"/>
+    </eAnnotations>
+    <eAnnotations source="positions.50" references="/0/generateConfigXML/%.3">
+      <details key="start" value="2123"/>
+      <details key="end" value="5356"/>
+      <details key="line" value="56"/>
+    </eAnnotations>
+    <eAnnotations source="positions.51" references="/0/generateConfigXML/%.3/%">
+      <details key="start" value="2220"/>
+      <details key="end" value="5349"/>
+      <details key="line" value="57"/>
+    </eAnnotations>
+    <eAnnotations source="positions.52" references="/0/generateConfigXML/%.3/%.1">
+      <details key="start" value="2130"/>
+      <details key="end" value="2201"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.53" references="/0/generateConfigXML/%.3/%.1/%">
+      <details key="start" value="2130"/>
+      <details key="end" value="2172"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.54" references="/0/generateConfigXML/%.3/%.1/%.1">
+      <details key="start" value="2180"/>
+      <details key="end" value="2200"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.55" references="/0/generateConfigXML/%.3/%.1/%.1/model">
+      <details key="start" value="2180"/>
+      <details key="end" value="2185"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.56" references="/0/generateConfigXML/%.3/%.2">
+      <details key="start" value="2210"/>
+      <details key="end" value="2217"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.57" references="/0/generateConfigXML/%.4">
+      <details key="start" value="5357"/>
+      <details key="end" value="5358"/>
+      <details key="line" value="129"/>
+    </eAnnotations>
+    <eAnnotations source="positions.58" references="/0/generateConfigXML/%.5">
+      <details key="start" value="5358"/>
+      <details key="end" value="5840"/>
+      <details key="line" value="130"/>
+    </eAnnotations>
+    <eAnnotations source="positions.59" references="/0/generateConfigXML/%.5/%">
+      <details key="start" value="5439"/>
+      <details key="end" value="5833"/>
+      <details key="line" value="131"/>
+    </eAnnotations>
+    <eAnnotations source="positions.60" references="/0/generateConfigXML/%.5/%.1">
+      <details key="start" value="5365"/>
+      <details key="end" value="5420"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.61" references="/0/generateConfigXML/%.5/%.1/%">
+      <details key="start" value="5365"/>
+      <details key="end" value="5391"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.62" references="/0/generateConfigXML/%.5/%.1/%.1">
+      <details key="start" value="5399"/>
+      <details key="end" value="5419"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.63" references="/0/generateConfigXML/%.5/%.1/%.1/model">
+      <details key="start" value="5399"/>
+      <details key="end" value="5404"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.64" references="/0/generateConfigXML/%.5/%.2">
+      <details key="start" value="5429"/>
+      <details key="end" value="5436"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.65" references="/0/generateConfigXML/%.6">
+      <details key="start" value="5841"/>
+      <details key="end" value="5842"/>
+      <details key="line" value="141"/>
+    </eAnnotations>
+    <eAnnotations source="positions.66" references="/0/generateConfigXML/model">
+      <details key="start" value="311"/>
+      <details key="end" value="327"/>
+      <details key="line" value="7"/>
+    </eAnnotations>
+  </ecore:EAnnotation>
+</xmi:XMI>

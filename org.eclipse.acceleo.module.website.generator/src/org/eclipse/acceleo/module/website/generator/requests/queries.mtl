@@ -1,0 +1,6 @@
+[comment encoding = UTF-8 /]
+[module queries('http://cs.manchester.ac.uk/mdsd/WebApplicationFramework')]
+
+
+[query public getPageName (page : OclAny) : String
+	= page.oclAsType(Page).name.toLowerFirst().replaceAll(' ', '') /]

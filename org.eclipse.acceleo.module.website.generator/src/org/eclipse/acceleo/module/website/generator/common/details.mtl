@@ -1,0 +1,42 @@
+[comment encoding = UTF-8 /]
+[module details('http://cs.manchester.ac.uk/mdsd/WebApplicationFramework',
+'http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping')]
+
+[import org::eclipse::acceleo::module::website::generator::common::controllerclasses/]
+
+
+[template public generateUnit(unit : ContentUnit, model : WafModel)
+	? (unit.oclIsKindOf(DetailsUnit)) post(trim())]
+[let detailsUnit : DetailsUnit = unit.oclAsType(DetailsUnit)]
+
+<div>
+
+	<h3>[unit.displayLabel/]</h3>
+
+[comment]	Can cause errors if the entity is not an actual image entity[/comment]
+	[if (detailsUnit.contentType.name.toLowerCase().contains('image'))]
+	<div>
+  		<a target="_blank" href="/[model.siteName.replaceAll(' ', '')/]/images/<c:out value="${[detailsUnit.contentType.name.toLowerFirst()/].path}"/>">
+    		<img src="/[model.siteName.replaceAll(' ', '')/]/images/<c:out value="${[detailsUnit.contentType.name.toLowerFirst()/].path}"/>" alt="<c:out value="${[detailsUnit.contentType.name.toLowerFirst()/].title}"/>" width="240" height="240">
+  		</a>
+	</div>	
+	[/if]
+
+	[for (f : Feature | detailsUnit.contentType.features)]
+	[if (f.name <> detailsUnit.contentType.autoKeyName)]
+	<h4>[f.displayLabel/]</h4>
+		${[detailsUnit.contentType.name.toLowerFirst()/].[f.name.toLowerFirst()/]}
+	[/if]
+	[/for]
+
+	[if (detailsUnit.supportActions->notEmpty())]
+	<div>
+		[for (action : UnitSupportAction | detailsUnit.supportActions)]
+		<br>
+		<a  class="waves-light btn" href="/[model.siteName.replaceAll(' ', '')/]/[detailsUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[detailsUnit.name.replaceAll(' ', '')/][action.name.replaceAll(' ', '')/]">[action.displayLabel/]</a>
+ 		[/for]
+	</div>
+	[/if]
+</div>
+[/let]
+[/template]

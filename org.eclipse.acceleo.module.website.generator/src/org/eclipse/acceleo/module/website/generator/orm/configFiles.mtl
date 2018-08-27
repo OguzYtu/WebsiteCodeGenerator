@@ -1,0 +1,199 @@
+[comment encoding = UTF-8 /]
+[module configFiles('http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping',
+'http://cs.manchester.ac.uk/mdsd/WebApplicationFramework')]
+
+[import org::eclipse::acceleo::module::website::generator::orm::files/]
+
+[template public generateHibernateXML(entity : EntityOrView)]
+
+[file (entity.hbmXMLName(), false, 'UTF-8')]
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="automated.website.model.[entity.name/]" table="[entity.tableName/]" lazy="false">
+		[entity.IdFieldGeneration()/]
+
+		[for (f : Feature | entity.features)]
+		[f.featureContent()/]
+		
+		[/for]
+	</class>
+
+</hibernate-mapping>
+[/file]
+
+[/template]
+
+[template public IdFieldGeneration(entity : EntityOrView) post (trim())]
+[if (entity.controlIdField().contains('true'))]
+[entity.generateIdField()/]
+[else]
+		<id name="[entity.autoKeyName/]">
+	<generator class="increment"></generator>
+</id>
+[/if]
+[/template]
+
+[comment]This control is only for one-to-one mappings[/comment]
+[template public controlIdField(entity : EntityOrView) post (trim())]
+[for (f : Feature | entity.features)]
+[if (f.oclIsTypeOf(SingletonAssociation) and f.oclAsType(SingletonAssociation).associationRelationship.toString() = 'OneToOne' and f.oclAsType(SingletonAssociation).owningEnd = false)]
+true
+[/if]
+[/for]
+[/template]
+
+[comment]This is only for one-to-one mappings[/comment]
+[template public generateIdField(entity : EntityOrView) post (trim())]
+[for (f : Feature | entity.features)]
+[if (f.oclIsTypeOf(SingletonAssociation) and f.oclAsType(SingletonAssociation).associationRelationship.toString() = 'OneToOne' and f.oclAsType(SingletonAssociation).owningEnd = false)]
+		<id name="id">
+	<generator class="foreign">
+        <param name="property">[f.oclAsType(SingletonAssociation).opposite.partOf.tableName/]</param>
+    </generator>
+</id>
+[/if]
+[/for]
+[/template]
+
+[template public featureContent(feature : Feature)
+	? (feature.oclIsTypeOf(SingletonElement)) post(trim())]
+[let f : SingletonElement = feature.oclAsType(SingletonElement)]
+<property name="[f.name/]" [f.isRequired()/] [f.isUnique()/]></property>
+[/let]
+[/template]
+
+[comment]OneToOne or ManyToOne[/comment]
+[template public featureContent(feature : Feature)
+	? (feature.oclIsTypeOf(SingletonAssociation)) post(trim())]
+[let f : SingletonAssociation = feature.oclAsType(SingletonAssociation)]
+[if (f.associationRelationship.toString() = 'ManyToOne')]
+<many-to-one name="[f.name/]" class="automated.website.model.[f.opposite.partOf.name/]"
+             column="[f.columnName/]" [f.isRequired()/]/>
+[elseif (f.owningEnd)]
+<one-to-one name="[f.name/]" class="automated.website.model.[f.opposite.partOf.name/]" />
+[else]
+<one-to-one name="[f.name/]" constrained="true" class="automated.website.model.[f.opposite.partOf.name/]" />
+[/if]
+[/let]
+[/template]
+
+[comment]OneToMany or ManyToMany[/comment]
+[template public featureContent(feature : Feature)
+	? (feature.oclIsTypeOf(CollectionAssociation)) post(trim())]
+[let f : CollectionAssociation = feature.oclAsType(CollectionAssociation)]
+[if (f.associationRelationship.toString() = 'OneToMany')]
+<set name="[f.name/]" inverse="true" cascade="all">
+    <key column="[f.columnName/]" not-null="true" />
+    <one-to-many class="automated.website.model.[f.opposite.partOf.name/]"/>
+</set>
+[else]
+<set name="[f.name/]" table="[f.pivotTableName/]">
+    <key column="[f.columnName/]"/>
+    <many-to-many column="[f.opposite.name.toLowerFirst()/]_id" class="automated.website.model.[f.opposite.partOf.name/]" />
+</set>
+[/if]
+[/let]
+[/template]
+
+[comment]Using this to check if the column is required[/comment]
+[template public isRequired(feature : Feature)
+	? (feature.oclIsTypeOf(SingletonElement)) post(trim())]
+[let f : SingletonElement = feature.oclAsType(SingletonElement)]
+[if (f.required)]
+not-null="true"
+[/if]
+[/let]
+[/template]
+
+[comment]Using this to check if the column is required[/comment]
+[template public isRequired(feature : Feature)
+	? (feature.oclIsTypeOf(SingletonAssociation)) post(trim())]
+[let f : SingletonAssociation = feature.oclAsType(SingletonAssociation)]
+[if (f.required)]
+not-null="true"
+[/if]
+[/let]
+[/template]
+
+[comment]Using this to check if the column is unique[/comment]
+[template public isUnique(feature : Feature)
+	? (feature.oclIsTypeOf(SingletonElement)) post(trim())]
+[let f : SingletonElement = feature.oclAsType(SingletonElement)]
+[if (f.unique)]
+unique="true"
+[/if]
+[/let]
+[/template]
+
+[template public generateAppCntxXML(orm : OrmModel, wafModel :WafModel)]
+[file (orm.appCntxXMLName(), false, 'UTF-8')]
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/myusers"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="mysql1"></property>
+	</bean>
+
+	<bean id="mysessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+
+		<property name="mappingResources">
+			<list>
+				[for (entity : EntityOrView | orm.entitiesAndViews)]
+				<value>[entity.name.toLowerCase()/].hbm.xml</value>
+				[/for]
+				[if (wafModel.staticUnitsEditable)]
+				<value>staticpagecontent.hbm.xml</value>
+				[/if]
+			</list>
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="template" class="org.springframework.orm.hibernate5.HibernateTemplate">
+		<property name="sessionFactory" ref="mysessionFactory"></property>
+	</bean>
+
+	[for (entity : EntityOrView | orm.entitiesAndViews)]
+	<bean id="[entity.name.toLowerCase()/]" class="automated.website.dao.[entity.name/]Dao">
+		<property name="template" ref="template"></property>
+	</bean>
+	[/for]
+
+	[if (wafModel.staticUnitsEditable)]
+	<bean id="staticpagecontent" class="automated.website.dao.StaticPageContentDao">
+		<property name="template" ref="template"></property>
+	</bean>
+	[/if]
+
+	<tx:annotation-driven />
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="mysessionFactory" />
+	</bean>
+
+</beans>
+[/file]
+[/template]

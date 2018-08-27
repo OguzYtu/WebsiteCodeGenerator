@@ -1,0 +1,182 @@
+[comment encoding = UTF-8 /]
+[module generateService('http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping', 
+'http://cs.manchester.ac.uk/mdsd/WebApplicationFramework',
+'http://cs.manchester.ac.uk/mdsd/Service')]
+
+[import org::eclipse::acceleo::module::website::generator::orm::files/]
+[import org::eclipse::acceleo::module::website::generator::requests::extensions/]
+
+[template public generateServiceElement(wafModel : WafModel)]
+
+[for (service : Service | wafModel.business.services)]
+	[service.generateServiceImpl(wafModel)/]
+[/for]
+
+[if (wafModel.staticUnitsEditable)]
+	[wafModel.generateServiceForStaticViewContent()/]
+[/if]
+
+[/template]
+
+[template public generateServiceImpl(service : Service, wafModel : WafModel)]
+
+[file (service.serviceImplName(), false, 'UTF-8')]
+package automated.website.service;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import automated.website.dao.*;
+import automated.website.model.*;
+
+import java.util.*;
+
+public class [service.name.replaceAll(' ', '')/]ServiceImpl {
+
+	public void update([service.name.replaceAll(' ', '')/] [service.name.replaceAll(' ', '').toLowerCase()/]) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		[service.name.replaceAll(' ', '')/]Dao [service.name.replaceAll(' ', '').toLowerCase()/]Dao = ([service.name.replaceAll(' ', '')/]Dao) ctx.getBean("[service.name.replaceAll(' ', '').toLowerCase()/]");
+		[service.name.replaceAll(' ', '').toLowerCase()/]Dao.update[service.name.replaceAll(' ', '')/]([service.name.replaceAll(' ', '').toLowerCase()/]);
+	}
+
+	[if (wafModel.authentication.user.name.replaceAll(' ', '').equalsIgnoreCase(service.name.replaceAll(' ', '')))]
+
+	public void register([service.name.replaceAll(' ', '')/] [service.name.replaceAll(' ', '').toLowerCase()/]) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		[service.name.replaceAll(' ', '')/]Dao [service.name.replaceAll(' ', '').toLowerCase()/]Dao = ([service.name.replaceAll(' ', '')/]Dao) ctx.getBean("[service.name.replaceAll(' ', '').toLowerCase()/]");
+		[service.name.replaceAll(' ', '').toLowerCase()/]Dao.register([service.name.replaceAll(' ', '').toLowerCase()/]);
+	}
+
+	public User validate[service.name.replaceAll(' ', '')/]([service.name.replaceAll(' ', '')/] login) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		[service.name.replaceAll(' ', '')/]Dao [service.name.replaceAll(' ', '').toLowerCase()/]Dao = ([service.name.replaceAll(' ', '')/]Dao) ctx.getBean("[service.name.replaceAll(' ', '').toLowerCase()/]");
+		return [service.name.replaceAll(' ', '').toLowerCase()/]Dao.validate[service.name.replaceAll(' ', '')/](login);
+	}
+
+	public String getPassword(String username) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		[service.name.replaceAll(' ', '')/]Dao userDao = ([service.name.replaceAll(' ', '')/]Dao) ctx.getBean("[service.name.replaceAll(' ', '').toLowerCase()/]");
+		return userDao.getPasswordByUsername(username);
+	}
+	
+	public String getRole(String username) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		[service.name.replaceAll(' ', '')/]Dao userDao = ([service.name.replaceAll(' ', '')/]Dao) ctx.getBean("[service.name.replaceAll(' ', '').toLowerCase()/]");
+		return userDao.getRoleByUsername(username);
+	}
+	
+	public void activateUser(String username) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		[service.name.replaceAll(' ', '')/]Dao userDao = ([service.name.replaceAll(' ', '')/]Dao) ctx.getBean("[service.name.replaceAll(' ', '').toLowerCase()/]");
+		userDao.activateUser(username);
+	}
+
+	public [service.name.replaceAll(' ', '')/] get[service.name.replaceAll(' ', '')/]WithEmail(String email) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		[service.name.replaceAll(' ', '')/]Dao userDao = ([service.name.replaceAll(' ', '')/]Dao) ctx.getBean("[service.name.replaceAll(' ', '').toLowerCase()/]");
+		return userDao.get[service.name.replaceAll(' ', '')/]ByEmail(email);
+	}
+	
+	public void changePassword(String username, String password) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		[service.name.replaceAll(' ', '')/]Dao userDao = ([service.name.replaceAll(' ', '')/]Dao) ctx.getBean("[service.name.replaceAll(' ', '').toLowerCase()/]");
+		userDao.updatePassword(username, password);
+	}
+	
+	public [service.name.replaceAll(' ', '')/] get[service.name.replaceAll(' ', '')/]WithUsername(String username) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		[service.name.replaceAll(' ', '')/]Dao userDao = ([service.name.replaceAll(' ', '')/]Dao) ctx.getBean("[service.name.replaceAll(' ', '').toLowerCase()/]");
+		return userDao.get[service.name.replaceAll(' ', '')/]ByUsername(username);
+	}
+
+	[/if]
+
+	public List<[service.name.replaceAll(' ', '')/]> getAll() {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		[service.name.replaceAll(' ', '')/]Dao [service.name.replaceAll(' ', '').toLowerCase()/]Dao = ([service.name.replaceAll(' ', '')/]Dao) ctx.getBean("[service.name.replaceAll(' ', '').toLowerCase()/]");
+		return [service.name.replaceAll(' ', '').toLowerCase()/]Dao.getAll[service.name.replaceAll(' ', '')/]s();
+	}
+	
+	public void add[service.name.replaceAll(' ', '')/]([service.name.replaceAll(' ', '')/] newObject) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		[service.name.replaceAll(' ', '')/]Dao [service.name.replaceAll(' ', '').toLowerFirst()/]Dao = ([service.name.replaceAll(' ', '')/]Dao) ctx.getBean("[service.name.replaceAll(' ', '').toLowerCase()/]");
+		[service.name.replaceAll(' ', '').toLowerFirst()/]Dao.add[service.name.replaceAll(' ', '')/](newObject);
+	}
+	
+	public [service.name.replaceAll(' ', '')/] get[service.name.replaceAll(' ', '')/]ById(int id) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		[service.name.replaceAll(' ', '')/]Dao dao = ([service.name.replaceAll(' ', '')/]Dao) ctx.getBean("[service.name.replaceAll(' ', '').toLowerCase()/]");
+		return dao.getBy[service.serves.autoKeyName.toUpper()/](id);
+	}
+	
+	public void delete[service.name.replaceAll(' ', '')/]ById(int id) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		[service.name.replaceAll(' ', '')/]Dao dao = ([service.name.replaceAll(' ', '')/]Dao) ctx.getBean("[service.name.replaceAll(' ', '').toLowerCase()/]");
+		dao.deleteBy[service.serves.autoKeyName.toUpper()/](id);
+	}
+
+	public List<[service.name.replaceAll(' ', '')/]> runGivenQuery(String query, int limit) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		[service.name.replaceAll(' ', '')/]Dao [service.name.replaceAll(' ', '').toLowerCase()/]Dao = ([service.name.replaceAll(' ', '')/]Dao) ctx.getBean("[service.name.replaceAll(' ', '').toLowerCase()/]");
+		return [service.name.replaceAll(' ', '').toLowerCase()/]Dao.runCustomQuery(query, limit);
+	}
+
+}
+[/file]
+
+[/template]
+
+[template public generateServiceForStaticViewContent(wafModel : WafModel)]
+[file (('src/automated/website/service/StaticPageContentServiceImpl').concat(wafModel.javaExtension()), false, 'UTF-8')]
+package automated.website.service;
+
+import java.util.List;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import automated.website.dao.StaticPageContentDao;
+import automated.website.model.*;
+
+public class StaticPageContentServiceImpl {
+	
+	public void update(StaticPageContent staticpagecontent) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		StaticPageContentDao staticpagecontentDao = (StaticPageContentDao) ctx.getBean("staticpagecontent");
+		staticpagecontentDao.updateStaticPageContent(staticpagecontent);
+	}
+	
+	public List<StaticPageContent> getAll() {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		StaticPageContentDao staticPageContentDao = (StaticPageContentDao) ctx.getBean("staticpagecontent");
+		return staticPageContentDao.getAllStaticPageContent();
+	}
+	
+	public void addNewImage(StaticPageContent staticpagecontent) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		StaticPageContentDao staticpagecontentDao = (StaticPageContentDao) ctx.getBean("staticpagecontent");
+		staticpagecontentDao.addNatureImage(staticpagecontent);
+	}
+	
+	public StaticPageContent getContentById(int id) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		StaticPageContentDao staticpagecontentDao = (StaticPageContentDao) ctx.getBean("staticpagecontent");
+		return staticpagecontentDao.getByID(id);
+	}
+	
+	public void deleteImageById(int id) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		StaticPageContentDao staticpagecontentDao = (StaticPageContentDao) ctx.getBean("staticpagecontent");
+		staticpagecontentDao.deleteByID(id);
+	}
+
+	public List<StaticPageContent> runGivenQuery(String query, int limit) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		StaticPageContentDao dao = (StaticPageContentDao) ctx.getBean("staticpagecontent");
+		return dao.runCustomQuery(query, limit);
+	}
+	
+}
+
+[/file]
+[/template]

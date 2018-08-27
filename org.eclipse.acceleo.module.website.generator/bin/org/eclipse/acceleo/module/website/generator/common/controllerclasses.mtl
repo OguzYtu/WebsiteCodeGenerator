@@ -1,0 +1,982 @@
+[comment encoding = UTF-8 /]	
+[module controllerclasses('http://cs.manchester.ac.uk/mdsd/WebApplicationFramework', 
+'http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping',
+'http://cs.manchester.ac.uk/mdsd/Expression',
+'http://cs.manchester.ac.uk/mdsd/Service')]
+
+[import org::eclipse::acceleo::module::website::generator::requests::extensions/]
+[import org::eclipse::acceleo::module::website::generator::requests::queries/]
+
+
+[template public generateBeginningOfWebController(model : WafModel)]
+
+[file ('src/automated/website/controller/WebController'.concat(model.javaExtension()), false, 'UTF-8')]
+
+package automated.website.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.validation.BindingResult;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import automated.website.model.*;
+import automated.website.service.*;
+
+@Controller
+@SessionAttributes("persistentId")
+public class WebController {
+
+[/file]
+
+[/template]
+
+[template public generateBodyOfWebController(page : Page, wafModel : WafModel)]
+
+[file ('src/automated/website/controller/WebController'.concat(page.javaExtension()), true, 'UTF-8')]
+
+	@RequestMapping(value = "/[page.generatePageURL('').trim()/]", method = RequestMethod.GET)
+	public ModelAndView [page.name.toLowerFirst().replaceAll(' ', '').replaceAll('/', '')/]() {
+
+		ModelAndView mav = new ModelAndView("[page.name.toLowerCase().replaceAll(' ', '')/]");
+
+		[page.units.generateModelViewObject()/]
+		
+		[if (wafModel.staticUnitsEditable)]
+		[page.units.generateStaticUnitModelViewObject()/]
+		[/if]
+
+		[page.units.generateSelectionModelViewObject()/]
+
+		mav.addObject("filter", "none");
+	
+		return mav;
+	}
+
+	[comment]These are for EditUnit generations[/comment]
+	[page.units.generateEditPageRequestMapping()/]
+	[page.units.generateDeleteButtonOperation()/]
+	[page.units.generateEditPageOperation()/]
+
+	[comment]This is for DetailsUnit generation[/comment]
+	[page.units.generateDetailsUnitRequestMapping()/]
+
+	[comment]This is for only Dynamic Units - UnitSupportActions[/comment]
+	[page.units.generateUnitSupportActionRequestMappings()/]
+
+	[comment]This is for Feature Support Actions[/comment]
+	[page.units.generateFeatureSupportActionRequestMappings()/]
+
+
+	[comment]This is for Filters[/comment]
+	[for (unit : ContentUnit | page.units)]
+	[if (unit.oclIsKindOf(IndexUnit) and unit.oclAsType(IndexUnit).supportedFilters->notEmpty())]
+	[unit.oclAsType(IndexUnit).supportedFilters.generateSelectionFilterRequestMapping(page, wafModel)/]
+	[elseif (unit.oclIsKindOf(ImageIndexUnit) and unit.oclAsType(ImageIndexUnit).supportedFilters->notEmpty())]
+	[unit.oclAsType(ImageIndexUnit).supportedFilters.generateSelectionFilterRequestMapping(page, wafModel)/]	
+	[/if]
+	[/for]
+
+	[comment]This is for Selections with Formal Parameters[/comment]
+	[for (unit : ContentUnit | page.units)]
+	[if (unit.oclIsKindOf(IndexUnit) and (unit.oclAsType(IndexUnit).selection.oclIsUndefined() = false) and unit.oclAsType(IndexUnit).selection.parameters->notEmpty())]
+	[unit.oclAsType(IndexUnit).selection.generateSelectionWithParamRequestMapping(unit, page, wafModel)/]
+	[elseif (unit.oclIsKindOf(ImageIndexUnit) and (unit.oclAsType(ImageIndexUnit).selection.oclIsUndefined() = false) and unit.oclAsType(ImageIndexUnit).selection.parameters->notEmpty())]
+	[unit.oclAsType(ImageIndexUnit).selection.generateSelectionWithParamRequestMapping(unit, page, wafModel)/]	
+	[/if]
+	[/for]
+	
+[/file]
+
+[/template]
+
+[template public generateModelViewObject(unit : ContentUnit)
+	? (unit.oclIsKindOf(SingletonUnit)) post(trim())]
+[let singletonUnit : SingletonUnit = unit.oclAsType(SingletonUnit)]
+[if(singletonUnit.contentType <> null)]
+		[let entity : EntityOrView = singletonUnit.contentType]
+
+if(!mav.getModel().containsKey("[entity.name.toLowerCase()/]s")) {
+	List<[entity.name/]> [entity.name.toLowerFirst()/]List = new ArrayList<[entity.name/]>();
+	[entity.name/]ServiceImpl [entity.name.toLowerFirst()/]ServiceImpl = new [entity.name/]ServiceImpl();
+	[entity.name.toLowerFirst()/]List = [entity.name.toLowerFirst()/]ServiceImpl.getAll();
+	mav.addObject("[entity.name.toLowerCase()/]s", [entity.name.toLowerFirst()/]List);
+}
+
+		[/let]
+[/if]
+[/let]
+
+[if (unit.oclIsKindOf(EditUnit))]
+[let editUnit : EditUnit = unit.oclAsType(EditUnit)]
+[if(editUnit.contentType <> null)]
+		[let entity : EntityOrView = editUnit.contentType]
+
+if(!mav.getModel().containsKey("[entity.name.toLowerCase()/]")) {
+	[entity.name/] [entity.name.toLowerFirst()/] = new [entity.name/]();
+	mav.addObject("[entity.name.toLowerCase()/]", [entity.name.toLowerFirst()/]);
+}
+
+if(!mav.getModel().containsKey("persistentId")) {
+	mav.addObject("persistentId", -1);
+}
+
+		[/let]
+[/if]
+[/let]
+[/if]
+
+[if (unit.oclIsKindOf(DetailsUnit))]
+[let detailsUnit : DetailsUnit = unit.oclAsType(DetailsUnit)]
+[if(detailsUnit.contentType <> null)]
+		[let entity : EntityOrView = detailsUnit.contentType]
+
+if(!mav.getModel().containsKey("[entity.name.toLowerCase()/]")) {
+	[entity.name/] [entity.name.toLowerFirst()/] = new [entity.name/]();
+	mav.addObject("[entity.name.toLowerCase()/]", [entity.name.toLowerFirst()/]);
+}
+
+		[/let]
+[/if]
+[/let]
+[/if]
+[/template]
+
+[template public generateModelViewObject(unit : ContentUnit)
+	? (unit.oclIsKindOf(CollectionUnit)) post(trim())]
+[let collectionUnit : CollectionUnit = unit.oclAsType(CollectionUnit)]
+[if(collectionUnit.contentType <> null and collectionUnit.selection = null)]
+		[for (entity : EntityOrView | collectionUnit.contentType)]
+
+if(!mav.getModel().containsKey("[entity.name.toLowerCase()/]s")) {
+	List<[entity.name/]> [entity.name.toLowerFirst()/]List = new ArrayList<[entity.name/]>();
+	[entity.name/]ServiceImpl [entity.name.toLowerFirst()/]ServiceImpl = new [entity.name/]ServiceImpl();
+	[entity.name.toLowerFirst()/]List = [entity.name.toLowerFirst()/]ServiceImpl.getAll();
+	mav.addObject("[entity.name.toLowerCase()/]s", [entity.name.toLowerFirst()/]List);
+}
+		
+		[/for]
+[/if]
+[/let]
+[/template]
+
+[template public generateStaticUnitModelViewObject(unit : ContentUnit)
+	? (unit.oclIsKindOf(StaticUnit)) post(trim())]
+[let staticUnit : StaticUnit = unit.oclAsType(StaticUnit)]
+	StaticPageContentServiceImpl service = new StaticPageContentServiceImpl();
+	StaticPageContent contentInfo = service.runGivenQuery("from StaticPageContent where pagename = '[staticUnit.displayedOn.oclAsType(Page).displayLabel/]'", 0).get(0);
+	mav.addObject("contentinfo", contentInfo);
+[/let]
+[/template]
+
+[template public generateSelectionModelViewObject(unit : ContentUnit)
+	? (unit.oclIsKindOf(CollectionUnit)) post(trim())]
+[let collectionUnit : CollectionUnit = unit.oclAsType(CollectionUnit)]
+[if(collectionUnit.selection <> null)]
+	[let entity : String = collectionUnit.selection.partOf.name]
+
+if(!mav.getModel().containsKey("[collectionUnit.selection.name.replaceAll(' ', '')/]")) {
+	List<[entity/]> [entity.toLowerFirst()/]List = new ArrayList<[entity/]>();
+	[entity/]ServiceImpl [entity.toLowerFirst()/]ServiceImpl = new [entity/]ServiceImpl();
+	[if (collectionUnit.filter.oclIsUndefined() = false)]
+	[entity.toLowerFirst()/]List = [entity.toLowerFirst()/]ServiceImpl.runGivenQuery("from [entity/] where [collectionUnit.selection.condition.generateQueryForSelection(entity).trim()/] [collectionUnit.filter.generateQueryForFilter(entity, collectionUnit.filter.parameters, false).trim()/] [collectionUnit.selection.generateQueryForOrder().trim()/]", [collectionUnit.selection.limit/]);
+	[else]
+	[entity.toLowerFirst()/]List = [entity.toLowerFirst()/]ServiceImpl.runGivenQuery("from [entity/] where [collectionUnit.selection.condition.generateQueryForSelection(entity).trim()/] [collectionUnit.filter.generateQueryForFilter(entity, null, false).trim()/] [collectionUnit.selection.generateQueryForOrder().trim()/]", [collectionUnit.selection.limit/]);
+	[/if]
+	mav.addObject("[collectionUnit.selection.name.replaceAll(' ', '')/]", [entity.toLowerFirst()/]List);
+}
+
+	[/let]
+[/if]
+[/let]
+[/template]
+
+[comment]Creating a dummy query in case a selection don't have a predicate in order to avoid errors[/comment]
+[template public generateQueryForSelection(predicate : Predicate, entity : String)
+	? (predicate.oclIsUndefined()) post(trim())]
+1 = 1
+[/template]
+
+[comment]Creating the query for PredicateBooleanOperator[/comment]
+[template public generateQueryForSelection(predicate : Predicate, entity : String)
+	? (predicate.oclIsKindOf(PredicateBooleanOperator)) post(trim())]
+[let operator : PredicateBooleanOperator = predicate.oclAsType(PredicateBooleanOperator)]
+[if (operator.operator.toString() = 'And')]
+[for (predicate : Predicate | operator.expressions)]
+[predicate.generateQueryForSelection(entity)/] AND 
+[/for]
+[else]
+[for (predicate : Predicate | operator.expressions)]
+[predicate.generateQueryForSelection(entity)/] OR 
+[/for]
+[/if]
+[/let]
+[/template]
+
+[comment]Creating the query for PredicateEqualityOperator[/comment]
+[template public generateQueryForSelection(predicate : Predicate, entity : String)
+	? (predicate.oclIsKindOf(PredicateEqualityOperator)) post(trim())]
+[let operator : PredicateEqualityOperator = predicate.oclAsType(PredicateEqualityOperator)]
+[if (operator.negated)]
+[operator.left.createParamValue()/] != [operator.right.createParamValue()/]
+[else]
+[operator.left.createParamValue()/] = [operator.right.createParamValue()/]
+[/if]
+[/let]
+[/template]
+
+[comment]Creating the query for PredicateComparisonOperator[/comment]
+[template public generateQueryForSelection(predicate : Predicate, entity : String)
+	? (predicate.oclIsKindOf(PredicateComparisonOperator)) post(trim())]
+[let operator : PredicateComparisonOperator = predicate.oclAsType(PredicateComparisonOperator)]
+[if (operator.operator.toString() = 'GreaterThan')]
+[if (operator.negated)]
+[operator.left.createParamValue()/] <= [operator.right.createParamValue()/]
+[else]
+[operator.left.createParamValue()/] > [operator.right.createParamValue()/]
+[/if]
+[else]
+[if (operator.negated)]
+[operator.left.createParamValue()/] >= [operator.right.createParamValue()/]
+[else]
+[operator.left.createParamValue()/] < [operator.right.createParamValue()/]
+[/if]
+[/if]
+[/let]
+[/template]
+
+[comment]Creating the query for PredicateInOperator[/comment]
+[template public generateQueryForSelection(predicate : Predicate, entity : String)
+	? (predicate.oclIsKindOf(PredicateInOperator)) post(trim())]
+[let operator : PredicateInOperator = predicate.oclAsType(PredicateInOperator)]
+[if (operator.negated)]
+[operator.left.createParamValue()/] NOT IN (from [entity/] where [operator.right.oclAsType(Predicate).generateQueryForSelection(entity)/])
+[else]
+[operator.left.createParamValue()/] IN (from [entity/] where [operator.right.oclAsType(Predicate).generateQueryForSelection(entity)/])
+[/if]
+[/let]
+[/template]
+
+[comment]Creating the query for PredicateIsOperator[/comment]
+[template public generateQueryForSelection(predicate : Predicate, entity : String)
+	? (predicate.oclIsKindOf(PredicateIsOperator)) post(trim())]
+[let operator : PredicateIsOperator = predicate.oclAsType(PredicateIsOperator)]
+[if (operator.negated)]
+[operator.left.createParamValue()/] IS NOT [operator.right.createParamValue()/]
+[else]
+[operator.left.createParamValue()/] IS [operator.right.createParamValue()/]
+[/if]
+[/let]
+[/template]
+
+[comment]Creating the query for PredicateLikeOperator[/comment]
+[template public generateQueryForSelection(predicate : Predicate, entity : String)
+	? (predicate.oclIsKindOf(PredicateLikeOperator)) post(trim())]
+[let operator : PredicateLikeOperator = predicate.oclAsType(PredicateLikeOperator)]
+[if (operator.negated)]
+[operator.left.createParamValue()/] NOT LIKE [operator.right.createParamValue()/]
+[else]
+[operator.left.createParamValue()/] LIKE [operator.right.createParamValue()/]
+[/if]
+[/let]
+[/template]
+
+[comment]Creating the query for PredicateIsEmpty[/comment]
+[template public generateQueryForSelection(predicate : Predicate, entity : String)
+	? (predicate.oclIsKindOf(PredicateIsEmpty)) post(trim())]
+[let operator : PredicateIsEmpty = predicate.oclAsType(PredicateIsEmpty)]
+[if (operator.negated)]
+[operator.feature.createParamValue()/] IS NOT NULL
+[else]
+[operator.feature.createParamValue()/] IS NULL
+[/if]
+[/let]
+[/template]
+
+[comment]Creating the query for PredicateIsNull[/comment]
+[template public generateQueryForSelection(predicate : Predicate, entity : String)
+	? (predicate.oclIsKindOf(PredicateIsNull)) post(trim())]
+[let operator : PredicateIsNull = predicate.oclAsType(PredicateIsNull)]
+[if (operator.negated)]
+[operator.feature.createParamValue()/] IS NOT NULL
+[else]
+[operator.feature.createParamValue()/] IS NULL
+[/if]
+[/let]
+[/template]
+
+[comment]Creating the value of the parameters  - NullLiteral[/comment]
+[template public createParamValue(expression : Expression)
+	? (expression.oclIsTypeOf(NullLiteral)) post(trim())]
+NULL
+[/template]
+
+[comment]Creating the value of the parameters  - BooleanLiteral[/comment]
+[template public createParamValue(expression : Expression)
+	? (expression.oclIsTypeOf(BooleanLiteral)) post(trim())]
+'[expression.oclAsType(BooleanLiteral).value/]'
+[/template]
+
+[comment]Creating the value of the parameters  - IntegerLiteral[/comment]
+[template public createParamValue(expression : Expression)
+	? (expression.oclIsTypeOf(IntegerLiteral)) post(trim())]
+[expression.oclAsType(IntegerLiteral).value/]
+[/template]
+
+[comment]Creating the value of the parameters  - StringLiteral[/comment]
+[template public createParamValue(expression : Expression)
+	? (expression.oclIsTypeOf(StringLiteral)) post(trim())]
+'[expression.oclAsType(StringLiteral).value/]'
+[/template]
+
+[comment]Creating the value of the parameters  - TimeLiteral[/comment]
+[template public createParamValue(expression : Expression)
+	? (expression.oclIsTypeOf(TimeLiteral)) post(trim())]
+'[expression.oclAsType(TimeLiteral).value/]'
+[/template]
+
+[comment]Creating the value of the parameters  - CurrentTime[/comment]
+[template public createParamValue(expression : Expression)
+	? (expression.oclIsTypeOf(CurrentTime)) post(trim())]
+now()
+[/template]
+
+[comment]Creating the value of the parameters  - ConstantReference[/comment]
+[template public createParamValue(expression : Expression)
+	? (expression.oclIsTypeOf(ConstantReference)) post(trim())]
+[expression.oclAsType(ConstantReference).value/]
+[/template]
+
+[comment]Creating the value of the parameters  - FeatureReference[/comment]
+[template public createParamValue(expression : Expression)
+	? (expression.oclIsTypeOf(FeatureReference)) post(trim())]
+[expression.oclAsType(FeatureReference).feature.name/]
+[/template]
+
+[comment]Creating the value of the parameters  - ParameterReference[/comment]
+[template public createParamValue(expression : Expression)
+	? (expression.oclIsTypeOf(ParameterReference)) post(trim())]
+[expression.oclAsType(ParameterReference).parameter.name/]
+[/template]
+
+[comment]Creating the value of the parameters  - FeaturePathAttribute[/comment]
+[template public createParamValue(expression : Expression)
+	? (expression.oclIsTypeOf(FeaturePathAttribute)) post(trim())]
+[expression.oclAsType(FeaturePathAttribute).attribute.name/]
+[/template]
+
+[comment]Creating the value of the parameters  - FeaturePathAssociation[/comment]
+[template public createParamValue(expression : Expression)
+	? (expression.oclIsTypeOf(FeaturePathAssociation)) post(trim())]
+[expression.oclAsType(FeaturePathAssociation).association.name/]
+[/template]
+
+[comment]Creating the value of the parameters  - FeaturePathLabel[/comment]
+[template public createParamValue(expression : Expression)
+	? (expression.oclIsTypeOf(FeaturePathLabel)) post(trim())]
+[expression.oclAsType(FeaturePathLabel).label.name/]
+[/template]
+
+[comment]Creating queries for filters[/comment]
+[template public generateQueryForFilter(filter : Filter, entity : String, paramList : OrderedSet(FormalParameter), isSupportedFilter : Boolean)]
+[if (isSupportedFilter)]
+[if (paramList <> null)]
+[for (param : FormalParameter | paramList)]
+[if (param.dataType.name.toLowerCase().contains('int') or param.dataType.name.toLowerCase() = 'float' or param.dataType.name.toLowerCase() = 'double')]
+[if (paramList->indexOf(paramList->last()) = 1)]
+ AND [param.name/] = " +  [param.name/] 
+[elseif (paramList->indexOf(param) = paramList->indexOf(paramList->last()))]
+" AND [param.name/] = " +  [param.name/] + " 
+[elseif (paramList->indexOf(param) = 1)]
+ AND [param.name/] = " +  [param.name/] + " " + 
+[else]
+" AND [param.name/] = " +  [param.name/] + " " + 
+[/if]
+[else]
+[if (paramList->indexOf(paramList->last()) = 1)]
+ AND [param.name/] LIKE '%" +  [param.name/] + "%' 
+[elseif (paramList->indexOf(param) = paramList->indexOf(paramList->last()))]
+" AND [param.name/] LIKE '%" +  [param.name/] + "%' 
+[elseif (paramList->indexOf(param) = 1)]
+ AND [param.name/] LIKE '%" +  [param.name/] + "%' " + 
+[else]
+" AND [param.name/] LIKE '%" +  [param.name/] + "%' " + 
+[/if]
+[/if]
+[/for]
+[/if]
+[else]
+[comment]Using defalt values because they are the inital filters[/comment]
+[if (paramList <> null)]
+[for (param : FormalParameter | paramList)]
+[if (param.dataType.name.toLowerCase().contains('int') or param.dataType.name.toLowerCase() = 'float' or param.dataType.name.toLowerCase() = 'double')]
+[if (paramList->indexOf(paramList->last()) = 1)]
+ AND [param.name/] = [param.defaultValue/]
+[elseif (paramList->indexOf(param) = paramList->indexOf(paramList->last()))]
+" AND [param.name/] = [param.defaultValue/]
+[elseif (paramList->indexOf(param) = 1)]
+ AND [param.name/] = [param.defaultValue/] " + 
+[else]
+" AND [param.name/] = [param.defaultValue/] " + 
+[/if]
+[else]
+[if (paramList->indexOf(paramList->last()) = 1)]
+ AND [param.name/] LIKE '%[param.defaultValue/]%'
+[elseif (paramList->indexOf(param) = paramList->indexOf(paramList->last()))]
+" AND [param.name/] LIKE '%[param.defaultValue/]%'
+[elseif (paramList->indexOf(param) = 1)]
+ AND [param.name/] LIKE '%[param.defaultValue/]%' " + 
+[else]
+" AND [param.name/] LIKE '%[param.defaultValue/]%' " + 
+[/if] 
+[/if]
+[/for]
+[/if]
+[/if]
+[/template]
+
+[comment]Creating queries for selection params[/comment]
+[template public generateQueryForSelectionParams(entity : String, paramList : OrderedSet(FormalParameter))]
+[for (param : FormalParameter | paramList)]
+[if (param.dataType.name.toLowerCase().contains('int') or param.dataType.name.toLowerCase() = 'float' or param.dataType.name.toLowerCase() = 'double')]
+[if (paramList->indexOf(paramList->last()) = 1)]
+ AND [param.name/] = " +  [param.name/] 
+[elseif (paramList->indexOf(param) = paramList->indexOf(paramList->last()))]
+" AND [param.name/] = " +  [param.name/] + " 
+[elseif (paramList->indexOf(param) = 1)]
+ AND [param.name/] = " +  [param.name/] + " " + 
+[else]
+" AND [param.name/] = " +  [param.name/] + " " + 
+[/if]
+[else]
+[if (paramList->indexOf(paramList->last()) = 1)]
+ AND [param.name/] LIKE '%" +  [param.name/] + "%' 
+[elseif (paramList->indexOf(param) = paramList->indexOf(paramList->last()))]
+" AND [param.name/] LIKE '%" +  [param.name/] + "%' 
+[elseif (paramList->indexOf(param) = 1)]
+ AND [param.name/] LIKE '%" +  [param.name/] + "%' " + 
+[else]
+" AND [param.name/] LIKE '%" +  [param.name/] + "%' " + 
+[/if]
+[/if]
+[/for]
+[/template]
+
+[comment]Creating queries for order[/comment]
+[template public generateQueryForOrder(selection : Selection) post(trim())]
+[for (order : Order | selection.ordering)]
+
+[if (order.oclIsTypeOf(Asc))]
+[if (selection.ordering->indexOf(selection.ordering->last()) = 1)]
+ORDER BY [order.path.createParamValue()/] ASC
+[elseif (selection.ordering->indexOf(order) = selection.ordering->indexOf(selection.ordering->last()))]
+", [order.path.createParamValue()/] ASC
+[elseif (selection.ordering->indexOf(order) = 1)]
+ORDER BY [order.path.createParamValue()/] ASC " + 
+[else]
+", [order.path.createParamValue()/] ASC " +
+[/if]
+[else]
+[if (selection.ordering->indexOf(selection.ordering->last()) = 1)]
+ORDER BY [order.path.createParamValue()/] DESC
+[elseif (selection.ordering->indexOf(order) = selection.ordering->indexOf(selection.ordering->last()))]
+", [order.path.createParamValue()/] DESC
+[elseif (selection.ordering->indexOf(order) = 1)]
+ORDER BY [order.path.createParamValue()/] DESC " + 
+[else]
+", [order.path.createParamValue()/] DESC " +
+[/if]
+[/if]
+[/for]
+[/template]
+
+[comment]Create this for every Filter which has parameters in Service Selections[/comment]
+[template public generateSelectionFilterRequestMapping(filter : Filter, page : Page, wafModel : WafModel)]
+	[if (filter.parameters->notEmpty())]
+
+	@RequestMapping(value = "/[page.generatePageURL('').trim().concat(filter.selection.name).concat(filter.name).replaceAll(' ', '')/]", method = RequestMethod.GET)
+	public ModelAndView [page.name.toLowerFirst().replaceAll('/', '').concat(filter.selection.name).concat(filter.name).replaceAll(' ', '')/](
+	HttpServletRequest request, HttpServletResponse response
+	[for (param : FormalParameter | filter.parameters)]
+	, @RequestParam(value="[param.name/]") [param.dataType.displayLabel/] [param.name/]
+	[/for]
+) {
+
+		ModelAndView mav = new ModelAndView("[page.name.toLowerCase().replaceAll(' ', '')/]");
+	
+		[page.units.generateModelViewObject()/]
+		
+		[if (wafModel.staticUnitsEditable)]
+		[page.units.generateStaticUnitModelViewObject()/]
+		[/if]
+
+		[page.units.generateSelectionModelViewObject()/]
+
+		mav.addObject("filter", "[filter.selection.partOf.name.replaceAll(' ', '').toLowerCase().toUpperFirst().concat(filter.name).replaceAll(' ', '')/]");
+
+		if(!mav.getModel().containsKey("[filter.selection.partOf.name.replaceAll(' ', '').toLowerCase().toUpperFirst().concat(filter.name).replaceAll(' ', '')/]")) {
+			[let entity : String = filter.selection.partOf.name]
+			List<[entity/]> [entity.toLowerFirst()/]List = new ArrayList<[entity/]>();
+			[entity/]ServiceImpl [entity.toLowerFirst()/]ServiceImpl = new [entity/]ServiceImpl();
+			[entity.toLowerFirst()/]List = [entity.toLowerFirst()/]ServiceImpl.runGivenQuery("from [entity/] where [filter.selection.condition.generateQueryForSelection(entity).trim()/] [filter.generateQueryForFilter(entity, filter.parameters, true).trim()/] [filter.selection.generateQueryForOrder().trim()/]", [filter.selection.limit/]);
+			mav.addObject("[filter.selection.partOf.name.replaceAll(' ', '').toLowerCase().toUpperFirst().concat(filter.name).replaceAll(' ', '')/]", [entity.toLowerFirst()/]List);
+			[/let]
+		}
+	
+		return mav;
+	}
+	[/if]
+[/template]
+
+[comment]Create this for every IndexUnit selection which has formal parameters[/comment]
+[template public generateSelectionWithParamRequestMapping(selection : Selection, unit : ContentUnit, page : Page, wafModel : WafModel)	
+? (unit.oclIsTypeOf(IndexUnit)) post(trim())]
+
+	@RequestMapping(value = "/[page.generatePageURL('').trim().concat(selection.name).concat('FormalParam').replaceAll(' ', '')/]", method = RequestMethod.GET)
+	public ModelAndView [page.name.toLowerFirst().replaceAll('/', '').concat(selection.name).concat('FormalParam').replaceAll(' ', '')/](
+	HttpServletRequest request, HttpServletResponse response
+	[for (param : FormalParameter | selection.parameters)]
+	, @RequestParam(value="[param.name/]") [param.dataType.displayLabel/] [param.name/]
+	[/for]
+) {
+
+		ModelAndView mav = new ModelAndView("[page.name.toLowerCase().replaceAll(' ', '')/]");
+	
+		[page.units.generateModelViewObject()/]
+		
+		[if (wafModel.staticUnitsEditable)]
+		[page.units.generateStaticUnitModelViewObject()/]
+		[/if]
+
+[comment]		[page.units.generateSelectionModelViewObject()/][/comment]
+
+		mav.addObject("filter", "none");
+
+		if(!mav.getModel().containsKey("[selection.name.replaceAll(' ', '')/]")) {
+			[let entity : String = selection.partOf.name]
+			List<[entity/]> [entity.toLowerFirst()/]List = new ArrayList<[entity/]>();
+			[entity/]ServiceImpl [entity.toLowerFirst()/]ServiceImpl = new [entity/]ServiceImpl();
+			[entity.toLowerFirst()/]List = [entity.toLowerFirst()/]ServiceImpl.runGivenQuery("from [entity/] where [selection.condition.generateQueryForSelection(entity).trim()/] [entity.generateQueryForSelectionParams(selection.parameters).trim()/] [selection.generateQueryForOrder().trim()/]", [selection.limit/]);
+			mav.addObject("[selection.name.replaceAll(' ', '')/]", [entity.toLowerFirst()/]List);
+			[/let]
+		}
+	
+		return mav;
+	}
+[/template]
+
+[comment]Create this for every ImageIndexUnit selection which has formal parameters[/comment]
+[template public generateSelectionWithParamRequestMapping(selection : Selection, unit : ContentUnit, page : Page, wafModel : WafModel)	
+? (unit.oclIsTypeOf(ImageIndexUnit)) post(trim())]
+
+	@RequestMapping(value = "/[page.generatePageURL('').trim().concat(selection.name).concat('FormalParam').replaceAll(' ', '')/]", method = RequestMethod.GET)
+	public ModelAndView [page.name.toLowerFirst().replaceAll('/', '').concat(selection.name).concat('FormalParam').replaceAll(' ', '')/](
+	HttpServletRequest request, HttpServletResponse response
+	[for (param : FormalParameter | selection.parameters)]
+	, @RequestParam(value="[param.name/]") [param.dataType.displayLabel/] [param.name/]
+	[/for]
+) {
+
+		ModelAndView mav = new ModelAndView("[page.name.toLowerCase().replaceAll(' ', '')/]");
+	
+		[page.units.generateModelViewObject()/]
+		
+		[if (wafModel.staticUnitsEditable)]
+		[page.units.generateStaticUnitModelViewObject()/]
+		[/if]
+
+[comment]		[page.units.generateSelectionModelViewObject()/][/comment]
+
+		mav.addObject("filter", "none");
+
+		if(!mav.getModel().containsKey("[selection.name.replaceAll(' ', '')/]")) {
+			[let entity : String = selection.partOf.name]
+			List<[entity/]> [entity.toLowerFirst()/]List = new ArrayList<[entity/]>();
+			[entity/]ServiceImpl [entity.toLowerFirst()/]ServiceImpl = new [entity/]ServiceImpl();
+			[entity.toLowerFirst()/]List = [entity.toLowerFirst()/]ServiceImpl.runGivenQuery("from [entity/] where [selection.condition.generateQueryForSelection(entity).trim()/] [entity.generateQueryForSelectionParams(selection.parameters).trim()/] [selection.generateQueryForOrder().trim()/]", [selection.limit/]);
+			mav.addObject("[selection.name.replaceAll(' ', '')/]", [entity.toLowerFirst()/]List);
+			[/let]
+		}
+	
+		return mav;
+	}
+[/template]
+
+
+[comment]Create this for every UpdateUnit[/comment]
+[template public generateEditPageRequestMapping(unit : ContentUnit)
+	? (unit.oclIsKindOf(UpdateUnit)) post(trim())]
+[let updateUnit : UpdateUnit = unit.oclAsType(UpdateUnit)]
+	@RequestMapping(value = "/[updateUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[updateUnit.name.replaceAll(' ', '')/]EditPage", method = RequestMethod.GET)
+	public ModelAndView [updateUnit.name.replaceAll(' ', '').replaceAll('/', '')/]EditPage(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="id") int id) {
+		ModelAndView mav = new ModelAndView("[updateUnit.displayedOn.oclAsType(Page).name.toLowerCase().replaceAll(' ', '')/]");
+		[updateUnit.contentType.name/] myObject = new [updateUnit.contentType.name/]();
+		[updateUnit.contentType.name/]ServiceImpl service = new [updateUnit.contentType.name/]ServiceImpl();
+		myObject = service.get[updateUnit.contentType.name/]ById(id);
+		mav.addObject("[updateUnit.contentType.name.toLowerCase()/]", myObject);
+		mav.addObject("persistentId", id);
+		mav.addObject("filter", "none");
+		
+		[unit.generateModelViewObject()/]
+
+[comment]		it may not be necessary here[/comment]
+		[unit.generateSelectionModelViewObject()/]
+		
+		return mav;
+	}
+[/let]
+[/template]
+
+[comment]Create this for every CreateUpdateUnit[/comment]
+[template public generateEditPageRequestMapping(unit : ContentUnit)
+	? (unit.oclIsKindOf(CreateUpdateUnit)) post(trim())]
+[let createUpdateUnit : CreateUpdateUnit = unit.oclAsType(CreateUpdateUnit)]
+	@RequestMapping(value = "/[createUpdateUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[createUpdateUnit.name.replaceAll(' ', '')/]EditPage", method = RequestMethod.GET)
+	public ModelAndView [createUpdateUnit.name.replaceAll(' ', '').replaceAll('/', '')/]EditPage(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="id") int id) {
+		ModelAndView mav = new ModelAndView("[createUpdateUnit.displayedOn.oclAsType(Page).name.toLowerCase().replaceAll(' ', '')/]");
+		[createUpdateUnit.contentType.name/] myObject = new [createUpdateUnit.contentType.name/]();
+		[createUpdateUnit.contentType.name/]ServiceImpl service = new [createUpdateUnit.contentType.name/]ServiceImpl();
+		myObject = service.get[createUpdateUnit.contentType.name/]ById(id);
+		mav.addObject("[createUpdateUnit.contentType.name.toLowerCase()/]", myObject);
+		mav.addObject("persistentId", id);
+		mav.addObject("filter", "none");
+		
+		[unit.generateModelViewObject()/]
+
+[comment]		it may not be necessary here[/comment]
+		[unit.generateSelectionModelViewObject()/]
+		
+		return mav;
+	}
+[/let]
+[/template]
+
+[comment]	Create this for every delete button in any index page[/comment]
+[template public generateDeleteButtonOperation(unit : ContentUnit)
+	? (unit.oclIsKindOf(IndexUnit)) post(trim())]
+[let indexUnit : IndexUnit = unit.oclAsType(IndexUnit)]
+[for (action : InlineAction | indexUnit.actions)]
+[if (action.oclIsTypeOf(DeleteAction))]
+[let deleteAction : DeleteAction = action.oclAsType(DeleteAction)]
+	@RequestMapping(value = "/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/deleteAction[indexUnit.name.replaceAll(' ', '').replaceAll('/', '')/]", method=RequestMethod.GET)
+	public ModelAndView deleteAction[indexUnit.name.replaceAll(' ', '').replaceAll('/', '')/](HttpServletRequest request, HttpServletResponse response, @RequestParam(value="id") int id) {
+		ModelAndView mav = new ModelAndView("[deleteAction.destination.name.replaceAll(' ', '').toLowerCase()/]");
+		[indexUnit.contentType.name/]ServiceImpl service = new [indexUnit.contentType.name/]ServiceImpl();
+		service.delete[indexUnit.contentType.name/]ById(id);
+		List<[indexUnit.contentType.name/]> list = new ArrayList<[indexUnit.contentType.name/]>();
+		list = service.getAll();
+		mav.addObject("[indexUnit.contentType.name.toLowerCase()/]s", list);
+		
+		if(!mav.getModel().containsKey("[indexUnit.contentType.name.toLowerCase()/]")) {
+			[indexUnit.contentType.name/] [indexUnit.contentType.name.toLowerFirst()/] = new [indexUnit.contentType.name/]();
+			mav.addObject("[indexUnit.contentType.name.toLowerCase()/]", [indexUnit.contentType.name.toLowerFirst()/]);
+		}
+
+		if(!mav.getModel().containsKey("persistentId")) {
+			mav.addObject("persistentId", -1);
+		}
+		
+		mav.addObject("filter", "none");
+
+		return mav;
+	}
+[/let]
+[/if]
+[/for]
+[/let]
+[/template]
+
+[comment]	Create this for every delete button in any index page[/comment]
+[template public generateDeleteButtonOperation(unit : ContentUnit)
+	? (unit.oclIsKindOf(ImageIndexUnit)) post(trim())]
+[let indexUnit : ImageIndexUnit = unit.oclAsType(ImageIndexUnit)]
+[for (action : InlineAction | indexUnit.actions)]
+[if (action.oclIsTypeOf(DeleteAction))]
+[let deleteAction : DeleteAction = action.oclAsType(DeleteAction)]
+	@RequestMapping(value = "/[indexUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/deleteAction[indexUnit.name.replaceAll(' ', '').replaceAll('/', '')/]", method=RequestMethod.GET)
+	public ModelAndView deleteAction[indexUnit.name.replaceAll(' ', '').replaceAll('/', '')/](HttpServletRequest request, HttpServletResponse response, @RequestParam(value="id") int id) {
+		ModelAndView mav = new ModelAndView("[deleteAction.destination.name.replaceAll(' ', '').toLowerCase()/]");
+		[indexUnit.contentType.name/]ServiceImpl service = new [indexUnit.contentType.name/]ServiceImpl();
+		service.delete[indexUnit.contentType.name/]ById(id);
+		List<[indexUnit.contentType.name/]> list = new ArrayList<[indexUnit.contentType.name/]>();
+		list = service.getAll();
+		mav.addObject("[indexUnit.contentType.name.toLowerCase()/]s", list);
+		
+		if(!mav.getModel().containsKey("[indexUnit.contentType.name.toLowerCase()/]")) {
+			[indexUnit.contentType.name/] [indexUnit.contentType.name.toLowerFirst()/] = new [indexUnit.contentType.name/]();
+			mav.addObject("[indexUnit.contentType.name.toLowerCase()/]", [indexUnit.contentType.name.toLowerFirst()/]);
+		}
+
+		if(!mav.getModel().containsKey("persistentId")) {
+			mav.addObject("persistentId", -1);
+		}
+
+		mav.addObject("filter", "none");
+
+		return mav;
+	}
+[/let]
+[/if]
+[/for]
+[/let]
+[/template]
+
+[comment]	Create this for every CreateUnit[/comment]
+[template public generateEditPageOperation(unit : ContentUnit)
+	? (unit.oclIsKindOf(CreateUnit)) post(trim())]
+[let createUnit : CreateUnit = unit.oclAsType(CreateUnit)]
+	@RequestMapping(value="/[createUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[createUnit.name.replaceAll(' ', '').toLowerFirst()/]CreateOperation", method=RequestMethod.POST)
+	public ModelAndView [createUnit.name.replaceAll(' ', '').toLowerFirst().replaceAll('/', '')/]CreateOperation(@ModelAttribute [createUnit.contentType.name/] modelobject, @ModelAttribute("persistentId") int id, @RequestParam String action){
+		ModelAndView mav = new ModelAndView("[createUnit.confirmDestination.name.replaceAll(' ', '').toLower()/]");
+		[createUnit.contentType.name/]ServiceImpl service = new [createUnit.contentType.name/]ServiceImpl();
+		service.add[createUnit.contentType.name/](modelobject);
+		List<[createUnit.contentType.name/]> list = new ArrayList<[createUnit.contentType.name/]>();
+		list = service.getAll();
+		mav.addObject("[createUnit.contentType.name.toLowerCase()/]s", list);
+
+		if(!mav.getModel().containsKey("[createUnit.contentType.name.toLowerCase()/]")) {
+			[createUnit.contentType.name/] [createUnit.contentType.name.toLowerFirst()/] = new [createUnit.contentType.name/]();
+			mav.addObject("[createUnit.contentType.name.toLowerCase()/]", [createUnit.contentType.name.toLowerFirst()/]);
+		}
+
+		if(!mav.getModel().containsKey("persistentId")) {
+			mav.addObject("persistentId", -1);
+		}
+
+		mav.addObject("filter", "none");
+
+		return mav;
+	}
+[/let]
+[/template]
+
+[comment]	Create this for every CreateUpdateUnit[/comment]
+[template public generateEditPageOperation(unit : ContentUnit)
+	? (unit.oclIsKindOf(CreateUpdateUnit)) post(trim())]
+[let createUpdateUnit : CreateUpdateUnit = unit.oclAsType(CreateUpdateUnit)]
+	@RequestMapping(value="/[createUpdateUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[createUpdateUnit.name.replaceAll(' ', '').toLowerFirst()/]CreateUpdateOperation", method=RequestMethod.POST)
+	public ModelAndView [createUpdateUnit.name.replaceAll(' ', '').toLowerFirst().replaceAll('/', '')/]CreateUpdateOperation(@ModelAttribute [createUpdateUnit.contentType.name/] modelobject, @ModelAttribute("persistentId") int id, @RequestParam String action){
+		ModelAndView mav = new ModelAndView("[createUpdateUnit.confirmDestination.name.replaceAll(' ', '').toLower()/]");
+		[createUpdateUnit.contentType.name/]ServiceImpl service = new [createUpdateUnit.contentType.name/]ServiceImpl();
+		switch(action.toLowerCase()){
+		case "add":
+			service.add[createUpdateUnit.contentType.name/](modelobject);
+			break;
+		case "update":
+			modelobject.setId(id);
+			service.update(modelobject);
+			break;
+		}
+		List<[createUpdateUnit.contentType.name/]> list = new ArrayList<[createUpdateUnit.contentType.name/]>();
+		list = service.getAll();
+		mav.addObject("[createUpdateUnit.contentType.name.toLowerCase()/]s", list);
+
+		if(!mav.getModel().containsKey("[createUpdateUnit.contentType.name.toLowerCase()/]")) {
+			[createUpdateUnit.contentType.name/] [createUpdateUnit.contentType.name.toLowerFirst()/] = new [createUpdateUnit.contentType.name/]();
+			mav.addObject("[createUpdateUnit.contentType.name.toLowerCase()/]", [createUpdateUnit.contentType.name.toLowerFirst()/]);
+		}
+
+		if(!mav.getModel().containsKey("persistentId")) {
+			mav.addObject("persistentId", -1);
+		}
+
+		mav.addObject("filter", "none");
+
+		return mav;
+	}
+[/let]
+[/template]
+
+[comment]	Create this for every UpdateUnit[/comment]
+[template public generateEditPageOperation(unit : ContentUnit)
+	? (unit.oclIsKindOf(UpdateUnit)) post(trim())]
+[let updateUnit : UpdateUnit = unit.oclAsType(UpdateUnit)]
+	@RequestMapping(value="/[updateUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[updateUnit.name.replaceAll(' ', '').toLowerFirst()/]UpdateOperation", method=RequestMethod.POST)
+	public ModelAndView [updateUnit.name.replaceAll(' ', '').toLowerFirst().replaceAll('/', '')/]UpdateOperation(@ModelAttribute [updateUnit.contentType.name/] modelobject, @ModelAttribute("persistentId") int id, @RequestParam String action){
+		ModelAndView mav = new ModelAndView("[updateUnit.confirmDestination.name.replaceAll(' ', '').toLower()/]");
+		[updateUnit.contentType.name/]ServiceImpl service = new [updateUnit.contentType.name/]ServiceImpl();
+		modelobject.setId(id);
+		service.update(modelobject);
+		List<[updateUnit.contentType.name/]> list = new ArrayList<[updateUnit.contentType.name/]>();
+		list = service.getAll();
+		mav.addObject("[updateUnit.contentType.name.toLowerCase()/]s", list);
+
+		if(!mav.getModel().containsKey("[updateUnit.contentType.name.toLowerCase()/]")) {
+			[updateUnit.contentType.name/] [updateUnit.contentType.name.toLowerFirst()/] = new [updateUnit.contentType.name/]();
+			mav.addObject("[updateUnit.contentType.name.toLowerCase()/]", [updateUnit.contentType.name.toLowerFirst()/]);
+		}
+
+		if(!mav.getModel().containsKey("persistentId")) {
+			mav.addObject("persistentId", -1);
+		}
+		
+		mav.addObject("filter", "none");
+		
+		return mav;
+	}
+[/let]
+[/template]
+
+[template public generateDetailsUnitRequestMapping(unit : ContentUnit)
+	? (unit.oclIsKindOf(DetailsUnit)) post(trim())]
+[let detailsUnit : DetailsUnit = unit.oclAsType(DetailsUnit)]
+	@RequestMapping(value = "/[detailsUnit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[detailsUnit.name.replaceAll(' ', '').toLowerFirst()/]", method = RequestMethod.GET)
+	public ModelAndView [detailsUnit.name.replaceAll(' ', '').toLowerFirst()/](HttpServletRequest request, HttpServletResponse response, @RequestParam(value="id") int id) {
+		ModelAndView mav = new ModelAndView("[detailsUnit.displayedOn.oclAsType(Page).name.replaceAll(' ', '').toLower()/]");
+		[detailsUnit.contentType.name/]ServiceImpl service = new [detailsUnit.contentType.name/]ServiceImpl();
+		[detailsUnit.contentType.name/] myObject = service.get[detailsUnit.contentType.name/]ById(id);
+		mav.addObject("[detailsUnit.contentType.name.toLowerFirst()/]", myObject);
+		return mav;
+	}
+[/let]
+[/template]
+
+[template public generateUnitSupportActionRequestMappings(unit : ContentUnit)
+	? (unit.oclIsKindOf(DynamicUnit)) post(trim())]
+[let dynamicUnit : DynamicUnit = unit.oclAsType(DynamicUnit)]
+[for (action : UnitSupportAction | dynamicUnit.supportActions)]
+[action.generateUnitSupportActionRequestMappings(dynamicUnit)/]
+[/for]
+[/let]
+[/template]
+
+[template public generateUnitSupportActionRequestMappings(action : UnitSupportAction, unit : DynamicUnit)]
+	@RequestMapping(value = "/[unit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[unit.name.replaceAll(' ', '')/][action.name.replaceAll(' ', '')/]", method = RequestMethod.GET)
+	public ModelAndView [unit.name.replaceAll(' ', '')/][action.name.replaceAll(' ', '')/]() {
+		//[protected (unit.name.replace(' ' , '')+action.name.replace(' ' , ''))]
+		List<NatureImages> list = new ArrayList<NatureImages>();
+		NatureImagesServiceImpl natureImagesServiceImpl = new NatureImagesServiceImpl();
+		list = natureImagesServiceImpl.getAll();
+		return new ModelAndView("excelView", "natureImagesList", list);
+		//[/protected]
+	}
+[/template]
+
+[comment]	Create this for every FeatureSupportAction button in any index page[/comment]
+[template public generateFeatureSupportActionRequestMappings(unit : ContentUnit)
+	? (unit.oclIsKindOf(IndexUnit)) post(trim())]
+[let indexUnit : IndexUnit = unit.oclAsType(IndexUnit)]
+[for (action : InlineAction | indexUnit.actions)]
+[if (action.oclIsTypeOf(FeatureSupportAction))]
+[let featureSupportAction : FeatureSupportAction = action.oclAsType(FeatureSupportAction)]
+	@RequestMapping(value = "/[unit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[unit.name.replaceAll(' ', '')/][action.name.replaceAll(' ', '')/]", method = RequestMethod.GET)
+	public ModelAndView [unit.name.replaceAll(' ', '')/][action.name.replaceAll(' ', '')/](@RequestParam(value="id") int id) {
+		//[protected (unit.name.replace(' ' , '')+action.name.replace(' ' , ''))]
+		List<NatureImages> list = new ArrayList<NatureImages>();
+		NatureImagesServiceImpl natureImagesServiceImpl = new NatureImagesServiceImpl();
+		NatureImages image = new NatureImages();
+		image = natureImagesServiceImpl.getNatureImagesById(id);
+		list.add(image);
+		return new ModelAndView("excelView", "natureImagesList", list);
+		//[/protected]
+	}
+[/let]
+[/if]
+[/for]
+[/let]
+[/template]
+
+[comment]	Create this for every FeatureSupportAction button in ImageIndexUnit pages[/comment]
+[template public generateFeatureSupportActionRequestMappings(unit : ContentUnit)
+	? (unit.oclIsKindOf(ImageIndexUnit)) post(trim())]
+[let indexUnit : ImageIndexUnit = unit.oclAsType(ImageIndexUnit)]
+[for (action : InlineAction | indexUnit.actions)]
+[if (action.oclIsTypeOf(FeatureSupportAction))]
+[let featureSupportAction : FeatureSupportAction = action.oclAsType(FeatureSupportAction)]
+	@RequestMapping(value = "/[unit.displayedOn.oclAsType(Page).generatePageURL('').trim()/]/[unit.name.replaceAll(' ', '')/][action.name.replaceAll(' ', '')/]", method = RequestMethod.GET)
+	public ModelAndView [unit.name.replaceAll(' ', '')/][action.name.replaceAll(' ', '')/](@RequestParam(value="id") int id) {
+		//[protected (unit.name.replace(' ' , '')+action.name.replace(' ' , ''))]
+		List<NatureImages> list = new ArrayList<NatureImages>();
+		NatureImagesServiceImpl natureImagesServiceImpl = new NatureImagesServiceImpl();
+		NatureImages image = new NatureImages();
+		image = natureImagesServiceImpl.getNatureImagesById(id);
+		list.add(image);
+		return new ModelAndView("excelView", "natureImagesList", list);
+		//[/protected]
+	}
+[/let]
+[/if]
+[/for]
+[/let]
+[/template]
+
+[template public generateEditStaticTextMenuEntryMappings(model : WafModel)]
+	@RequestMapping(value = "/editStaticTextPage", method = RequestMethod.GET)
+	public ModelAndView editStaticTextPage(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView("editstatictextpage");
+		StaticPageContentServiceImpl service = new StaticPageContentServiceImpl();
+		List<StaticPageContent> list = new ArrayList<StaticPageContent>();
+		list = service.getAll();
+		mav.addObject("contentinfos", list);
+		StaticPageContent contentInfo = new StaticPageContent();
+		mav.addObject("contentinfo", contentInfo);
+		mav.addObject("persistentId", -1);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/editStaticTextPageRedirectEdit", method = RequestMethod.GET)
+	public ModelAndView editStaticTextPageRedirectEdit(HttpServletRequest request, HttpServletResponse response, @RequestParam(value="contentid") int id) {
+		ModelAndView mav = new ModelAndView("editstatictextpage");
+		StaticPageContentServiceImpl service = new StaticPageContentServiceImpl();
+		List<StaticPageContent> list = new ArrayList<StaticPageContent>();
+		list = service.getAll();
+		mav.addObject("contentinfos", list);
+		StaticPageContent contentInfo = service.getContentById(id);
+		mav.addObject("contentinfo", contentInfo);
+		mav.addObject("persistentId", id);
+		return mav;
+	}
+	
+	@RequestMapping(value="/updateStaticText", method=RequestMethod.POST)
+	public ModelAndView updateStaticText(@ModelAttribute StaticPageContent contentinfo, @ModelAttribute("persistentId") int id, @ModelAttribute("pagecontent") String newpagecontent){
+		ModelAndView mav = new ModelAndView("editstatictextpage");
+		StaticPageContentServiceImpl service = new StaticPageContentServiceImpl();
+		contentinfo.setId(id);
+		contentinfo.setContent(newpagecontent);
+		service.update(contentinfo);
+		List<StaticPageContent> list = new ArrayList<StaticPageContent>();
+		list = service.getAll();
+		mav.addObject("contentinfos", list);
+		StaticPageContent contentInfo = new StaticPageContent();
+		mav.addObject("contentinfo", contentInfo);
+	    mav.addObject("persistentId", -1);
+		return mav;
+	}
+[/template]
+
+[template public generateEndOfWebController(model : WafModel)]
+
+
+[file ('src/automated/website/controller/WebController'.concat(model.javaExtension()), true, 'UTF-8')]
+	
+	[comment]This is for EditStaticTextMenuEntry[/comment]
+	[model.generateEditStaticTextMenuEntryMappings()/]
+
+	[comment]This is for Error page[/comment]
+	@RequestMapping(value = "/errorPage", method = RequestMethod.GET)
+	public String errorPage() {
+		return "error";
+	}
+}
+
+[/file]
+
+[/template]
+
+[template public generatePageURL(page : Page, currentURL : String)]
+
+[if (page.parentPage.oclIsUndefined())]
+	[page.name.toLowerFirst().replaceAll(' ', '')/][currentURL/]
+[else]
+	[page.parentPage.generatePageURL('/'.concat(page.getPageName().concat(currentURL)))/]
+[/if]
+
+[/template]

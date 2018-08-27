@@ -1,0 +1,21 @@
+[comment encoding = UTF-8 /]
+[module extensions('http://cs.man.ac.uk/mdsd/webgen/base', 'http://cs.man.ac.uk/mdsd/webgen/expression', 'http://cs.man.ac.uk/mdsd/webgen/persistence', 'http://cs.man.ac.uk/mdsd/webgen/service', 'http://cs.man.ac.uk/mdsd/webgen/api', 'http://cs.man.ac.uk/mdsd/webgen/image', 'http://cs.man.ac.uk/mdsd/webgen/security', 'http://cs.man.ac.uk/mdsd/webgen/webui', 'http://cs.manchester.ac.uk/mdsd/API', 'http://cs.manchester.ac.uk/mdsd/Expression', 'http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping', 'http://cs.manchester.ac.uk/mdsd/WebApplicationFramework', 'http://www.cs.man.ac.uk/mdsd/2010/Website')]
+
+
+[query public javaExtension (anOclAny : OclAny) : String
+	= '.java'/]
+
+[query public xmlExtension (anOclAny : OclAny) : String
+	= '.xml'/]
+
+[query public jspExtension (anOclAny : OclAny) : String
+	= '.jsp'/]
+
+[query public htmlExtension (anOclAny : OclAny) : String
+	= '.html'/]
+
+[query public javaScriptExtension (anOclAny : OclAny) : String
+	= '.js'/]
+
+[query public cssExtension (anOclAny : OclAny) : String
+	= '.css'/]

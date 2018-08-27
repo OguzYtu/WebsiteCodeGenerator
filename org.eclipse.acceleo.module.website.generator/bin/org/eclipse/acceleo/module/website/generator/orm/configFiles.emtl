@@ -1,0 +1,3186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:mtl="http://www.eclipse.org/acceleo/mtl/3.0" xmlns:ocl.ecore="http://www.eclipse.org/ocl/1.1.0/Ecore">
+  <mtl:Module name="configFiles" nsURI="org::eclipse::acceleo::module::website::generator::orm::configFiles" startHeaderPosition="29" endHeaderPosition="238">
+    <input>
+      <takesTypesFrom href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#/"/>
+    </input>
+    <input>
+      <takesTypesFrom href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#/"/>
+    </input>
+    <imports href="files.emtl#/0"/>
+    <ownedModuleElement xsi:type="mtl:Template" name="generateHibernateXML" visibility="Public">
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;"/>
+      <body xsi:type="mtl:FileBlock" openMode="OverWrite">
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&lt;?xml version='1.0' encoding='UTF-8'?>&#xA;&lt;!DOCTYPE hibernate-mapping PUBLIC&#xA;          &quot;-//Hibernate/Hibernate Mapping DTD 3.0//EN&quot;&#xA;          &quot;http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd&quot;>&#xA;&#xA;&lt;hibernate-mapping>&#xA;&#x9;&lt;class name=&quot;automated.website.model."/>
+        <body xsi:type="ocl.ecore:PropertyCallExp">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <source xsi:type="ocl.ecore:VariableExp" name="entity" referredVariable="/0/generateHibernateXML/entity">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+          </source>
+          <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedElement/name"/>
+        </body>
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot; table=&quot;"/>
+        <body xsi:type="ocl.ecore:PropertyCallExp">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <source xsi:type="ocl.ecore:VariableExp" name="entity" referredVariable="/0/generateHibernateXML/entity">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+          </source>
+          <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView/tableName"/>
+        </body>
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot; lazy=&quot;false&quot;>&#xA;&#x9;&#x9;"/>
+        <body xsi:type="mtl:TemplateInvocation" definition="/0/IdFieldGeneration">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <argument xsi:type="ocl.ecore:VariableExp" name="entity" referredVariable="/0/generateHibernateXML/entity">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+          </argument>
+        </body>
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;&#xA;"/>
+        <body xsi:type="mtl:ForBlock">
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#x9;&#x9;"/>
+          <body xsi:type="mtl:TemplateInvocation" definition="/0/featureContent">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <argument xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/generateHibernateXML/%.1/%.7/f">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+            </argument>
+          </body>
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;&#x9;&#x9;&#xA;"/>
+          <loopVariable name="f">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+          </loopVariable>
+          <iterSet xsi:type="ocl.ecore:PropertyCallExp" eType="/11/OrderedSet(Feature)">
+            <source xsi:type="ocl.ecore:VariableExp" name="entity" referredVariable="/0/generateHibernateXML/entity">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+            </source>
+            <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView/features"/>
+          </iterSet>
+        </body>
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#x9;&lt;/class>&#xA;&#xA;&lt;/hibernate-mapping>&#xA;"/>
+        <fileUrl xsi:type="mtl:QueryInvocation">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <definition href="files.emtl#/0/hbmXMLName"/>
+          <argument xsi:type="ocl.ecore:VariableExp" name="entity" referredVariable="/0/generateHibernateXML/entity">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+          </argument>
+        </fileUrl>
+        <charset xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="UTF-8">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </charset>
+      </body>
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;"/>
+      <parameter name="entity">
+        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+      </parameter>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Template" name="IdFieldGeneration" visibility="Public">
+      <body xsi:type="mtl:IfBlock">
+        <body xsi:type="mtl:TemplateInvocation" definition="/0/generateIdField">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <argument xsi:type="ocl.ecore:VariableExp" name="entity" referredVariable="/0/IdFieldGeneration/entity">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+          </argument>
+        </body>
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;"/>
+        <ifExpr xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/contains">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+          <source xsi:type="mtl:TemplateInvocation" definition="/0/controlIdField">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <argument xsi:type="ocl.ecore:VariableExp" name="entity" referredVariable="/0/IdFieldGeneration/entity">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+            </argument>
+          </source>
+          <argument xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="true">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          </argument>
+        </ifExpr>
+        <else>
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#x9;&#x9;&lt;id name=&quot;"/>
+          <body xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="entity" referredVariable="/0/IdFieldGeneration/entity">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+            </source>
+            <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView/autoKeyName"/>
+          </body>
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot;>&#xA;&#x9;&lt;generator class=&quot;increment&quot;>&lt;/generator>&#xA;&lt;/id>&#xA;"/>
+        </else>
+      </body>
+      <parameter name="entity">
+        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+      </parameter>
+      <post xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/trim">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <source xsi:type="ocl.ecore:VariableExp" name="self" referredVariable="/20">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </source>
+      </post>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Comment">
+      <body startPosition="1100" endPosition="1144" value="This control is only for one-to-one mappings"/>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Template" name="controlIdField" visibility="Public">
+      <body xsi:type="mtl:ForBlock">
+        <body xsi:type="mtl:IfBlock">
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="true&#xA;"/>
+          <ifExpr xsi:type="ocl.ecore:OperationCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+            <source xsi:type="ocl.ecore:OperationCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+              <source xsi:type="ocl.ecore:OperationCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+                <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/controlIdField/%/f">
+                  <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+                </source>
+                <argument xsi:type="ocl.ecore:TypeExp" eType="/32/SingletonAssociation">
+                  <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+                </argument>
+                <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclIsTypeOf"/>
+              </source>
+              <argument xsi:type="ocl.ecore:OperationCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+                <source xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_OclAny_Class/toString">
+                  <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                  <source xsi:type="ocl.ecore:PropertyCallExp">
+                    <eType xsi:type="ecore:EEnum" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociationRelationships"/>
+                    <source xsi:type="ocl.ecore:OperationCallExp">
+                      <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+                      <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/controlIdField/%/f">
+                        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+                      </source>
+                      <argument xsi:type="ocl.ecore:TypeExp" eType="/32/SingletonAssociation">
+                        <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+                      </argument>
+                      <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclAsType"/>
+                    </source>
+                    <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation/associationRelationship"/>
+                  </source>
+                </source>
+                <argument xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="OneToOne">
+                  <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                </argument>
+                <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String_Class/="/>
+              </argument>
+              <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean_Class/and"/>
+            </source>
+            <argument xsi:type="ocl.ecore:OperationCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+              <source xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+                <source xsi:type="ocl.ecore:OperationCallExp">
+                  <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+                  <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/controlIdField/%/f">
+                    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+                  </source>
+                  <argument xsi:type="ocl.ecore:TypeExp" eType="/32/SingletonAssociation">
+                    <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+                  </argument>
+                  <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclAsType"/>
+                </source>
+                <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityAssociation/owningEnd"/>
+              </source>
+              <argument xsi:type="ocl.ecore:BooleanLiteralExp" booleanSymbol="false">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+              </argument>
+              <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean_Class/="/>
+            </argument>
+            <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean_Class/and"/>
+          </ifExpr>
+        </body>
+        <loopVariable name="f">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+        </loopVariable>
+        <iterSet xsi:type="ocl.ecore:PropertyCallExp" eType="/11/OrderedSet(Feature)">
+          <source xsi:type="ocl.ecore:VariableExp" name="entity" referredVariable="/0/controlIdField/entity">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+          </source>
+          <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView/features"/>
+        </iterSet>
+      </body>
+      <parameter name="entity">
+        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+      </parameter>
+      <post xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/trim">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <source xsi:type="ocl.ecore:VariableExp" name="self" referredVariable="/28">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </source>
+      </post>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Comment">
+      <body startPosition="1488" endPosition="1524" value="This is only for one-to-one mappings"/>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Template" name="generateIdField" visibility="Public">
+      <body xsi:type="mtl:ForBlock">
+        <body xsi:type="mtl:IfBlock">
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#x9;&#x9;&lt;id name=&quot;id&quot;>&#xA;&#x9;&lt;generator class=&quot;foreign&quot;>&#xA;        &lt;param name=&quot;property&quot;>"/>
+          <body xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <source xsi:type="ocl.ecore:PropertyCallExp">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+              <source xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityAssociation"/>
+                <source xsi:type="ocl.ecore:OperationCallExp">
+                  <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+                  <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/generateIdField/%/f">
+                    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+                  </source>
+                  <argument xsi:type="ocl.ecore:TypeExp" eType="/32/SingletonAssociation">
+                    <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+                  </argument>
+                  <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclAsType"/>
+                </source>
+                <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityAssociation/opposite"/>
+              </source>
+              <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature/partOf"/>
+            </source>
+            <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView/tableName"/>
+          </body>
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&lt;/param>&#xA;    &lt;/generator>&#xA;&lt;/id>&#xA;"/>
+          <ifExpr xsi:type="ocl.ecore:OperationCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+            <source xsi:type="ocl.ecore:OperationCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+              <source xsi:type="ocl.ecore:OperationCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+                <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/generateIdField/%/f">
+                  <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+                </source>
+                <argument xsi:type="ocl.ecore:TypeExp" eType="/32/SingletonAssociation">
+                  <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+                </argument>
+                <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclIsTypeOf"/>
+              </source>
+              <argument xsi:type="ocl.ecore:OperationCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+                <source xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_OclAny_Class/toString">
+                  <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                  <source xsi:type="ocl.ecore:PropertyCallExp">
+                    <eType xsi:type="ecore:EEnum" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociationRelationships"/>
+                    <source xsi:type="ocl.ecore:OperationCallExp">
+                      <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+                      <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/generateIdField/%/f">
+                        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+                      </source>
+                      <argument xsi:type="ocl.ecore:TypeExp" eType="/32/SingletonAssociation">
+                        <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+                      </argument>
+                      <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclAsType"/>
+                    </source>
+                    <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation/associationRelationship"/>
+                  </source>
+                </source>
+                <argument xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="OneToOne">
+                  <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                </argument>
+                <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String_Class/="/>
+              </argument>
+              <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean_Class/and"/>
+            </source>
+            <argument xsi:type="ocl.ecore:OperationCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+              <source xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+                <source xsi:type="ocl.ecore:OperationCallExp">
+                  <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+                  <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/generateIdField/%/f">
+                    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+                  </source>
+                  <argument xsi:type="ocl.ecore:TypeExp" eType="/32/SingletonAssociation">
+                    <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+                  </argument>
+                  <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclAsType"/>
+                </source>
+                <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityAssociation/owningEnd"/>
+              </source>
+              <argument xsi:type="ocl.ecore:BooleanLiteralExp" booleanSymbol="false">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+              </argument>
+              <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean_Class/="/>
+            </argument>
+            <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean_Class/and"/>
+          </ifExpr>
+        </body>
+        <loopVariable name="f">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+        </loopVariable>
+        <iterSet xsi:type="ocl.ecore:PropertyCallExp" eType="/11/OrderedSet(Feature)">
+          <source xsi:type="ocl.ecore:VariableExp" name="entity" referredVariable="/0/generateIdField/entity">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+          </source>
+          <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView/features"/>
+        </iterSet>
+      </body>
+      <parameter name="entity">
+        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+      </parameter>
+      <post xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/trim">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <source xsi:type="ocl.ecore:VariableExp" name="self" referredVariable="/39">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </source>
+      </post>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Template" name="featureContent" visibility="Public">
+      <body xsi:type="mtl:LetBlock">
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&lt;property name=&quot;"/>
+        <body xsi:type="ocl.ecore:PropertyCallExp">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent/%/f">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonElement"/>
+          </source>
+          <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedElement/name"/>
+        </body>
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot; "/>
+        <body xsi:type="mtl:TemplateInvocation" definition="/0/isRequired">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <argument xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent/%/f">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonElement"/>
+          </argument>
+        </body>
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol=" "/>
+        <body xsi:type="mtl:TemplateInvocation" definition="/0/isUnique">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <argument xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent/%/f">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonElement"/>
+          </argument>
+        </body>
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol=">&lt;/property>&#xA;"/>
+        <letVariable name="f">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonElement"/>
+          <initExpression xsi:type="ocl.ecore:OperationCallExp">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonElement"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="feature" referredVariable="/0/featureContent/feature">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+            </source>
+            <argument xsi:type="ocl.ecore:TypeExp" eType="/32/SingletonElement">
+              <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonElement"/>
+            </argument>
+            <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclAsType"/>
+          </initExpression>
+        </letVariable>
+      </body>
+      <parameter name="feature">
+        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+      </parameter>
+      <guard xsi:type="ocl.ecore:OperationCallExp">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+        <source xsi:type="ocl.ecore:VariableExp" name="feature" referredVariable="/0/featureContent/feature">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+        </source>
+        <argument xsi:type="ocl.ecore:TypeExp" eType="/32/SingletonElement">
+          <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonElement"/>
+        </argument>
+        <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclIsTypeOf"/>
+      </guard>
+      <post xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/trim">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <source xsi:type="ocl.ecore:VariableExp" name="self" referredVariable="/51">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </source>
+      </post>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Comment">
+      <body startPosition="2301" endPosition="2322" value="OneToOne or ManyToOne"/>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Template" name="featureContent" visibility="Public">
+      <body xsi:type="mtl:LetBlock">
+        <body xsi:type="mtl:IfBlock">
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&lt;many-to-one name=&quot;"/>
+          <body xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.1/%/f">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+            </source>
+            <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedElement/name"/>
+          </body>
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot; class=&quot;automated.website.model."/>
+          <body xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <source xsi:type="ocl.ecore:PropertyCallExp">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+              <source xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityAssociation"/>
+                <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.1/%/f">
+                  <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+                </source>
+                <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityAssociation/opposite"/>
+              </source>
+              <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature/partOf"/>
+            </source>
+            <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedElement/name"/>
+          </body>
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot;&#xA;             column=&quot;"/>
+          <body xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.1/%/f">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+            </source>
+            <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityFeature/columnName"/>
+          </body>
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot; "/>
+          <body xsi:type="mtl:TemplateInvocation" definition="/0/isRequired">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <argument xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.1/%/f">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+            </argument>
+          </body>
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="/>&#xA;"/>
+          <ifExpr xsi:type="ocl.ecore:OperationCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+            <source xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_OclAny_Class/toString">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ecore:EEnum" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociationRelationships"/>
+                <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.1/%/f">
+                  <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+                </source>
+                <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation/associationRelationship"/>
+              </source>
+            </source>
+            <argument xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="ManyToOne">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            </argument>
+            <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String_Class/="/>
+          </ifExpr>
+          <else>
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&lt;one-to-one name=&quot;"/>
+            <body xsi:type="ocl.ecore:PropertyCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.1/%/f">
+                <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+              </source>
+              <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedElement/name"/>
+            </body>
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot; constrained=&quot;true&quot; class=&quot;automated.website.model."/>
+            <body xsi:type="ocl.ecore:PropertyCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+                <source xsi:type="ocl.ecore:PropertyCallExp">
+                  <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityAssociation"/>
+                  <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.1/%/f">
+                    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+                  </source>
+                  <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityAssociation/opposite"/>
+                </source>
+                <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature/partOf"/>
+              </source>
+              <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedElement/name"/>
+            </body>
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot; />&#xA;"/>
+          </else>
+          <elseIf>
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&lt;one-to-one name=&quot;"/>
+            <body xsi:type="ocl.ecore:PropertyCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.1/%/f">
+                <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+              </source>
+              <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedElement/name"/>
+            </body>
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot; class=&quot;automated.website.model."/>
+            <body xsi:type="ocl.ecore:PropertyCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+                <source xsi:type="ocl.ecore:PropertyCallExp">
+                  <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityAssociation"/>
+                  <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.1/%/f">
+                    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+                  </source>
+                  <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityAssociation/opposite"/>
+                </source>
+                <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature/partOf"/>
+              </source>
+              <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedElement/name"/>
+            </body>
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot; />&#xA;"/>
+            <ifExpr xsi:type="ocl.ecore:PropertyCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+              <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.1/%/f">
+                <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+              </source>
+              <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityAssociation/owningEnd"/>
+            </ifExpr>
+          </elseIf>
+        </body>
+        <letVariable name="f">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+          <initExpression xsi:type="ocl.ecore:OperationCallExp">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="feature" referredVariable="/0/featureContent.1/feature">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+            </source>
+            <argument xsi:type="ocl.ecore:TypeExp" eType="/32/SingletonAssociation">
+              <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+            </argument>
+            <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclAsType"/>
+          </initExpression>
+        </letVariable>
+      </body>
+      <parameter name="feature">
+        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+      </parameter>
+      <guard xsi:type="ocl.ecore:OperationCallExp">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+        <source xsi:type="ocl.ecore:VariableExp" name="feature" referredVariable="/0/featureContent.1/feature">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+        </source>
+        <argument xsi:type="ocl.ecore:TypeExp" eType="/32/SingletonAssociation">
+          <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+        </argument>
+        <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclIsTypeOf"/>
+      </guard>
+      <post xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/trim">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <source xsi:type="ocl.ecore:VariableExp" name="self" referredVariable="/61">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </source>
+      </post>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Comment">
+      <body startPosition="2986" endPosition="3009" value="OneToMany or ManyToMany"/>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Template" name="featureContent" visibility="Public">
+      <body xsi:type="mtl:LetBlock">
+        <body xsi:type="mtl:IfBlock">
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&lt;set name=&quot;"/>
+          <body xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.2/%/f">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//CollectionAssociation"/>
+            </source>
+            <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedElement/name"/>
+          </body>
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot; inverse=&quot;true&quot; cascade=&quot;all&quot;>&#xA;    &lt;key column=&quot;"/>
+          <body xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.2/%/f">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//CollectionAssociation"/>
+            </source>
+            <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityFeature/columnName"/>
+          </body>
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot; not-null=&quot;true&quot; />&#xA;    &lt;one-to-many class=&quot;automated.website.model."/>
+          <body xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <source xsi:type="ocl.ecore:PropertyCallExp">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+              <source xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityAssociation"/>
+                <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.2/%/f">
+                  <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//CollectionAssociation"/>
+                </source>
+                <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityAssociation/opposite"/>
+              </source>
+              <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature/partOf"/>
+            </source>
+            <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedElement/name"/>
+          </body>
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot;/>&#xA;&lt;/set>&#xA;"/>
+          <ifExpr xsi:type="ocl.ecore:OperationCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+            <source xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_OclAny_Class/toString">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ecore:EEnum" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//CollectionAssociationRelationships"/>
+                <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.2/%/f">
+                  <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//CollectionAssociation"/>
+                </source>
+                <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//CollectionAssociation/associationRelationship"/>
+              </source>
+            </source>
+            <argument xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="OneToMany">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            </argument>
+            <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String_Class/="/>
+          </ifExpr>
+          <else>
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&lt;set name=&quot;"/>
+            <body xsi:type="ocl.ecore:PropertyCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.2/%/f">
+                <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//CollectionAssociation"/>
+              </source>
+              <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedElement/name"/>
+            </body>
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot; table=&quot;"/>
+            <body xsi:type="ocl.ecore:PropertyCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.2/%/f">
+                <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//CollectionAssociation"/>
+              </source>
+              <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityAssociation/pivotTableName"/>
+            </body>
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot;>&#xA;    &lt;key column=&quot;"/>
+            <body xsi:type="ocl.ecore:PropertyCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.2/%/f">
+                <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//CollectionAssociation"/>
+              </source>
+              <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityFeature/columnName"/>
+            </body>
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot;/>&#xA;    &lt;many-to-many column=&quot;"/>
+            <body xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/toLowerFirst">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                <source xsi:type="ocl.ecore:PropertyCallExp">
+                  <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityAssociation"/>
+                  <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.2/%/f">
+                    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//CollectionAssociation"/>
+                  </source>
+                  <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityAssociation/opposite"/>
+                </source>
+                <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedElement/name"/>
+              </source>
+            </body>
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="_id&quot; class=&quot;automated.website.model."/>
+            <body xsi:type="ocl.ecore:PropertyCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+                <source xsi:type="ocl.ecore:PropertyCallExp">
+                  <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityAssociation"/>
+                  <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/featureContent.2/%/f">
+                    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//CollectionAssociation"/>
+                  </source>
+                  <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityAssociation/opposite"/>
+                </source>
+                <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature/partOf"/>
+              </source>
+              <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedElement/name"/>
+            </body>
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot; />&#xA;&lt;/set>&#xA;"/>
+          </else>
+        </body>
+        <letVariable name="f">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//CollectionAssociation"/>
+          <initExpression xsi:type="ocl.ecore:OperationCallExp">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//CollectionAssociation"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="feature" referredVariable="/0/featureContent.2/feature">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+            </source>
+            <argument xsi:type="ocl.ecore:TypeExp" eType="/32/CollectionAssociation">
+              <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//CollectionAssociation"/>
+            </argument>
+            <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclAsType"/>
+          </initExpression>
+        </letVariable>
+      </body>
+      <parameter name="feature">
+        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+      </parameter>
+      <guard xsi:type="ocl.ecore:OperationCallExp">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+        <source xsi:type="ocl.ecore:VariableExp" name="feature" referredVariable="/0/featureContent.2/feature">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+        </source>
+        <argument xsi:type="ocl.ecore:TypeExp" eType="/32/CollectionAssociation">
+          <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//CollectionAssociation"/>
+        </argument>
+        <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclIsTypeOf"/>
+      </guard>
+      <post xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/trim">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <source xsi:type="ocl.ecore:VariableExp" name="self" referredVariable="/78">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </source>
+      </post>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Comment">
+      <body startPosition="3716" endPosition="3761" value="Using this to check if the column is required"/>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Template" name="isRequired" visibility="Public">
+      <body xsi:type="mtl:LetBlock">
+        <body xsi:type="mtl:IfBlock">
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="not-null=&quot;true&quot;&#xA;"/>
+          <ifExpr xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/isRequired/%/f">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonElement"/>
+            </source>
+            <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAttribute/required"/>
+          </ifExpr>
+        </body>
+        <letVariable name="f">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonElement"/>
+          <initExpression xsi:type="ocl.ecore:OperationCallExp">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonElement"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="feature" referredVariable="/0/isRequired/feature">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+            </source>
+            <argument xsi:type="ocl.ecore:TypeExp" eType="/32/SingletonElement">
+              <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonElement"/>
+            </argument>
+            <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclAsType"/>
+          </initExpression>
+        </letVariable>
+      </body>
+      <parameter name="feature">
+        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+      </parameter>
+      <guard xsi:type="ocl.ecore:OperationCallExp">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+        <source xsi:type="ocl.ecore:VariableExp" name="feature" referredVariable="/0/isRequired/feature">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+        </source>
+        <argument xsi:type="ocl.ecore:TypeExp" eType="/32/SingletonElement">
+          <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonElement"/>
+        </argument>
+        <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclIsTypeOf"/>
+      </guard>
+      <post xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/trim">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <source xsi:type="ocl.ecore:VariableExp" name="self" referredVariable="/94">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </source>
+      </post>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Comment">
+      <body startPosition="4010" endPosition="4055" value="Using this to check if the column is required"/>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Template" name="isRequired" visibility="Public">
+      <body xsi:type="mtl:LetBlock">
+        <body xsi:type="mtl:IfBlock">
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="not-null=&quot;true&quot;&#xA;"/>
+          <ifExpr xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/isRequired.1/%/f">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+            </source>
+            <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation/required"/>
+          </ifExpr>
+        </body>
+        <letVariable name="f">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+          <initExpression xsi:type="ocl.ecore:OperationCallExp">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="feature" referredVariable="/0/isRequired.1/feature">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+            </source>
+            <argument xsi:type="ocl.ecore:TypeExp" eType="/32/SingletonAssociation">
+              <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+            </argument>
+            <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclAsType"/>
+          </initExpression>
+        </letVariable>
+      </body>
+      <parameter name="feature">
+        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+      </parameter>
+      <guard xsi:type="ocl.ecore:OperationCallExp">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+        <source xsi:type="ocl.ecore:VariableExp" name="feature" referredVariable="/0/isRequired.1/feature">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+        </source>
+        <argument xsi:type="ocl.ecore:TypeExp" eType="/32/SingletonAssociation">
+          <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+        </argument>
+        <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclIsTypeOf"/>
+      </guard>
+      <post xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/trim">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <source xsi:type="ocl.ecore:VariableExp" name="self" referredVariable="/102">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </source>
+      </post>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Comment">
+      <body startPosition="4316" endPosition="4359" value="Using this to check if the column is unique"/>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Template" name="isUnique" visibility="Public">
+      <body xsi:type="mtl:LetBlock">
+        <body xsi:type="mtl:IfBlock">
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="unique=&quot;true&quot;&#xA;"/>
+          <ifExpr xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="f" referredVariable="/0/isUnique/%/f">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonElement"/>
+            </source>
+            <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAttribute/unique"/>
+          </ifExpr>
+        </body>
+        <letVariable name="f">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonElement"/>
+          <initExpression xsi:type="ocl.ecore:OperationCallExp">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonElement"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="feature" referredVariable="/0/isUnique/feature">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+            </source>
+            <argument xsi:type="ocl.ecore:TypeExp" eType="/32/SingletonElement">
+              <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonElement"/>
+            </argument>
+            <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclAsType"/>
+          </initExpression>
+        </letVariable>
+      </body>
+      <parameter name="feature">
+        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+      </parameter>
+      <guard xsi:type="ocl.ecore:OperationCallExp">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+        <source xsi:type="ocl.ecore:VariableExp" name="feature" referredVariable="/0/isUnique/feature">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+        </source>
+        <argument xsi:type="ocl.ecore:TypeExp" eType="/32/SingletonElement">
+          <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonElement"/>
+        </argument>
+        <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny_Class/oclIsTypeOf"/>
+      </guard>
+      <post xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/trim">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <source xsi:type="ocl.ecore:VariableExp" name="self" referredVariable="/110">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </source>
+      </post>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Template" name="generateAppCntxXML" visibility="Public">
+      <body xsi:type="mtl:FileBlock" openMode="OverWrite">
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;&#xA;&#x9;xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:p=&quot;http://www.springframework.org/schema/p&quot;&#xA;&#x9;xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot; xmlns:aop=&quot;http://www.springframework.org/schema/aop&quot;&#xA;&#x9;xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd&#xA;&#x9;http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd&#xA;&#x9;http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd&quot;>&#xA;&#xA;&#xA;&#x9;&lt;bean id=&quot;dataSource&quot;&#xA;&#x9;&#x9;class=&quot;org.springframework.jdbc.datasource.DriverManagerDataSource&quot;>&#xA;&#x9;&#x9;&lt;property name=&quot;driverClassName&quot; value=&quot;com.mysql.jdbc.Driver&quot;>&lt;/property>&#xA;&#x9;&#x9;&lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/myusers&quot;>&lt;/property>&#xA;&#x9;&#x9;&lt;property name=&quot;username&quot; value=&quot;root&quot;>&lt;/property>&#xA;&#x9;&#x9;&lt;property name=&quot;password&quot; value=&quot;mysql1&quot;>&lt;/property>&#xA;&#x9;&lt;/bean>&#xA;&#xA;&#x9;&lt;bean id=&quot;mysessionFactory&quot;&#xA;&#x9;&#x9;class=&quot;org.springframework.orm.hibernate5.LocalSessionFactoryBean&quot;>&#xA;&#x9;&#x9;&lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot;>&lt;/property>&#xA;&#xA;&#x9;&#x9;&lt;property name=&quot;mappingResources&quot;>&#xA;&#x9;&#x9;&#x9;&lt;list>&#xA;"/>
+        <body xsi:type="mtl:ForBlock">
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#x9;&#x9;&#x9;&#x9;&lt;value>"/>
+          <body xsi:type="ocl.ecore:OperationCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <source xsi:type="ocl.ecore:PropertyCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="ocl.ecore:VariableExp" name="entity" referredVariable="/0/generateAppCntxXML/%/%.1/entity">
+                <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+              </source>
+              <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedElement/name"/>
+            </source>
+            <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String_Class/toLowerCase"/>
+          </body>
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol=".hbm.xml&lt;/value>&#xA;"/>
+          <loopVariable name="entity">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+          </loopVariable>
+          <iterSet xsi:type="ocl.ecore:PropertyCallExp" eType="/11/OrderedSet(EntityOrView)">
+            <source xsi:type="ocl.ecore:VariableExp" name="orm" referredVariable="/0/generateAppCntxXML/orm">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+            </source>
+            <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel/entitiesAndViews"/>
+          </iterSet>
+        </body>
+        <body xsi:type="mtl:IfBlock">
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#x9;&#x9;&#x9;&#x9;&lt;value>staticpagecontent.hbm.xml&lt;/value>&#xA;"/>
+          <ifExpr xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="wafModel" referredVariable="/0/generateAppCntxXML/wafModel">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+            </source>
+            <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel/staticUnitsEditable"/>
+          </ifExpr>
+        </body>
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#x9;&#x9;&#x9;&lt;/list>&#xA;&#x9;&#x9;&lt;/property>&#xA;&#xA;&#x9;&#x9;&lt;property name=&quot;hibernateProperties&quot;>&#xA;&#x9;&#x9;&#x9;&lt;props>&#xA;&#x9;&#x9;&#x9;&#x9;&lt;prop key=&quot;hibernate.dialect&quot;>org.hibernate.dialect.MySQLDialect&lt;/prop>&#xA;&#x9;&#x9;&#x9;&#x9;&lt;prop key=&quot;hibernate.hbm2ddl.auto&quot;>update&lt;/prop>&#xA;&#x9;&#x9;&#x9;&#x9;&lt;prop key=&quot;hibernate.show_sql&quot;>true&lt;/prop>&#xA;&#x9;&#x9;&#x9;&lt;/props>&#xA;&#x9;&#x9;&lt;/property>&#xA;&#x9;&lt;/bean>&#xA;&#xA;&#x9;&lt;bean id=&quot;template&quot; class=&quot;org.springframework.orm.hibernate5.HibernateTemplate&quot;>&#xA;&#x9;&#x9;&lt;property name=&quot;sessionFactory&quot; ref=&quot;mysessionFactory&quot;>&lt;/property>&#xA;&#x9;&lt;/bean>&#xA;&#xA;"/>
+        <body xsi:type="mtl:ForBlock">
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#x9;&lt;bean id=&quot;"/>
+          <body xsi:type="ocl.ecore:OperationCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <source xsi:type="ocl.ecore:PropertyCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="ocl.ecore:VariableExp" name="entity" referredVariable="/0/generateAppCntxXML/%/%.4/entity">
+                <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+              </source>
+              <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedElement/name"/>
+            </source>
+            <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String_Class/toLowerCase"/>
+          </body>
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&quot; class=&quot;automated.website.dao."/>
+          <body xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="entity" referredVariable="/0/generateAppCntxXML/%/%.4/entity">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+            </source>
+            <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//NamedElement/name"/>
+          </body>
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="Dao&quot;>&#xA;&#x9;&#x9;&lt;property name=&quot;template&quot; ref=&quot;template&quot;>&lt;/property>&#xA;&#x9;&lt;/bean>&#xA;"/>
+          <loopVariable name="entity">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+          </loopVariable>
+          <iterSet xsi:type="ocl.ecore:PropertyCallExp" eType="/11/OrderedSet(EntityOrView)">
+            <source xsi:type="ocl.ecore:VariableExp" name="orm" referredVariable="/0/generateAppCntxXML/orm">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+            </source>
+            <referredProperty xsi:type="ecore:EReference" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel/entitiesAndViews"/>
+          </iterSet>
+        </body>
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;"/>
+        <body xsi:type="mtl:IfBlock">
+          <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#x9;&lt;bean id=&quot;staticpagecontent&quot; class=&quot;automated.website.dao.StaticPageContentDao&quot;>&#xA;&#x9;&#x9;&lt;property name=&quot;template&quot; ref=&quot;template&quot;>&lt;/property>&#xA;&#x9;&lt;/bean>&#xA;"/>
+          <ifExpr xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="wafModel" referredVariable="/0/generateAppCntxXML/wafModel">
+              <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+            </source>
+            <referredProperty xsi:type="ecore:EAttribute" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel/staticUnitsEditable"/>
+          </ifExpr>
+        </body>
+        <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;&#x9;&lt;tx:annotation-driven />&#xA;&#x9;&lt;bean id=&quot;transactionManager&quot;&#xA;&#x9;&#x9;class=&quot;org.springframework.orm.hibernate5.HibernateTransactionManager&quot;>&#xA;&#x9;&#x9;&lt;property name=&quot;sessionFactory&quot; ref=&quot;mysessionFactory&quot; />&#xA;&#x9;&lt;/bean>&#xA;&#xA;&lt;/beans>&#xA;"/>
+        <fileUrl xsi:type="mtl:QueryInvocation">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          <definition href="files.emtl#/0/appCntxXMLName"/>
+          <argument xsi:type="ocl.ecore:VariableExp" name="orm" referredVariable="/0/generateAppCntxXML/orm">
+            <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+          </argument>
+        </fileUrl>
+        <charset xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="UTF-8">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </charset>
+      </body>
+      <parameter name="orm">
+        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+      </parameter>
+      <parameter name="wafModel">
+        <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+      </parameter>
+    </ownedModuleElement>
+  </mtl:Module>
+  <ecore:EPackage name="additions">
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_String_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+      </eAnnotations>
+      <eOperations name="toLowerFirst">
+        <eAnnotations source="MTL"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+      </eOperations>
+      <eOperations name="trim">
+        <eAnnotations source="MTL non-standard"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+      </eOperations>
+      <eOperations name="contains">
+        <eAnnotations source="MTL non-standard"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+        <eParameters name="substring">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </eParameters>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Integer_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Integer"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Real_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Real"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ecore_EObject_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </eAnnotations>
+      <eOperations name="generateHibernateXML">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL" references="/0/generateHibernateXML"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="entity">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="IdFieldGeneration">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL" references="/0/IdFieldGeneration"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="entity">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="controlIdField">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL" references="/0/controlIdField"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="entity">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="generateIdField">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL" references="/0/generateIdField"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="entity">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="featureContent">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL" references="/0/featureContent"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="feature">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="isRequired">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL" references="/0/isRequired"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="feature">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="isUnique">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL" references="/0/isUnique"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="feature">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="generateAppCntxXML">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL" references="/0/generateAppCntxXML"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="orm">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+        </eParameters>
+        <eParameters name="wafModel">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/WebApplicationFramework#//WafModel"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="hbmXMLName">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL">
+          <references href="files.emtl#/0/hbmXMLName"/>
+        </eAnnotations>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="entity">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="appCntxXMLName">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL">
+          <references href="files.emtl#/0/appCntxXMLName"/>
+        </eAnnotations>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="orm">
+          <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+        </eParameters>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_OclAny_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny"/>
+      </eAnnotations>
+      <eOperations name="toString">
+        <eAnnotations source="MTL non-standard"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Collection(T)_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Collection(T)"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Sequence(T)_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Sequence(T)"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_OrderedSet(T)_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OrderedSet(T)"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="orm_EntityOrView_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="orm_Feature_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="orm_OrmModel_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="service_Service_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://cs.manchester.ac.uk/mdsd/Service#//Service"/>
+      </eAnnotations>
+    </eClassifiers>
+  </ecore:EPackage>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ecore:EPackage name="collections">
+    <eClassifiers xsi:type="ocl.ecore:OrderedSetType" name="OrderedSet(Feature)" instanceClassName="java.util.LinkedHashSet">
+      <elementType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ocl.ecore:OrderedSetType" name="OrderedSet(EntityOrView)" instanceClassName="java.util.LinkedHashSet">
+      <elementType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+    </eClassifiers>
+  </ecore:EPackage>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="i">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Integer"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ecore:EPackage name="types">
+    <eClassifiers xsi:type="ocl.ecore:TypeType" name="SingletonAssociation">
+      <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonAssociation"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ocl.ecore:TypeType" name="SingletonElement">
+      <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//SingletonElement"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ocl.ecore:TypeType" name="CollectionAssociation">
+      <referredType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//CollectionAssociation"/>
+    </eClassifiers>
+  </ecore:EPackage>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="i">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Integer"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="i">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Integer"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//Feature"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="i">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Integer"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//EntityOrView"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="i">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Integer"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping#//OrmModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ecore:EAnnotation source="positions">
+    <eAnnotations source="positions.0" references="/0/generateHibernateXML">
+      <details key="start" value="242"/>
+      <details key="end" value="829"/>
+      <details key="line" value="7"/>
+    </eAnnotations>
+    <eAnnotations source="positions.1" references="/0/generateHibernateXML/%">
+      <details key="start" value="304"/>
+      <details key="end" value="305"/>
+      <details key="line" value="8"/>
+    </eAnnotations>
+    <eAnnotations source="positions.2" references="/0/generateHibernateXML/%.1">
+      <details key="start" value="305"/>
+      <details key="end" value="816"/>
+      <details key="line" value="9"/>
+    </eAnnotations>
+    <eAnnotations source="positions.3" references="/0/generateHibernateXML/%.1/%">
+      <details key="start" value="350"/>
+      <details key="end" value="610"/>
+      <details key="line" value="10"/>
+    </eAnnotations>
+    <eAnnotations source="positions.4" references="/0/generateHibernateXML/%.1/%.1">
+      <details key="start" value="611"/>
+      <details key="end" value="622"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.5" references="/0/generateHibernateXML/%.1/%.1/entity">
+      <details key="start" value="611"/>
+      <details key="end" value="617"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.6" references="/0/generateHibernateXML/%.1/%.2">
+      <details key="start" value="624"/>
+      <details key="end" value="633"/>
+      <details key="line" value="16"/>
+    </eAnnotations>
+    <eAnnotations source="positions.7" references="/0/generateHibernateXML/%.1/%.3">
+      <details key="start" value="634"/>
+      <details key="end" value="650"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.8" references="/0/generateHibernateXML/%.1/%.3/entity">
+      <details key="start" value="634"/>
+      <details key="end" value="640"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.9" references="/0/generateHibernateXML/%.1/%.4">
+      <details key="start" value="652"/>
+      <details key="end" value="670"/>
+      <details key="line" value="16"/>
+    </eAnnotations>
+    <eAnnotations source="positions.10" references="/0/generateHibernateXML/%.1/%.5">
+      <details key="start" value="671"/>
+      <details key="end" value="697"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.11" references="/0/generateHibernateXML/%.1/%.5/entity">
+      <details key="start" value="671"/>
+      <details key="end" value="677"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.12" references="/0/generateHibernateXML/%.1/%.6">
+      <details key="start" value="699"/>
+      <details key="end" value="701"/>
+      <details key="line" value="18"/>
+    </eAnnotations>
+    <eAnnotations source="positions.13" references="/0/generateHibernateXML/%.1/%.7">
+      <details key="start" value="703"/>
+      <details key="end" value="776"/>
+      <details key="line" value="19"/>
+    </eAnnotations>
+    <eAnnotations source="positions.14" references="/0/generateHibernateXML/%.1/%.7/%">
+      <details key="start" value="741"/>
+      <details key="end" value="743"/>
+      <details key="line" value="20"/>
+    </eAnnotations>
+    <eAnnotations source="positions.15" references="/0/generateHibernateXML/%.1/%.7/%.1">
+      <details key="start" value="744"/>
+      <details key="end" value="762"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.16" references="/0/generateHibernateXML/%.1/%.7/%.1/f">
+      <details key="start" value="744"/>
+      <details key="end" value="745"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.17" references="/0/generateHibernateXML/%.1/%.7/%.2">
+      <details key="start" value="764"/>
+      <details key="end" value="768"/>
+      <details key="line" value="21"/>
+    </eAnnotations>
+    <eAnnotations source="positions.18" references="/0/generateHibernateXML/%.1/%.7/f">
+      <details key="start" value="709"/>
+      <details key="end" value="720"/>
+      <details key="line" value="19"/>
+    </eAnnotations>
+    <eAnnotations source="positions.19" references="/0/generateHibernateXML/%.1/%.7/%.3">
+      <details key="start" value="723"/>
+      <details key="end" value="738"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.20" references="/0/generateHibernateXML/%.1/%.7/%.3/entity">
+      <details key="start" value="723"/>
+      <details key="end" value="729"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.21" references="/0/generateHibernateXML/%.1/%.8">
+      <details key="start" value="777"/>
+      <details key="end" value="809"/>
+      <details key="line" value="23"/>
+    </eAnnotations>
+    <eAnnotations source="positions.22" references="/0/generateHibernateXML/%.1/%.9">
+      <details key="start" value="312"/>
+      <details key="end" value="331"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.23" references="/0/generateHibernateXML/%.1/%.9/entity">
+      <details key="start" value="312"/>
+      <details key="end" value="318"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.24" references="/0/generateHibernateXML/%.1/%.10">
+      <details key="start" value="340"/>
+      <details key="end" value="347"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.25" references="/0/generateHibernateXML/%.2">
+      <details key="start" value="817"/>
+      <details key="end" value="818"/>
+      <details key="line" value="27"/>
+    </eAnnotations>
+    <eAnnotations source="positions.26" references="/0/generateHibernateXML/entity">
+      <details key="start" value="280"/>
+      <details key="end" value="301"/>
+      <details key="line" value="7"/>
+    </eAnnotations>
+    <eAnnotations source="positions.27" references="/0/IdFieldGeneration">
+      <details key="start" value="831"/>
+      <details key="end" value="1089"/>
+      <details key="line" value="30"/>
+    </eAnnotations>
+    <eAnnotations source="positions.28" references="/0/IdFieldGeneration/%">
+      <details key="start" value="904"/>
+      <details key="end" value="1077"/>
+      <details key="line" value="31"/>
+    </eAnnotations>
+    <eAnnotations source="positions.29" references="/0/IdFieldGeneration/%/%">
+      <details key="start" value="953"/>
+      <details key="end" value="977"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.30" references="/0/IdFieldGeneration/%/%/entity">
+      <details key="start" value="953"/>
+      <details key="end" value="959"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.31" references="/0/IdFieldGeneration/%/%.1">
+      <details key="start" value="979"/>
+      <details key="end" value="980"/>
+      <details key="line" value="33"/>
+    </eAnnotations>
+    <eAnnotations source="positions.32" references="/0/IdFieldGeneration/%/%.2">
+      <details key="start" value="908"/>
+      <details key="end" value="950"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.33" references="/0/IdFieldGeneration/%/%.2/%">
+      <details key="start" value="909"/>
+      <details key="end" value="932"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.34" references="/0/IdFieldGeneration/%/%.2/%/entity">
+      <details key="start" value="909"/>
+      <details key="end" value="915"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.35" references="/0/IdFieldGeneration/%/%.2/%.1">
+      <details key="start" value="942"/>
+      <details key="end" value="948"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.36" references="/0/IdFieldGeneration/%/%.3">
+      <details key="start" value="980"/>
+      <details key="end" value="1072"/>
+      <details key="line" value="33"/>
+    </eAnnotations>
+    <eAnnotations source="positions.37" references="/0/IdFieldGeneration/%/%.3/%">
+      <details key="start" value="987"/>
+      <details key="end" value="999"/>
+      <details key="line" value="34"/>
+    </eAnnotations>
+    <eAnnotations source="positions.38" references="/0/IdFieldGeneration/%/%.3/%.1">
+      <details key="start" value="1000"/>
+      <details key="end" value="1018"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.39" references="/0/IdFieldGeneration/%/%.3/%.1/entity">
+      <details key="start" value="1000"/>
+      <details key="end" value="1006"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.40" references="/0/IdFieldGeneration/%/%.3/%.2">
+      <details key="start" value="1020"/>
+      <details key="end" value="1072"/>
+      <details key="line" value="34"/>
+    </eAnnotations>
+    <eAnnotations source="positions.41" references="/0/IdFieldGeneration/entity">
+      <details key="start" value="866"/>
+      <details key="end" value="887"/>
+      <details key="line" value="30"/>
+    </eAnnotations>
+    <eAnnotations source="positions.42" references="/0/IdFieldGeneration/%.1">
+      <details key="start" value="895"/>
+      <details key="end" value="901"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.43" references="/0/IdFieldGeneration/%.1/self">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.44" references="/0/%">
+      <details key="start" value="1091"/>
+      <details key="end" value="1154"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.45" references="/0/controlIdField">
+      <details key="start" value="1155"/>
+      <details key="end" value="1477"/>
+      <details key="line" value="41"/>
+    </eAnnotations>
+    <eAnnotations source="positions.46" references="/0/controlIdField/%">
+      <details key="start" value="1225"/>
+      <details key="end" value="1465"/>
+      <details key="line" value="42"/>
+    </eAnnotations>
+    <eAnnotations source="positions.47" references="/0/controlIdField/%/%">
+      <details key="start" value="1263"/>
+      <details key="end" value="1458"/>
+      <details key="line" value="43"/>
+    </eAnnotations>
+    <eAnnotations source="positions.48" references="/0/controlIdField/%/%/%">
+      <details key="start" value="1448"/>
+      <details key="end" value="1453"/>
+      <details key="line" value="44"/>
+    </eAnnotations>
+    <eAnnotations source="positions.49" references="/0/controlIdField/%/%/%.1">
+      <details key="start" value="1267"/>
+      <details key="end" value="1446"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.50" references="/0/controlIdField/%/%/%.1/%">
+      <details key="start" value="1268"/>
+      <details key="end" value="1389"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.51" references="/0/controlIdField/%/%/%.1/%/%">
+      <details key="start" value="1268"/>
+      <details key="end" value="1303"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.52" references="/0/controlIdField/%/%/%.1/%/%/f">
+      <details key="start" value="1268"/>
+      <details key="end" value="1269"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.53" references="/0/controlIdField/%/%/%.1/%/%/%">
+      <details key="start" value="1282"/>
+      <details key="end" value="1302"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.54" references="/0/controlIdField/%/%/%.1/%/%.1">
+      <details key="start" value="1308"/>
+      <details key="end" value="1389"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.55" references="/0/controlIdField/%/%/%.1/%/%.1/%">
+      <details key="start" value="1308"/>
+      <details key="end" value="1376"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.56" references="/0/controlIdField/%/%/%.1/%/%.1/%/%">
+      <details key="start" value="1308"/>
+      <details key="end" value="1365"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.57" references="/0/controlIdField/%/%/%.1/%/%.1/%/%/%">
+      <details key="start" value="1308"/>
+      <details key="end" value="1341"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.58" references="/0/controlIdField/%/%/%.1/%/%.1/%/%/%/f">
+      <details key="start" value="1308"/>
+      <details key="end" value="1309"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.59" references="/0/controlIdField/%/%/%.1/%/%.1/%/%/%/%">
+      <details key="start" value="1320"/>
+      <details key="end" value="1340"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.60" references="/0/controlIdField/%/%/%.1/%/%.1/%.1">
+      <details key="start" value="1379"/>
+      <details key="end" value="1389"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.61" references="/0/controlIdField/%/%/%.1/%.1">
+      <details key="start" value="1394"/>
+      <details key="end" value="1445"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.62" references="/0/controlIdField/%/%/%.1/%.1/%">
+      <details key="start" value="1394"/>
+      <details key="end" value="1437"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.63" references="/0/controlIdField/%/%/%.1/%.1/%/%">
+      <details key="start" value="1394"/>
+      <details key="end" value="1427"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.64" references="/0/controlIdField/%/%/%.1/%.1/%/%/f">
+      <details key="start" value="1394"/>
+      <details key="end" value="1395"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.65" references="/0/controlIdField/%/%/%.1/%.1/%/%/%">
+      <details key="start" value="1406"/>
+      <details key="end" value="1426"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.66" references="/0/controlIdField/%/%/%.1/%.1/%.1">
+      <details key="start" value="1440"/>
+      <details key="end" value="1445"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.67" references="/0/controlIdField/%/f">
+      <details key="start" value="1231"/>
+      <details key="end" value="1242"/>
+      <details key="line" value="42"/>
+    </eAnnotations>
+    <eAnnotations source="positions.68" references="/0/controlIdField/%/%.1">
+      <details key="start" value="1245"/>
+      <details key="end" value="1260"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.69" references="/0/controlIdField/%/%.1/entity">
+      <details key="start" value="1245"/>
+      <details key="end" value="1251"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.70" references="/0/controlIdField/entity">
+      <details key="start" value="1187"/>
+      <details key="end" value="1208"/>
+      <details key="line" value="41"/>
+    </eAnnotations>
+    <eAnnotations source="positions.71" references="/0/controlIdField/%.1">
+      <details key="start" value="1216"/>
+      <details key="end" value="1222"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.72" references="/0/controlIdField/%.1/self">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.73" references="/0/%.1">
+      <details key="start" value="1479"/>
+      <details key="end" value="1534"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.74" references="/0/generateIdField">
+      <details key="start" value="1535"/>
+      <details key="end" value="2024"/>
+      <details key="line" value="50"/>
+    </eAnnotations>
+    <eAnnotations source="positions.75" references="/0/generateIdField/%">
+      <details key="start" value="1606"/>
+      <details key="end" value="2012"/>
+      <details key="line" value="51"/>
+    </eAnnotations>
+    <eAnnotations source="positions.76" references="/0/generateIdField/%/%">
+      <details key="start" value="1644"/>
+      <details key="end" value="2005"/>
+      <details key="line" value="52"/>
+    </eAnnotations>
+    <eAnnotations source="positions.77" references="/0/generateIdField/%/%/%">
+      <details key="start" value="1829"/>
+      <details key="end" value="1906"/>
+      <details key="line" value="53"/>
+    </eAnnotations>
+    <eAnnotations source="positions.78" references="/0/generateIdField/%/%/%.1">
+      <details key="start" value="1907"/>
+      <details key="end" value="1966"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.79" references="/0/generateIdField/%/%/%.1/%">
+      <details key="start" value="1907"/>
+      <details key="end" value="1956"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.80" references="/0/generateIdField/%/%/%.1/%/%">
+      <details key="start" value="1907"/>
+      <details key="end" value="1949"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.81" references="/0/generateIdField/%/%/%.1/%/%/%">
+      <details key="start" value="1907"/>
+      <details key="end" value="1940"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.82" references="/0/generateIdField/%/%/%.1/%/%/%/f">
+      <details key="start" value="1907"/>
+      <details key="end" value="1908"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.83" references="/0/generateIdField/%/%/%.1/%/%/%/%">
+      <details key="start" value="1919"/>
+      <details key="end" value="1939"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.84" references="/0/generateIdField/%/%/%.2">
+      <details key="start" value="1968"/>
+      <details key="end" value="2000"/>
+      <details key="line" value="55"/>
+    </eAnnotations>
+    <eAnnotations source="positions.85" references="/0/generateIdField/%/%/%.3">
+      <details key="start" value="1648"/>
+      <details key="end" value="1827"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.86" references="/0/generateIdField/%/%/%.3/%">
+      <details key="start" value="1649"/>
+      <details key="end" value="1770"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.87" references="/0/generateIdField/%/%/%.3/%/%">
+      <details key="start" value="1649"/>
+      <details key="end" value="1684"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.88" references="/0/generateIdField/%/%/%.3/%/%/f">
+      <details key="start" value="1649"/>
+      <details key="end" value="1650"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.89" references="/0/generateIdField/%/%/%.3/%/%/%">
+      <details key="start" value="1663"/>
+      <details key="end" value="1683"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.90" references="/0/generateIdField/%/%/%.3/%/%.1">
+      <details key="start" value="1689"/>
+      <details key="end" value="1770"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.91" references="/0/generateIdField/%/%/%.3/%/%.1/%">
+      <details key="start" value="1689"/>
+      <details key="end" value="1757"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.92" references="/0/generateIdField/%/%/%.3/%/%.1/%/%">
+      <details key="start" value="1689"/>
+      <details key="end" value="1746"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.93" references="/0/generateIdField/%/%/%.3/%/%.1/%/%/%">
+      <details key="start" value="1689"/>
+      <details key="end" value="1722"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.94" references="/0/generateIdField/%/%/%.3/%/%.1/%/%/%/f">
+      <details key="start" value="1689"/>
+      <details key="end" value="1690"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.95" references="/0/generateIdField/%/%/%.3/%/%.1/%/%/%/%">
+      <details key="start" value="1701"/>
+      <details key="end" value="1721"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.96" references="/0/generateIdField/%/%/%.3/%/%.1/%.1">
+      <details key="start" value="1760"/>
+      <details key="end" value="1770"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.97" references="/0/generateIdField/%/%/%.3/%.1">
+      <details key="start" value="1775"/>
+      <details key="end" value="1826"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.98" references="/0/generateIdField/%/%/%.3/%.1/%">
+      <details key="start" value="1775"/>
+      <details key="end" value="1818"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.99" references="/0/generateIdField/%/%/%.3/%.1/%/%">
+      <details key="start" value="1775"/>
+      <details key="end" value="1808"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.100" references="/0/generateIdField/%/%/%.3/%.1/%/%/f">
+      <details key="start" value="1775"/>
+      <details key="end" value="1776"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.101" references="/0/generateIdField/%/%/%.3/%.1/%/%/%">
+      <details key="start" value="1787"/>
+      <details key="end" value="1807"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.102" references="/0/generateIdField/%/%/%.3/%.1/%.1">
+      <details key="start" value="1821"/>
+      <details key="end" value="1826"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.103" references="/0/generateIdField/%/f">
+      <details key="start" value="1612"/>
+      <details key="end" value="1623"/>
+      <details key="line" value="51"/>
+    </eAnnotations>
+    <eAnnotations source="positions.104" references="/0/generateIdField/%/%.1">
+      <details key="start" value="1626"/>
+      <details key="end" value="1641"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.105" references="/0/generateIdField/%/%.1/entity">
+      <details key="start" value="1626"/>
+      <details key="end" value="1632"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.106" references="/0/generateIdField/entity">
+      <details key="start" value="1568"/>
+      <details key="end" value="1589"/>
+      <details key="line" value="50"/>
+    </eAnnotations>
+    <eAnnotations source="positions.107" references="/0/generateIdField/%.1">
+      <details key="start" value="1597"/>
+      <details key="end" value="1603"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.108" references="/0/generateIdField/%.1/self">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.109" references="/0/featureContent">
+      <details key="start" value="2026"/>
+      <details key="end" value="2290"/>
+      <details key="line" value="62"/>
+    </eAnnotations>
+    <eAnnotations source="positions.110" references="/0/featureContent/%">
+      <details key="start" value="2134"/>
+      <details key="end" value="2278"/>
+      <details key="line" value="64"/>
+    </eAnnotations>
+    <eAnnotations source="positions.111" references="/0/featureContent/%/%">
+      <details key="start" value="2199"/>
+      <details key="end" value="2215"/>
+      <details key="line" value="65"/>
+    </eAnnotations>
+    <eAnnotations source="positions.112" references="/0/featureContent/%/%.1">
+      <details key="start" value="2216"/>
+      <details key="end" value="2222"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.113" references="/0/featureContent/%/%.1/f">
+      <details key="start" value="2216"/>
+      <details key="end" value="2217"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.114" references="/0/featureContent/%/%.2">
+      <details key="start" value="2224"/>
+      <details key="end" value="2226"/>
+      <details key="line" value="65"/>
+    </eAnnotations>
+    <eAnnotations source="positions.115" references="/0/featureContent/%/%.3">
+      <details key="start" value="2227"/>
+      <details key="end" value="2241"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.116" references="/0/featureContent/%/%.3/f">
+      <details key="start" value="2227"/>
+      <details key="end" value="2228"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.117" references="/0/featureContent/%/%.4">
+      <details key="start" value="2243"/>
+      <details key="end" value="2244"/>
+      <details key="line" value="65"/>
+    </eAnnotations>
+    <eAnnotations source="positions.118" references="/0/featureContent/%/%.5">
+      <details key="start" value="2245"/>
+      <details key="end" value="2257"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.119" references="/0/featureContent/%/%.5/f">
+      <details key="start" value="2245"/>
+      <details key="end" value="2246"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.120" references="/0/featureContent/%/%.6">
+      <details key="start" value="2259"/>
+      <details key="end" value="2272"/>
+      <details key="line" value="65"/>
+    </eAnnotations>
+    <eAnnotations source="positions.121" references="/0/featureContent/%/f">
+      <details key="start" value="2139"/>
+      <details key="end" value="2197"/>
+      <details key="line" value="64"/>
+    </eAnnotations>
+    <eAnnotations source="positions.122" references="/0/featureContent/%/f/%">
+      <details key="start" value="2163"/>
+      <details key="end" value="2198"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.123" references="/0/featureContent/%/f/%/feature">
+      <details key="start" value="2163"/>
+      <details key="end" value="2170"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.124" references="/0/featureContent/%/f/%/%">
+      <details key="start" value="2181"/>
+      <details key="end" value="2197"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.125" references="/0/featureContent/feature">
+      <details key="start" value="2058"/>
+      <details key="end" value="2075"/>
+      <details key="line" value="62"/>
+    </eAnnotations>
+    <eAnnotations source="positions.126" references="/0/featureContent/%.1">
+      <details key="start" value="2081"/>
+      <details key="end" value="2118"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.127" references="/0/featureContent/%.1/feature">
+      <details key="start" value="2081"/>
+      <details key="end" value="2088"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.128" references="/0/featureContent/%.1/%">
+      <details key="start" value="2101"/>
+      <details key="end" value="2117"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.129" references="/0/featureContent/%.2">
+      <details key="start" value="2125"/>
+      <details key="end" value="2131"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.130" references="/0/featureContent/%.2/self">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.131" references="/0/%.2">
+      <details key="start" value="2292"/>
+      <details key="end" value="2332"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.132" references="/0/featureContent.1">
+      <details key="start" value="2333"/>
+      <details key="end" value="2975"/>
+      <details key="line" value="70"/>
+    </eAnnotations>
+    <eAnnotations source="positions.133" references="/0/featureContent.1/%">
+      <details key="start" value="2445"/>
+      <details key="end" value="2963"/>
+      <details key="line" value="72"/>
+    </eAnnotations>
+    <eAnnotations source="positions.134" references="/0/featureContent.1/%/%">
+      <details key="start" value="2518"/>
+      <details key="end" value="2956"/>
+      <details key="line" value="73"/>
+    </eAnnotations>
+    <eAnnotations source="positions.135" references="/0/featureContent.1/%/%/%">
+      <details key="start" value="2576"/>
+      <details key="end" value="2595"/>
+      <details key="line" value="74"/>
+    </eAnnotations>
+    <eAnnotations source="positions.136" references="/0/featureContent.1/%/%/%.1">
+      <details key="start" value="2596"/>
+      <details key="end" value="2602"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.137" references="/0/featureContent.1/%/%/%.1/f">
+      <details key="start" value="2596"/>
+      <details key="end" value="2597"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.138" references="/0/featureContent.1/%/%/%.2">
+      <details key="start" value="2604"/>
+      <details key="end" value="2637"/>
+      <details key="line" value="74"/>
+    </eAnnotations>
+    <eAnnotations source="positions.139" references="/0/featureContent.1/%/%/%.3">
+      <details key="start" value="2638"/>
+      <details key="end" value="2660"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.140" references="/0/featureContent.1/%/%/%.3/%">
+      <details key="start" value="2638"/>
+      <details key="end" value="2655"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.141" references="/0/featureContent.1/%/%/%.3/%/%">
+      <details key="start" value="2638"/>
+      <details key="end" value="2648"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.142" references="/0/featureContent.1/%/%/%.3/%/%/f">
+      <details key="start" value="2638"/>
+      <details key="end" value="2639"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.143" references="/0/featureContent.1/%/%/%.4">
+      <details key="start" value="2662"/>
+      <details key="end" value="2685"/>
+      <details key="line" value="74"/>
+    </eAnnotations>
+    <eAnnotations source="positions.144" references="/0/featureContent.1/%/%/%.5">
+      <details key="start" value="2686"/>
+      <details key="end" value="2698"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.145" references="/0/featureContent.1/%/%/%.5/f">
+      <details key="start" value="2686"/>
+      <details key="end" value="2687"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.146" references="/0/featureContent.1/%/%/%.6">
+      <details key="start" value="2700"/>
+      <details key="end" value="2702"/>
+      <details key="line" value="75"/>
+    </eAnnotations>
+    <eAnnotations source="positions.147" references="/0/featureContent.1/%/%/%.7">
+      <details key="start" value="2703"/>
+      <details key="end" value="2717"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.148" references="/0/featureContent.1/%/%/%.7/f">
+      <details key="start" value="2703"/>
+      <details key="end" value="2704"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.149" references="/0/featureContent.1/%/%/%.8">
+      <details key="start" value="2719"/>
+      <details key="end" value="2722"/>
+      <details key="line" value="75"/>
+    </eAnnotations>
+    <eAnnotations source="positions.150" references="/0/featureContent.1/%/%/%.9">
+      <details key="start" value="2522"/>
+      <details key="end" value="2574"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.151" references="/0/featureContent.1/%/%/%.9/%">
+      <details key="start" value="2523"/>
+      <details key="end" value="2559"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.152" references="/0/featureContent.1/%/%/%.9/%/%">
+      <details key="start" value="2523"/>
+      <details key="end" value="2548"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.153" references="/0/featureContent.1/%/%/%.9/%/%/f">
+      <details key="start" value="2523"/>
+      <details key="end" value="2524"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.154" references="/0/featureContent.1/%/%/%.9/%.1">
+      <details key="start" value="2562"/>
+      <details key="end" value="2573"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.155" references="/0/featureContent.1/%/%/%.10">
+      <details key="start" value="2835"/>
+      <details key="end" value="2951"/>
+      <details key="line" value="78"/>
+    </eAnnotations>
+    <eAnnotations source="positions.156" references="/0/featureContent.1/%/%/%.10/%">
+      <details key="start" value="2842"/>
+      <details key="end" value="2860"/>
+      <details key="line" value="79"/>
+    </eAnnotations>
+    <eAnnotations source="positions.157" references="/0/featureContent.1/%/%/%.10/%.1">
+      <details key="start" value="2861"/>
+      <details key="end" value="2867"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.158" references="/0/featureContent.1/%/%/%.10/%.1/f">
+      <details key="start" value="2861"/>
+      <details key="end" value="2862"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.159" references="/0/featureContent.1/%/%/%.10/%.2">
+      <details key="start" value="2869"/>
+      <details key="end" value="2921"/>
+      <details key="line" value="79"/>
+    </eAnnotations>
+    <eAnnotations source="positions.160" references="/0/featureContent.1/%/%/%.10/%.3">
+      <details key="start" value="2922"/>
+      <details key="end" value="2944"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.161" references="/0/featureContent.1/%/%/%.10/%.3/%">
+      <details key="start" value="2922"/>
+      <details key="end" value="2939"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.162" references="/0/featureContent.1/%/%/%.10/%.3/%/%">
+      <details key="start" value="2922"/>
+      <details key="end" value="2932"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.163" references="/0/featureContent.1/%/%/%.10/%.3/%/%/f">
+      <details key="start" value="2922"/>
+      <details key="end" value="2923"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.164" references="/0/featureContent.1/%/%/%.10/%.4">
+      <details key="start" value="2946"/>
+      <details key="end" value="2951"/>
+      <details key="line" value="79"/>
+    </eAnnotations>
+    <eAnnotations source="positions.165" references="/0/featureContent.1/%/%/%.11">
+      <details key="start" value="2722"/>
+      <details key="end" value="2835"/>
+      <details key="line" value="76"/>
+    </eAnnotations>
+    <eAnnotations source="positions.166" references="/0/featureContent.1/%/%/%.11/%">
+      <details key="start" value="2745"/>
+      <details key="end" value="2763"/>
+      <details key="line" value="77"/>
+    </eAnnotations>
+    <eAnnotations source="positions.167" references="/0/featureContent.1/%/%/%.11/%.1">
+      <details key="start" value="2764"/>
+      <details key="end" value="2770"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.168" references="/0/featureContent.1/%/%/%.11/%.1/f">
+      <details key="start" value="2764"/>
+      <details key="end" value="2765"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.169" references="/0/featureContent.1/%/%/%.11/%.2">
+      <details key="start" value="2772"/>
+      <details key="end" value="2805"/>
+      <details key="line" value="77"/>
+    </eAnnotations>
+    <eAnnotations source="positions.170" references="/0/featureContent.1/%/%/%.11/%.3">
+      <details key="start" value="2806"/>
+      <details key="end" value="2828"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.171" references="/0/featureContent.1/%/%/%.11/%.3/%">
+      <details key="start" value="2806"/>
+      <details key="end" value="2823"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.172" references="/0/featureContent.1/%/%/%.11/%.3/%/%">
+      <details key="start" value="2806"/>
+      <details key="end" value="2816"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.173" references="/0/featureContent.1/%/%/%.11/%.3/%/%/f">
+      <details key="start" value="2806"/>
+      <details key="end" value="2807"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.174" references="/0/featureContent.1/%/%/%.11/%.4">
+      <details key="start" value="2830"/>
+      <details key="end" value="2835"/>
+      <details key="line" value="77"/>
+    </eAnnotations>
+    <eAnnotations source="positions.175" references="/0/featureContent.1/%/%/%.11/%.5">
+      <details key="start" value="2730"/>
+      <details key="end" value="2743"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.176" references="/0/featureContent.1/%/%/%.11/%.5/f">
+      <details key="start" value="2731"/>
+      <details key="end" value="2732"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.177" references="/0/featureContent.1/%/f">
+      <details key="start" value="2450"/>
+      <details key="end" value="2516"/>
+      <details key="line" value="72"/>
+    </eAnnotations>
+    <eAnnotations source="positions.178" references="/0/featureContent.1/%/f/%">
+      <details key="start" value="2478"/>
+      <details key="end" value="2517"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.179" references="/0/featureContent.1/%/f/%/feature">
+      <details key="start" value="2478"/>
+      <details key="end" value="2485"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.180" references="/0/featureContent.1/%/f/%/%">
+      <details key="start" value="2496"/>
+      <details key="end" value="2516"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.181" references="/0/featureContent.1/feature">
+      <details key="start" value="2365"/>
+      <details key="end" value="2382"/>
+      <details key="line" value="70"/>
+    </eAnnotations>
+    <eAnnotations source="positions.182" references="/0/featureContent.1/%.1">
+      <details key="start" value="2388"/>
+      <details key="end" value="2429"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.183" references="/0/featureContent.1/%.1/feature">
+      <details key="start" value="2388"/>
+      <details key="end" value="2395"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.184" references="/0/featureContent.1/%.1/%">
+      <details key="start" value="2408"/>
+      <details key="end" value="2428"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.185" references="/0/featureContent.1/%.2">
+      <details key="start" value="2436"/>
+      <details key="end" value="2442"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.186" references="/0/featureContent.1/%.2/self">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.187" references="/0/%.3">
+      <details key="start" value="2977"/>
+      <details key="end" value="3019"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.188" references="/0/featureContent.2">
+      <details key="start" value="3020"/>
+      <details key="end" value="3705"/>
+      <details key="line" value="85"/>
+    </eAnnotations>
+    <eAnnotations source="positions.189" references="/0/featureContent.2/%">
+      <details key="start" value="3133"/>
+      <details key="end" value="3693"/>
+      <details key="line" value="87"/>
+    </eAnnotations>
+    <eAnnotations source="positions.190" references="/0/featureContent.2/%/%">
+      <details key="start" value="3208"/>
+      <details key="end" value="3686"/>
+      <details key="line" value="88"/>
+    </eAnnotations>
+    <eAnnotations source="positions.191" references="/0/featureContent.2/%/%/%">
+      <details key="start" value="3266"/>
+      <details key="end" value="3277"/>
+      <details key="line" value="89"/>
+    </eAnnotations>
+    <eAnnotations source="positions.192" references="/0/featureContent.2/%/%/%.1">
+      <details key="start" value="3278"/>
+      <details key="end" value="3284"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.193" references="/0/featureContent.2/%/%/%.1/f">
+      <details key="start" value="3278"/>
+      <details key="end" value="3279"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.194" references="/0/featureContent.2/%/%/%.2">
+      <details key="start" value="3286"/>
+      <details key="end" value="3335"/>
+      <details key="line" value="89"/>
+    </eAnnotations>
+    <eAnnotations source="positions.195" references="/0/featureContent.2/%/%/%.3">
+      <details key="start" value="3336"/>
+      <details key="end" value="3348"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.196" references="/0/featureContent.2/%/%/%.3/f">
+      <details key="start" value="3336"/>
+      <details key="end" value="3337"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.197" references="/0/featureContent.2/%/%/%.4">
+      <details key="start" value="3350"/>
+      <details key="end" value="3419"/>
+      <details key="line" value="90"/>
+    </eAnnotations>
+    <eAnnotations source="positions.198" references="/0/featureContent.2/%/%/%.5">
+      <details key="start" value="3420"/>
+      <details key="end" value="3442"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.199" references="/0/featureContent.2/%/%/%.5/%">
+      <details key="start" value="3420"/>
+      <details key="end" value="3437"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.200" references="/0/featureContent.2/%/%/%.5/%/%">
+      <details key="start" value="3420"/>
+      <details key="end" value="3430"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.201" references="/0/featureContent.2/%/%/%.5/%/%/f">
+      <details key="start" value="3420"/>
+      <details key="end" value="3421"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.202" references="/0/featureContent.2/%/%/%.6">
+      <details key="start" value="3444"/>
+      <details key="end" value="3455"/>
+      <details key="line" value="91"/>
+    </eAnnotations>
+    <eAnnotations source="positions.203" references="/0/featureContent.2/%/%/%.7">
+      <details key="start" value="3212"/>
+      <details key="end" value="3264"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.204" references="/0/featureContent.2/%/%/%.7/%">
+      <details key="start" value="3213"/>
+      <details key="end" value="3249"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.205" references="/0/featureContent.2/%/%/%.7/%/%">
+      <details key="start" value="3213"/>
+      <details key="end" value="3238"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.206" references="/0/featureContent.2/%/%/%.7/%/%/f">
+      <details key="start" value="3213"/>
+      <details key="end" value="3214"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.207" references="/0/featureContent.2/%/%/%.7/%.1">
+      <details key="start" value="3252"/>
+      <details key="end" value="3263"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.208" references="/0/featureContent.2/%/%/%.8">
+      <details key="start" value="3455"/>
+      <details key="end" value="3681"/>
+      <details key="line" value="93"/>
+    </eAnnotations>
+    <eAnnotations source="positions.209" references="/0/featureContent.2/%/%/%.8/%">
+      <details key="start" value="3462"/>
+      <details key="end" value="3473"/>
+      <details key="line" value="94"/>
+    </eAnnotations>
+    <eAnnotations source="positions.210" references="/0/featureContent.2/%/%/%.8/%.1">
+      <details key="start" value="3474"/>
+      <details key="end" value="3480"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.211" references="/0/featureContent.2/%/%/%.8/%.1/f">
+      <details key="start" value="3474"/>
+      <details key="end" value="3475"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.212" references="/0/featureContent.2/%/%/%.8/%.2">
+      <details key="start" value="3482"/>
+      <details key="end" value="3491"/>
+      <details key="line" value="94"/>
+    </eAnnotations>
+    <eAnnotations source="positions.213" references="/0/featureContent.2/%/%/%.8/%.3">
+      <details key="start" value="3492"/>
+      <details key="end" value="3508"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.214" references="/0/featureContent.2/%/%/%.8/%.3/f">
+      <details key="start" value="3492"/>
+      <details key="end" value="3493"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.215" references="/0/featureContent.2/%/%/%.8/%.4">
+      <details key="start" value="3510"/>
+      <details key="end" value="3530"/>
+      <details key="line" value="94"/>
+    </eAnnotations>
+    <eAnnotations source="positions.216" references="/0/featureContent.2/%/%/%.8/%.5">
+      <details key="start" value="3531"/>
+      <details key="end" value="3543"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.217" references="/0/featureContent.2/%/%/%.8/%.5/f">
+      <details key="start" value="3531"/>
+      <details key="end" value="3532"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.218" references="/0/featureContent.2/%/%/%.8/%.6">
+      <details key="start" value="3545"/>
+      <details key="end" value="3575"/>
+      <details key="line" value="95"/>
+    </eAnnotations>
+    <eAnnotations source="positions.219" references="/0/featureContent.2/%/%/%.8/%.7">
+      <details key="start" value="3576"/>
+      <details key="end" value="3606"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.220" references="/0/featureContent.2/%/%/%.8/%.7/%">
+      <details key="start" value="3576"/>
+      <details key="end" value="3591"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.221" references="/0/featureContent.2/%/%/%.8/%.7/%/%">
+      <details key="start" value="3576"/>
+      <details key="end" value="3586"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.222" references="/0/featureContent.2/%/%/%.8/%.7/%/%/f">
+      <details key="start" value="3576"/>
+      <details key="end" value="3577"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.223" references="/0/featureContent.2/%/%/%.8/%.8">
+      <details key="start" value="3608"/>
+      <details key="end" value="3644"/>
+      <details key="line" value="96"/>
+    </eAnnotations>
+    <eAnnotations source="positions.224" references="/0/featureContent.2/%/%/%.8/%.9">
+      <details key="start" value="3645"/>
+      <details key="end" value="3667"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.225" references="/0/featureContent.2/%/%/%.8/%.9/%">
+      <details key="start" value="3645"/>
+      <details key="end" value="3662"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.226" references="/0/featureContent.2/%/%/%.8/%.9/%/%">
+      <details key="start" value="3645"/>
+      <details key="end" value="3655"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.227" references="/0/featureContent.2/%/%/%.8/%.9/%/%/f">
+      <details key="start" value="3645"/>
+      <details key="end" value="3646"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.228" references="/0/featureContent.2/%/%/%.8/%.10">
+      <details key="start" value="3669"/>
+      <details key="end" value="3681"/>
+      <details key="line" value="96"/>
+    </eAnnotations>
+    <eAnnotations source="positions.229" references="/0/featureContent.2/%/f">
+      <details key="start" value="3138"/>
+      <details key="end" value="3206"/>
+      <details key="line" value="87"/>
+    </eAnnotations>
+    <eAnnotations source="positions.230" references="/0/featureContent.2/%/f/%">
+      <details key="start" value="3167"/>
+      <details key="end" value="3207"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.231" references="/0/featureContent.2/%/f/%/feature">
+      <details key="start" value="3167"/>
+      <details key="end" value="3174"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.232" references="/0/featureContent.2/%/f/%/%">
+      <details key="start" value="3185"/>
+      <details key="end" value="3206"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.233" references="/0/featureContent.2/feature">
+      <details key="start" value="3052"/>
+      <details key="end" value="3069"/>
+      <details key="line" value="85"/>
+    </eAnnotations>
+    <eAnnotations source="positions.234" references="/0/featureContent.2/%.1">
+      <details key="start" value="3075"/>
+      <details key="end" value="3117"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.235" references="/0/featureContent.2/%.1/feature">
+      <details key="start" value="3075"/>
+      <details key="end" value="3082"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.236" references="/0/featureContent.2/%.1/%">
+      <details key="start" value="3095"/>
+      <details key="end" value="3116"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.237" references="/0/featureContent.2/%.2">
+      <details key="start" value="3124"/>
+      <details key="end" value="3130"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.238" references="/0/featureContent.2/%.2/self">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.239" references="/0/%.4">
+      <details key="start" value="3707"/>
+      <details key="end" value="3771"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.240" references="/0/isRequired">
+      <details key="start" value="3772"/>
+      <details key="end" value="3999"/>
+      <details key="line" value="103"/>
+    </eAnnotations>
+    <eAnnotations source="positions.241" references="/0/isRequired/%">
+      <details key="start" value="3876"/>
+      <details key="end" value="3987"/>
+      <details key="line" value="105"/>
+    </eAnnotations>
+    <eAnnotations source="positions.242" references="/0/isRequired/%/%">
+      <details key="start" value="3941"/>
+      <details key="end" value="3980"/>
+      <details key="line" value="106"/>
+    </eAnnotations>
+    <eAnnotations source="positions.243" references="/0/isRequired/%/%/%">
+      <details key="start" value="3959"/>
+      <details key="end" value="3975"/>
+      <details key="line" value="107"/>
+    </eAnnotations>
+    <eAnnotations source="positions.244" references="/0/isRequired/%/%/%.1">
+      <details key="start" value="3945"/>
+      <details key="end" value="3957"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.245" references="/0/isRequired/%/%/%.1/f">
+      <details key="start" value="3946"/>
+      <details key="end" value="3947"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.246" references="/0/isRequired/%/f">
+      <details key="start" value="3881"/>
+      <details key="end" value="3939"/>
+      <details key="line" value="105"/>
+    </eAnnotations>
+    <eAnnotations source="positions.247" references="/0/isRequired/%/f/%">
+      <details key="start" value="3905"/>
+      <details key="end" value="3940"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.248" references="/0/isRequired/%/f/%/feature">
+      <details key="start" value="3905"/>
+      <details key="end" value="3912"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.249" references="/0/isRequired/%/f/%/%">
+      <details key="start" value="3923"/>
+      <details key="end" value="3939"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.250" references="/0/isRequired/feature">
+      <details key="start" value="3800"/>
+      <details key="end" value="3817"/>
+      <details key="line" value="103"/>
+    </eAnnotations>
+    <eAnnotations source="positions.251" references="/0/isRequired/%.1">
+      <details key="start" value="3823"/>
+      <details key="end" value="3860"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.252" references="/0/isRequired/%.1/feature">
+      <details key="start" value="3823"/>
+      <details key="end" value="3830"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.253" references="/0/isRequired/%.1/%">
+      <details key="start" value="3843"/>
+      <details key="end" value="3859"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.254" references="/0/isRequired/%.2">
+      <details key="start" value="3867"/>
+      <details key="end" value="3873"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.255" references="/0/isRequired/%.2/self">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.256" references="/0/%.5">
+      <details key="start" value="4001"/>
+      <details key="end" value="4065"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.257" references="/0/isRequired.1">
+      <details key="start" value="4066"/>
+      <details key="end" value="4305"/>
+      <details key="line" value="113"/>
+    </eAnnotations>
+    <eAnnotations source="positions.258" references="/0/isRequired.1/%">
+      <details key="start" value="4174"/>
+      <details key="end" value="4293"/>
+      <details key="line" value="115"/>
+    </eAnnotations>
+    <eAnnotations source="positions.259" references="/0/isRequired.1/%/%">
+      <details key="start" value="4247"/>
+      <details key="end" value="4286"/>
+      <details key="line" value="116"/>
+    </eAnnotations>
+    <eAnnotations source="positions.260" references="/0/isRequired.1/%/%/%">
+      <details key="start" value="4265"/>
+      <details key="end" value="4281"/>
+      <details key="line" value="117"/>
+    </eAnnotations>
+    <eAnnotations source="positions.261" references="/0/isRequired.1/%/%/%.1">
+      <details key="start" value="4251"/>
+      <details key="end" value="4263"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.262" references="/0/isRequired.1/%/%/%.1/f">
+      <details key="start" value="4252"/>
+      <details key="end" value="4253"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.263" references="/0/isRequired.1/%/f">
+      <details key="start" value="4179"/>
+      <details key="end" value="4245"/>
+      <details key="line" value="115"/>
+    </eAnnotations>
+    <eAnnotations source="positions.264" references="/0/isRequired.1/%/f/%">
+      <details key="start" value="4207"/>
+      <details key="end" value="4246"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.265" references="/0/isRequired.1/%/f/%/feature">
+      <details key="start" value="4207"/>
+      <details key="end" value="4214"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.266" references="/0/isRequired.1/%/f/%/%">
+      <details key="start" value="4225"/>
+      <details key="end" value="4245"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.267" references="/0/isRequired.1/feature">
+      <details key="start" value="4094"/>
+      <details key="end" value="4111"/>
+      <details key="line" value="113"/>
+    </eAnnotations>
+    <eAnnotations source="positions.268" references="/0/isRequired.1/%.1">
+      <details key="start" value="4117"/>
+      <details key="end" value="4158"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.269" references="/0/isRequired.1/%.1/feature">
+      <details key="start" value="4117"/>
+      <details key="end" value="4124"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.270" references="/0/isRequired.1/%.1/%">
+      <details key="start" value="4137"/>
+      <details key="end" value="4157"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.271" references="/0/isRequired.1/%.2">
+      <details key="start" value="4165"/>
+      <details key="end" value="4171"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.272" references="/0/isRequired.1/%.2/self">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.273" references="/0/%.6">
+      <details key="start" value="4307"/>
+      <details key="end" value="4369"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.274" references="/0/isUnique">
+      <details key="start" value="4370"/>
+      <details key="end" value="4591"/>
+      <details key="line" value="123"/>
+    </eAnnotations>
+    <eAnnotations source="positions.275" references="/0/isUnique/%">
+      <details key="start" value="4472"/>
+      <details key="end" value="4579"/>
+      <details key="line" value="125"/>
+    </eAnnotations>
+    <eAnnotations source="positions.276" references="/0/isUnique/%/%">
+      <details key="start" value="4537"/>
+      <details key="end" value="4572"/>
+      <details key="line" value="126"/>
+    </eAnnotations>
+    <eAnnotations source="positions.277" references="/0/isUnique/%/%/%">
+      <details key="start" value="4553"/>
+      <details key="end" value="4567"/>
+      <details key="line" value="127"/>
+    </eAnnotations>
+    <eAnnotations source="positions.278" references="/0/isUnique/%/%/%.1">
+      <details key="start" value="4541"/>
+      <details key="end" value="4551"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.279" references="/0/isUnique/%/%/%.1/f">
+      <details key="start" value="4542"/>
+      <details key="end" value="4543"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.280" references="/0/isUnique/%/f">
+      <details key="start" value="4477"/>
+      <details key="end" value="4535"/>
+      <details key="line" value="125"/>
+    </eAnnotations>
+    <eAnnotations source="positions.281" references="/0/isUnique/%/f/%">
+      <details key="start" value="4501"/>
+      <details key="end" value="4536"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.282" references="/0/isUnique/%/f/%/feature">
+      <details key="start" value="4501"/>
+      <details key="end" value="4508"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.283" references="/0/isUnique/%/f/%/%">
+      <details key="start" value="4519"/>
+      <details key="end" value="4535"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.284" references="/0/isUnique/feature">
+      <details key="start" value="4396"/>
+      <details key="end" value="4413"/>
+      <details key="line" value="123"/>
+    </eAnnotations>
+    <eAnnotations source="positions.285" references="/0/isUnique/%.1">
+      <details key="start" value="4419"/>
+      <details key="end" value="4456"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.286" references="/0/isUnique/%.1/feature">
+      <details key="start" value="4419"/>
+      <details key="end" value="4426"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.287" references="/0/isUnique/%.1/%">
+      <details key="start" value="4439"/>
+      <details key="end" value="4455"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.288" references="/0/isUnique/%.2">
+      <details key="start" value="4463"/>
+      <details key="end" value="4469"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.289" references="/0/isUnique/%.2/self">
+      <details key="start" value="-1"/>
+      <details key="end" value="-1"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.290" references="/0/generateAppCntxXML">
+      <details key="start" value="4593"/>
+      <details key="end" value="7242"/>
+      <details key="line" value="132"/>
+    </eAnnotations>
+    <eAnnotations source="positions.291" references="/0/generateAppCntxXML/%">
+      <details key="start" value="4666"/>
+      <details key="end" value="7230"/>
+      <details key="line" value="133"/>
+    </eAnnotations>
+    <eAnnotations source="positions.292" references="/0/generateAppCntxXML/%/%">
+      <details key="start" value="4712"/>
+      <details key="end" value="5935"/>
+      <details key="line" value="134"/>
+    </eAnnotations>
+    <eAnnotations source="positions.293" references="/0/generateAppCntxXML/%/%.1">
+      <details key="start" value="5939"/>
+      <details key="end" value="6058"/>
+      <details key="line" value="157"/>
+    </eAnnotations>
+    <eAnnotations source="positions.294" references="/0/generateAppCntxXML/%/%.1/%">
+      <details key="start" value="5992"/>
+      <details key="end" value="6003"/>
+      <details key="line" value="158"/>
+    </eAnnotations>
+    <eAnnotations source="positions.295" references="/0/generateAppCntxXML/%/%.1/%.1">
+      <details key="start" value="6004"/>
+      <details key="end" value="6029"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.296" references="/0/generateAppCntxXML/%/%.1/%.1/%">
+      <details key="start" value="6004"/>
+      <details key="end" value="6015"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.297" references="/0/generateAppCntxXML/%/%.1/%.1/%/entity">
+      <details key="start" value="6004"/>
+      <details key="end" value="6010"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.298" references="/0/generateAppCntxXML/%/%.1/%.2">
+      <details key="start" value="6031"/>
+      <details key="end" value="6048"/>
+      <details key="line" value="158"/>
+    </eAnnotations>
+    <eAnnotations source="positions.299" references="/0/generateAppCntxXML/%/%.1/entity">
+      <details key="start" value="5945"/>
+      <details key="end" value="5966"/>
+      <details key="line" value="157"/>
+    </eAnnotations>
+    <eAnnotations source="positions.300" references="/0/generateAppCntxXML/%/%.1/%.3">
+      <details key="start" value="5969"/>
+      <details key="end" value="5989"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.301" references="/0/generateAppCntxXML/%/%.1/%.3/orm">
+      <details key="start" value="5969"/>
+      <details key="end" value="5972"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.302" references="/0/generateAppCntxXML/%/%.2">
+      <details key="start" value="6063"/>
+      <details key="end" value="6153"/>
+      <details key="line" value="160"/>
+    </eAnnotations>
+    <eAnnotations source="positions.303" references="/0/generateAppCntxXML/%/%.2/%">
+      <details key="start" value="6099"/>
+      <details key="end" value="6144"/>
+      <details key="line" value="161"/>
+    </eAnnotations>
+    <eAnnotations source="positions.304" references="/0/generateAppCntxXML/%/%.2/%.1">
+      <details key="start" value="6067"/>
+      <details key="end" value="6097"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.305" references="/0/generateAppCntxXML/%/%.2/%.1/wafModel">
+      <details key="start" value="6068"/>
+      <details key="end" value="6076"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.306" references="/0/generateAppCntxXML/%/%.3">
+      <details key="start" value="6154"/>
+      <details key="end" value="6605"/>
+      <details key="line" value="163"/>
+    </eAnnotations>
+    <eAnnotations source="positions.307" references="/0/generateAppCntxXML/%/%.4">
+      <details key="start" value="6606"/>
+      <details key="end" value="6820"/>
+      <details key="line" value="179"/>
+    </eAnnotations>
+    <eAnnotations source="positions.308" references="/0/generateAppCntxXML/%/%.4/%">
+      <details key="start" value="6659"/>
+      <details key="end" value="6670"/>
+      <details key="line" value="180"/>
+    </eAnnotations>
+    <eAnnotations source="positions.309" references="/0/generateAppCntxXML/%/%.4/%.1">
+      <details key="start" value="6671"/>
+      <details key="end" value="6696"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.310" references="/0/generateAppCntxXML/%/%.4/%.1/%">
+      <details key="start" value="6671"/>
+      <details key="end" value="6682"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.311" references="/0/generateAppCntxXML/%/%.4/%.1/%/entity">
+      <details key="start" value="6671"/>
+      <details key="end" value="6677"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.312" references="/0/generateAppCntxXML/%/%.4/%.2">
+      <details key="start" value="6698"/>
+      <details key="end" value="6729"/>
+      <details key="line" value="180"/>
+    </eAnnotations>
+    <eAnnotations source="positions.313" references="/0/generateAppCntxXML/%/%.4/%.3">
+      <details key="start" value="6730"/>
+      <details key="end" value="6741"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.314" references="/0/generateAppCntxXML/%/%.4/%.3/entity">
+      <details key="start" value="6730"/>
+      <details key="end" value="6736"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.315" references="/0/generateAppCntxXML/%/%.4/%.4">
+      <details key="start" value="6743"/>
+      <details key="end" value="6813"/>
+      <details key="line" value="180"/>
+    </eAnnotations>
+    <eAnnotations source="positions.316" references="/0/generateAppCntxXML/%/%.4/entity">
+      <details key="start" value="6612"/>
+      <details key="end" value="6633"/>
+      <details key="line" value="179"/>
+    </eAnnotations>
+    <eAnnotations source="positions.317" references="/0/generateAppCntxXML/%/%.4/%.5">
+      <details key="start" value="6636"/>
+      <details key="end" value="6656"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.318" references="/0/generateAppCntxXML/%/%.4/%.5/orm">
+      <details key="start" value="6636"/>
+      <details key="end" value="6639"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.319" references="/0/generateAppCntxXML/%/%.5">
+      <details key="start" value="6821"/>
+      <details key="end" value="6822"/>
+      <details key="line" value="184"/>
+    </eAnnotations>
+    <eAnnotations source="positions.320" references="/0/generateAppCntxXML/%/%.6">
+      <details key="start" value="6823"/>
+      <details key="end" value="7011"/>
+      <details key="line" value="185"/>
+    </eAnnotations>
+    <eAnnotations source="positions.321" references="/0/generateAppCntxXML/%/%.6/%">
+      <details key="start" value="6859"/>
+      <details key="end" value="7005"/>
+      <details key="line" value="186"/>
+    </eAnnotations>
+    <eAnnotations source="positions.322" references="/0/generateAppCntxXML/%/%.6/%.1">
+      <details key="start" value="6827"/>
+      <details key="end" value="6857"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.323" references="/0/generateAppCntxXML/%/%.6/%.1/wafModel">
+      <details key="start" value="6828"/>
+      <details key="end" value="6836"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.324" references="/0/generateAppCntxXML/%/%.7">
+      <details key="start" value="7012"/>
+      <details key="end" value="7223"/>
+      <details key="line" value="190"/>
+    </eAnnotations>
+    <eAnnotations source="positions.325" references="/0/generateAppCntxXML/%/%.8">
+      <details key="start" value="4673"/>
+      <details key="end" value="4693"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.326" references="/0/generateAppCntxXML/%/%.8/orm">
+      <details key="start" value="4673"/>
+      <details key="end" value="4676"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.327" references="/0/generateAppCntxXML/%/%.9">
+      <details key="start" value="4702"/>
+      <details key="end" value="4709"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.328" references="/0/generateAppCntxXML/orm">
+      <details key="start" value="4629"/>
+      <details key="end" value="4643"/>
+      <details key="line" value="132"/>
+    </eAnnotations>
+    <eAnnotations source="positions.329" references="/0/generateAppCntxXML/wafModel">
+      <details key="start" value="4645"/>
+      <details key="end" value="4663"/>
+      <details key="line" value="132"/>
+    </eAnnotations>
+  </ecore:EAnnotation>
+</xmi:XMI>

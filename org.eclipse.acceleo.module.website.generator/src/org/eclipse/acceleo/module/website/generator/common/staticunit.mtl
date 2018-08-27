@@ -1,0 +1,20 @@
+[comment encoding = UTF-8 /]
+[module staticunit('http://cs.manchester.ac.uk/mdsd/WebApplicationFramework',
+'http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping')]
+
+
+[template public generateUnit(unit : ContentUnit, wafModel : WafModel)
+	? (unit.oclIsTypeOf(StaticUnit)) post(trim())]
+[let staticUnit : StaticUnit = unit.oclAsType(StaticUnit)]
+
+<div>
+<h3>[staticUnit.displayLabel/]</h3>
+[if (wafModel.staticUnitsEditable)]
+${contentinfo.content}
+[else]
+[staticUnit.content/]
+[/if]
+</div>
+[/let]
+[/template]
+

@@ -1,0 +1,177 @@
+[comment encoding = UTF-8 /]
+[module generateORM('http://cs.manchester.ac.uk/mdsd/ObjectRelationalMapping', 
+'http://cs.manchester.ac.uk/mdsd/WebApplicationFramework', 
+'http://cs.manchester.ac.uk/mdsd/Expression')]
+
+[import org::eclipse::acceleo::module::website::generator::orm::model/]
+[import org::eclipse::acceleo::module::website::generator::orm::configFiles/]
+[import org::eclipse::acceleo::module::website::generator::requests::extensions/]
+
+[template public generateMappings(wafModel : WafModel)]
+
+[wafModel.persistence.generateAppCntxXML(wafModel)/]
+
+[wafModel.persistence.entitiesAndViews.generateModelClass()/]
+[wafModel.persistence.entitiesAndViews.generateDaoClass(wafModel)/]
+[wafModel.persistence.entitiesAndViews.generateHibernateXML()/]
+
+[if (wafModel.staticUnitsEditable)]
+[wafModel.generateMappingForStaticViewContent()/]
+[/if]
+
+[/template]
+
+[template public generateMappingForStaticViewContent(wafModel : WafModel)]
+[file (('src/').concat('staticpagecontent').concat('.hbm').concat(wafModel.xmlExtension()), false, 'UTF-8')]
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="automated.website.model.StaticPageContent" table="staticpagecontent" lazy="false">
+		<id name="id">
+			<generator class="increment"></generator>
+		</id>
+
+		<property name="pagename"></property>
+		<property name="content"></property>
+	</class>
+
+</hibernate-mapping>
+[/file]
+
+[file (('src/automated/website/model/StaticPageContent').concat(wafModel.javaExtension()), false, 'UTF-8')]
+package automated.website.model;
+
+public class StaticPageContent {
+	private String pagename;
+	private String content;
+
+	private int id;
+
+	public String getPagename() {
+		return pagename;
+	}
+
+	public void setPagename(String pagename) {
+		this.pagename = pagename;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+}
+[/file]
+
+[file (('src/automated/website/dao/StaticPageContentDao').concat(wafModel.javaExtension()), false, 'UTF-8')]
+package automated.website.dao;
+
+import java.util.List;
+
+import org.hibernate.FlushMode;
+import org.springframework.orm.hibernate5.*;
+import org.springframework.transaction.annotation.Transactional;
+
+import automated.website.model.*;
+
+public class StaticPageContentDao {
+	HibernateTemplate template;
+
+	@Transactional(readOnly = false)
+	public void setTemplate(HibernateTemplate template) {
+		this.template = template;
+	}
+	
+	@Transactional(readOnly = false)
+	public void updateStaticPageContent(StaticPageContent m) {
+		try {
+			template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+			StaticPageContent staticPageContent = (StaticPageContent) template.load(StaticPageContent.class, m.getId());
+			if (m.getPagename() != null && m.getPagename() != "") {
+				staticPageContent.setPagename(m.getPagename());
+			}
+			if (m.getContent() != null && m.getContent() != "") {
+				staticPageContent.setContent(m.getContent());
+			}
+			template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+			template.update(staticPageContent);
+		} catch (Exception e) {
+			//Could not update
+		}
+	}
+
+	@Transactional(readOnly = false)
+	public void deleteStaticPageContent(StaticPageContent m) {
+		template.delete(m);
+	}
+
+	@Transactional(readOnly = false)
+	public StaticPageContent getByID(int id) {
+		try {
+			template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+			StaticPageContent image = (StaticPageContent) template.load(StaticPageContent.class, (int) id);
+			return image;
+		} catch (Exception e) {
+			return new StaticPageContent();
+		}
+	}
+
+	@Transactional(readOnly = false)
+	public void deleteByID(int id) {
+		StaticPageContent myObject;
+		myObject = (StaticPageContent) template.load(StaticPageContent.class, id);
+		template.delete(myObject);
+		template.flush();
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = false)
+	public List<StaticPageContent> getAllStaticPageContent() {
+		
+		List<StaticPageContent> staticPageContent;
+		
+		template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+		
+		staticPageContent = (List<StaticPageContent>) template.find("from StaticPageContent");
+		
+		return staticPageContent;
+   }
+	
+	@Transactional(readOnly = false)
+	public void addNatureImage(StaticPageContent image) {
+		template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+		template.save(image);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = false)
+	public List<StaticPageContent> runCustomQuery(String query, int limit) {
+		
+		List<StaticPageContent> contents;
+		
+		template.getSessionFactory().openSession().setFlushMode(FlushMode.COMMIT);
+		
+		contents = (List<StaticPageContent>) template.find(query);
+		
+		return contents;
+   }
+
+}
+
+[/file]
+[/template]
